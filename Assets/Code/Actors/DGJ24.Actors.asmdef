@@ -1,6 +1,6 @@
 {
-    "name": "DGJ24.Actions",
-    "rootNamespace": "DGJ24.Actions",
+    "name": "DGJ24.Actors",
+    "rootNamespace": "DGJ24.Actors",
     "references": [
         "GUID:c1fc4c24009364b45baaaefff0048f74"
     ],
