@@ -35,7 +35,7 @@ namespace DGJ24.Map
                 Instantiate(prefab, position, Quaternion.identity);
             }
 
-            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent());
+            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint));
         }
 
         private void Start()

@@ -5,9 +5,9 @@ namespace DGJ24.Map
     /// <summary>
     /// Builds the generated map.
     /// </summary>
-    public interface IMapBuilder
+    internal interface IMapBuilder
     {
-        public record MapBuiltEvent;
+        public record MapBuiltEvent(MapBlueprint BuiltBlueprint);
 
         /// <summary>
         /// Raised when the builder completes building a map.
