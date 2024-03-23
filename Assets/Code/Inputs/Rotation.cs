@@ -1,4 +1,4 @@
-namespace DGJ24.Inputs {
+namespace DGJ24 {
 
 	public enum Rotation {
 
