@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace DGJ24.Map
 {
-    internal class SceneMapBuilder : MonoBehaviour
+    internal class SceneMapBuilder : MonoBehaviour, IMapBuilder
     {
+        public event Action<IMapBuilder.MapBuiltEvent>? MapBuilt;
+
         [SerializeField]
         private GameObject floorPrefab = null!;
 
@@ -32,6 +34,8 @@ namespace DGJ24.Map
 
                 Instantiate(prefab, position, Quaternion.identity);
             }
+
+            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint));
         }
 
         private void Start()
