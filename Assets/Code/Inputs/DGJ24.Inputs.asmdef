@@ -1,0 +1,17 @@
+{
+    "name": "DGJ24.Inputs",
+    "rootNamespace": "DGJ24.Inputs",
+    "references": [
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
