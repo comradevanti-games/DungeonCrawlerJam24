@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace DCJ24.Inputs {
 
 	public class InputHandler : MonoBehaviour {
+
+		public UnityEvent<Vector2>? movementInputCaptured;
+		public UnityEvent<float>? rotationInputCaptured;
 
 		public void OnMovementInput(InputAction.CallbackContext ctx) {
 
@@ -13,7 +17,7 @@ namespace DCJ24.Inputs {
 				if (IsDiagonalInput(ctx.ReadValue<Vector2>()))
 					return;
 
-				Debug.Log(ctx.ReadValue<Vector2>());
+				movementInputCaptured?.Invoke(ctx.ReadValue<Vector2>());
 
 			}
 
@@ -22,7 +26,7 @@ namespace DCJ24.Inputs {
 		public void OnRotationInput(InputAction.CallbackContext ctx) {
 
 			if (ctx.performed) {
-				Debug.Log(ctx.ReadValue<float>());
+				rotationInputCaptured?.Invoke(ctx.ReadValue<float>());
 			}
 
 		}
