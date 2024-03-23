@@ -1,32 +1,36 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputHandler : MonoBehaviour {
+namespace DCJ24.Inputs {
 
-	public void OnMovementInput(InputAction.CallbackContext ctx) {
+	public class InputHandler : MonoBehaviour {
 
-		if (ctx.performed) {
+		public void OnMovementInput(InputAction.CallbackContext ctx) {
 
-			// Prevent Diagonal Inputs
-			if (IsDiagonalInput(ctx.ReadValue<Vector2>()))
-				return;
+			if (ctx.performed) {
 
-			Debug.Log(ctx.ReadValue<Vector2>());
+				// Prevent Diagonal Inputs
+				if (IsDiagonalInput(ctx.ReadValue<Vector2>()))
+					return;
+
+				Debug.Log(ctx.ReadValue<Vector2>());
+
+			}
 
 		}
 
-	}
+		public void OnRotationInput(InputAction.CallbackContext ctx) {
 
-	public void OnRotationInput(InputAction.CallbackContext ctx) {
+			if (ctx.performed) {
+				Debug.Log(ctx.ReadValue<float>());
+			}
 
-		if (ctx.performed) {
-			Debug.Log(ctx.ReadValue<float>());
 		}
 
-	}
+		private bool IsDiagonalInput(Vector2 input) {
+			return input.x != 0 && input.y != 0;
+		}
 
-	private bool IsDiagonalInput(Vector2 input) {
-		return input.x != 0 && input.y != 0;
 	}
 
 }
