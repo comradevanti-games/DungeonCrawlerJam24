@@ -1,9 +1,8 @@
-using DGJ24.Inputs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-namespace DCJ24.Inputs {
+namespace DGJ24.Inputs {
 
 	public class InputHandler : MonoBehaviour {
 
@@ -56,6 +55,10 @@ namespace DCJ24.Inputs {
 
 		private bool IsDiagonalInput(Vector2 input) {
 			return input.x != 0 && input.y != 0;
+		}
+
+		private Direction GetMovementDirection() {
+			return Direction.Forward;
 		}
 
 	}

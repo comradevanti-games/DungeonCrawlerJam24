@@ -1,4 +1,3 @@
-using DGJ24.Inputs;
 using UnityEngine;
 
 namespace DGJ24.Actors

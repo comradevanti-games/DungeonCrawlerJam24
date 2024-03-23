@@ -3,7 +3,8 @@
     "rootNamespace": "DGJ24.Inputs",
     "references": [
         "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:31b233a2e05b9dd9db53064d8ee53c26"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
