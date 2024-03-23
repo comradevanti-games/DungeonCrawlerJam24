@@ -531,6 +531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462e264636214f5f85d6d93179c94f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorPrefab: {fileID: 7798699277280182670, guid: 7bc43022bded397acba97f2ffb1aee83,
+    type: 3}
+  wallPrefab: {fileID: 5006822397072022448, guid: 7f6ea011397b83229bb41bd823cc5417,
+    type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
