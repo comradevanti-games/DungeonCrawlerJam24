@@ -6,7 +6,7 @@ namespace DGJ24.Actors
     {
         public static GameObjectActor? TryMakeFrom(GameObject actorGameObject)
         {
-            throw new System.NotImplementedException();
+            return new GameObjectActor();
         }
     }
 }
