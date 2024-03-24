@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DGJ24
@@ -18,5 +19,13 @@ namespace DGJ24
             new Vector2Int(-1, 0),
             new Vector2Int(-1, 1)
         };
+
+        public static IEnumerable<Vector2Int> CardinalNeighborsOf(Vector2Int tile)
+        {
+            yield return tile + Vector2Int.up;
+            yield return tile + Vector2Int.right;
+            yield return tile + Vector2Int.down;
+            yield return tile + Vector2Int.left;
+        }
     }
 }
