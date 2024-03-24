@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using UnityEngine;
+using static DGJ24.TileSpace;
 
 namespace DGJ24.Map
 {
@@ -24,49 +26,61 @@ namespace DGJ24.Map
             return new MapInProgress(map.FloorTiles.Add(tile));
         }
 
-        private static MapInProgress GeneratePath(
-            MapInProgress initialMap,
-            Vector2Int startTile,
-            Config config
-        )
+        private static MapInProgress GeneratePaths(MapInProgress initialMap, Config config)
         {
-            bool IsInBounds(Vector2Int tile)
+            var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
+            var paths = new HashSet<HashSet<Vector2Int>>();
+            var potentialFloorTiles = new List<Vector2Int>();
+
+            TilesInBounds(bounds)
+                .ForEach(tile =>
+                {
+                    var xEven = tile.x % 2 == 0;
+                    var yEven = tile.y % 2 == 0;
+                    if (xEven && yEven)
+                        paths.Add(new HashSet<Vector2Int> { tile });
+                    else if (!(!xEven && !yEven))
+                        potentialFloorTiles.Add(tile);
+                });
+
+            HashSet<Vector2Int>? TryGetPathAt(Vector2Int tile)
             {
-                return tile.x >= Mathf.Floor(-config.Width / 2f)
-                    && tile.x <= Mathf.Ceil(config.Width / 2f)
-                    && tile.y >= Mathf.Floor(-config.Height / 2f)
-                    && tile.y <= Mathf.Ceil(config.Height / 2f);
+                return paths.FirstOrDefault(path => path.Contains(tile));
             }
 
-            bool CanContinuePathTo(MapInProgress map, Vector2Int tile)
+            while (potentialFloorTiles.Count > 0)
             {
-                return IsInBounds(tile) && !map.FloorTiles.Contains(tile);
+                var tileIndex = Random.Range(0, potentialFloorTiles.Count);
+                var tile = potentialFloorTiles[tileIndex];
+                potentialFloorTiles.RemoveAt(tileIndex);
+
+                var connectedPaths = CardinalNeighborsOf(tile)
+                    .Select(TryGetPathAt)
+                    .FilterNull()
+                    .ToArray();
+
+                if (connectedPaths.Length != 2)
+                    continue;
+
+                var pathA = connectedPaths[0]!;
+                var pathB = connectedPaths[1]!;
+                if (pathA == pathB)
+                    continue;
+
+                paths.Remove(pathA);
+                pathB.UnionWith(pathA);
+                pathB.Add(tile);
             }
 
-            MapInProgress TryContinue(MapInProgress map, Vector2Int currentTile)
-            {
-                map = PlaceFloorAt(map, currentTile);
-
-                var possibleNextTiles = TileSpace
-                    .CardinalNeighborsOf(currentTile)
-                    .Where(tile => CanContinuePathTo(map, tile))
-                    .ToImmutableArray();
-
-                if (possibleNextTiles.IsEmpty)
-                    return map;
-
-                var nextTile = possibleNextTiles[Random.Range(0, possibleNextTiles.Length)];
-                return TryContinue(map, nextTile);
-            }
-
-            return TryContinue(initialMap, startTile);
+            var allTiles = paths.SelectMany(it => it);
+            return initialMap with { FloorTiles = initialMap.FloorTiles.Union(allTiles) };
         }
 
         public static MapBlueprint Generate(Config config)
         {
             var map = emptyMap;
 
-            map = GeneratePath(map, Vector2Int.zero, config);
+            map = GeneratePaths(map, config);
 
             return ToBlueprint(map);
         }
