@@ -75,6 +75,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6043540521554889337}
+    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5188305076401732047}
   m_SourcePrefab: {fileID: 100100000, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911, type: 3}
 --- !u!1 &7355760158475961633 stripped
 GameObject:
@@ -140,6 +144,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 787c20e8-0e78-4fdd-9d3b-3aed907790dc
     m_ActionName: 'Game/Rotation[/Keyboard/q,/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a815f1bf-bbd8-4ad7-a9f0-7a852ef4b7bc
+    m_ActionName: 'Game/Interaction[/Keyboard/f]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a7657b79-9ff0-40cd-90f5-653a16ab391c
+    m_ActionName: 'Game/Torch[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Main
   m_DefaultActionMap: Game
@@ -163,3 +175,16 @@ MonoBehaviour:
   rotationInputCaptured:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5188305076401732047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355760158475961633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0be9c106f9047ce86ec41f3e8c8686c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRequestCount: 3
