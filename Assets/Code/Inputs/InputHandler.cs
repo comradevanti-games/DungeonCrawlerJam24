@@ -1,13 +1,16 @@
+using System;
+using System.Collections.Generic;
+using DGJ24.Actors;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace DGJ24.Inputs {
 
 	public class InputHandler : MonoBehaviour {
 
-		public UnityEvent<Direction>? movementInputCaptured;
-		public UnityEvent<float>? rotationInputCaptured;
+		private void Awake() {
+			
+		}
 
 		public void OnMovementInput(InputAction.CallbackContext ctx) {
 
@@ -23,22 +26,22 @@ namespace DGJ24.Inputs {
 
 				if (input.x > 0.9) {
 					dir = Direction.Right;
-					movementInputCaptured?.Invoke(dir);
+					MovementActionRequest mar = new(gameObject, dir);
 				}
 
 				if (input.x < -0.9) {
 					dir = Direction.Left;
-					movementInputCaptured?.Invoke(dir);
+					MovementActionRequest mar = new(gameObject, dir);
 				}
 
 				if (input.y < -0.9) {
 					dir = Direction.Back;
-					movementInputCaptured?.Invoke(dir);
+					MovementActionRequest mar = new(gameObject, dir);
 				}
 
 				if (input.y > 0.9) {
 					dir = Direction.Forward;
-					movementInputCaptured?.Invoke(dir);
+					MovementActionRequest mar = new(gameObject, dir);
 				}
 
 			}
@@ -48,7 +51,7 @@ namespace DGJ24.Inputs {
 		public void OnRotationInput(InputAction.CallbackContext ctx) {
 
 			if (ctx.performed) {
-				rotationInputCaptured?.Invoke(ctx.ReadValue<float>());
+				//rotationInputCaptured?.Invoke(ctx.ReadValue<float>());
 			}
 
 		}
