@@ -17,9 +17,9 @@ namespace DGJ24.Map
             foreach (var tilePosition in blueprint.FloorTiles)
             {
                 var position = new Vector3(
-                    tilePosition.x,
+                    tilePosition.x * 2,
                     floorPrefab.transform.position.y,
-                    tilePosition.y
+                    tilePosition.y * 2
                 );
 
                 Instantiate(floorPrefab, position, Quaternion.identity);
