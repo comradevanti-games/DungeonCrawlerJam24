@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Linq;
 using UnityEngine;
 
 namespace DGJ24.Map
@@ -13,17 +10,17 @@ namespace DGJ24.Map
 
         private static readonly string[] layoutStrings =
         {
-            "wwwwww   ",
-            "wffffwwww",
-            "wfwfffffw",
-            "wfwwfwwfw",
-            "wfffffffw",
-            "wwwwwwwww"
+            "   fffff ",
+            " ffff  ff",
+            " f ffffff",
+            " f  f  f ",
+            " fffffff ",
+            "   fffff "
         };
 
         public static MapBlueprint Generate(Config config)
         {
-            var tiles = new Dictionary<Vector2Int, TileType>();
+            var floorTiles = new HashSet<Vector2Int>();
 
             for (var x = 0; x < layoutStrings.Length; x++)
             {
@@ -34,18 +31,11 @@ namespace DGJ24.Map
                     if (c == ' ')
                         continue;
 
-                    var tileType = c switch
-                    {
-                        'w' => TileType.Wall,
-                        'f' => TileType.Floor,
-                        _ => throw new Exception("Unknown tile-type")
-                    };
-
-                    tiles.Add(new Vector2Int(x, y), tileType);
+                    floorTiles.Add(new Vector2Int(x, y));
                 }
             }
 
-            return new MapBlueprint(tiles.ToImmutableDictionary());
+            return new MapBlueprint(floorTiles.ToImmutableHashSet());
         }
     }
 }

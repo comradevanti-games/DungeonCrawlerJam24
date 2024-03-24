@@ -3,11 +3,5 @@ using UnityEngine;
 
 namespace DGJ24.Map
 {
-    internal enum TileType
-    {
-        Floor,
-        Wall
-    }
-
-    internal record MapBlueprint(IImmutableDictionary<Vector2Int, TileType> Tiles);
+    internal record MapBlueprint(IImmutableSet<Vector2Int> FloorTiles);
 }
