@@ -20,7 +20,7 @@ namespace DGJ24.Map
 
         public static MapBlueprint Generate(Config config)
         {
-            var floorTiles = new HashSet<Vector2Int>();
+            var blueprint = MapBlueprint.empty;
 
             for (var x = 0; x < layoutStrings.Length; x++)
             {
@@ -31,11 +31,11 @@ namespace DGJ24.Map
                     if (c == ' ')
                         continue;
 
-                    floorTiles.Add(new Vector2Int(x, y));
+                    blueprint = MapBlueprint.PlaceFloorAt(blueprint, new Vector2Int(x, y));
                 }
             }
 
-            return new MapBlueprint(floorTiles.ToImmutableHashSet());
+            return blueprint;
         }
     }
 }
