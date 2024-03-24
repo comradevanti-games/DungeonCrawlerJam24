@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DGJ24
 {
@@ -19,6 +20,11 @@ namespace DGJ24
                 if (item != null)
                     yield return item;
             }
+        }
+
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> items, T item)
+        {
+            return items.Except(Enumerable.Repeat(item, 1));
         }
     }
 }

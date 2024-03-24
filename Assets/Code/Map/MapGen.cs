@@ -26,9 +26,8 @@ namespace DGJ24.Map
             return new MapInProgress(map.FloorTiles.Add(tile));
         }
 
-        private static MapInProgress GeneratePaths(MapInProgress initialMap, Config config)
+        private static MapInProgress GeneratePaths(MapInProgress initialMap, RectInt bounds)
         {
-            var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
             var paths = new HashSet<HashSet<Vector2Int>>();
             var potentialFloorTiles = new List<Vector2Int>();
 
@@ -76,11 +75,43 @@ namespace DGJ24.Map
             return initialMap with { FloorTiles = initialMap.FloorTiles.Union(allTiles) };
         }
 
+        private static MapInProgress RemoveDeadEnds(MapInProgress initialMap, RectInt bounds)
+        {
+            var newFloorTiles = new HashSet<Vector2Int>();
+
+            initialMap.FloorTiles.ForEach(tile =>
+            {
+                var neighbors = CardinalNeighborsOf(tile).ToHashSet();
+                var occupiedNeighbors = neighbors.Where(initialMap.FloorTiles.Contains);
+
+                var isDeadEnd = occupiedNeighbors.Count() == 1;
+                if (!isDeadEnd)
+                    return;
+
+                var possibleConnections = neighbors
+                    .Where(it => !initialMap.FloorTiles.Contains(it))
+                    .Where(it =>
+                        CardinalNeighborsOf(it).Except(tile).Any(initialMap.FloorTiles.Contains)
+                    )
+                    .ToImmutableArray();
+
+                var newTile = possibleConnections[Random.Range(0, possibleConnections.Length)];
+                newFloorTiles.Add(newTile);
+            });
+
+            return initialMap with
+            {
+                FloorTiles = initialMap.FloorTiles.Union(newFloorTiles)
+            };
+        }
+
         public static MapBlueprint Generate(Config config)
         {
+            var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
             var map = emptyMap;
 
-            map = GeneratePaths(map, config);
+            map = GeneratePaths(map, bounds);
+            map = RemoveDeadEnds(map, bounds);
 
             return ToBlueprint(map);
         }
