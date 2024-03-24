@@ -18,7 +18,7 @@ namespace DGJ24.Actors {
 					case MovementActionRequest move:
 
 						if (move.Direction == Direction.Forward) {
-							// Forward Movement
+							Debug.Log("Dequeued A Forward Move Event!");
 						}
 
 						break;

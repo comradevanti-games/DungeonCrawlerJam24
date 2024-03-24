@@ -3,7 +3,7 @@ namespace DGJ24 {
 	public enum Direction {
 
 		Forward,
-		Back,
+		Backward,
 		Left,
 		Right
 
