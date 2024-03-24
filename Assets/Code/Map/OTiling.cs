@@ -8,18 +8,6 @@ namespace DGJ24.Map
     /// </summary>
     internal static class OTiling
     {
-        private static readonly Vector2Int[] deltas =
-        {
-            new Vector2Int(0, 1),
-            new Vector2Int(1, 1),
-            new Vector2Int(1, 0),
-            new Vector2Int(1, -1),
-            new Vector2Int(0, -1),
-            new Vector2Int(-1, -1),
-            new Vector2Int(-1, 0),
-            new Vector2Int(-1, 1)
-        };
-
         public static byte MaskKeyFor(Vector2Int delta)
         {
             return (delta.x, delta.y) switch
@@ -40,7 +28,7 @@ namespace DGJ24.Map
         {
             byte mask = 0;
 
-            foreach (var delta in deltas)
+            foreach (var delta in TileSpace.Deltas)
             {
                 var borderPos = position + delta;
                 var isWall = !map.FloorTiles.Contains(borderPos);
