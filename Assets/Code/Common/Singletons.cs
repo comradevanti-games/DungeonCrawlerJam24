@@ -35,7 +35,8 @@ namespace DGJ24
         public static T Get<T>()
             where T : class
         {
-            return TryGet<T>() ?? throw new NullReferenceException("Singleton not found.");
+            return TryGet<T>()
+                ?? throw new NullReferenceException($"Singleton {typeof(T).Name} not found.");
         }
     }
 }
