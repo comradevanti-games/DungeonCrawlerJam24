@@ -48,6 +48,9 @@ namespace DGJ24.Actors {
 					case TorchActionRequest request:
 						UseTorch(request.Actor, OnActionRequestExecuted);
 						break;
+					case InteractionActionRequest request:
+						Interact(request.Actor, request.TilePositions);
+						break;
 					default:
 						OnActionRequestExecuted(action.Actor);
 						break;
@@ -89,16 +92,18 @@ namespace DGJ24.Actors {
 
 		private void RotateActor(GameObject actor, Rotation rotation, float duration) {
 
+			Quaternion origin = actor.transform.rotation;
+
 			switch (rotation) {
 
 				case Rotation.Right: {
 					Quaternion targetRotation = actor.transform.rotation * Quaternion.Euler(0, 90, 0);
-					StartCoroutine(LerpRotation(actor, actor.transform.rotation, targetRotation, duration, OnActionRequestExecuted));
+					StartCoroutine(LerpRotation(actor, origin, targetRotation, duration, OnActionRequestExecuted));
 					return;
 				}
 				case Rotation.Left: {
 					Quaternion targetRotation = actor.transform.rotation * Quaternion.Euler(0, -90, 0);
-					StartCoroutine(LerpRotation(actor, actor.transform.rotation, targetRotation, duration, OnActionRequestExecuted));
+					StartCoroutine(LerpRotation(actor, origin, targetRotation, duration, OnActionRequestExecuted));
 					break;
 				}
 				default:
@@ -110,6 +115,15 @@ namespace DGJ24.Actors {
 		private void UseTorch(GameObject actor, Action<GameObject> callback) {
 			actor.GetComponentInChildren<Torch>().Flash();
 			callback.Invoke(actor);
+		}
+
+		private void Interact(GameObject actor, Vector2Int[] interactedTiles) {
+
+			GameObject? tileObject = FindObjectsByType<TileTransform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+				.FirstOrDefault(tileTransform => interactedTiles.Any(x => tileTransform.Position == x))?.gameObject;
+
+			// TODO: Interact with other Objects based on what they are.
+
 		}
 
 		private void OnActionRequestExecuted(GameObject actor) {
