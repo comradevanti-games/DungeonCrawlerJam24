@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using UnityEngine;
 
 namespace DGJ24.Map
@@ -8,6 +11,58 @@ namespace DGJ24.Map
     /// </summary>
     internal static class OTiling
     {
+        [Serializable]
+        public class TileSet
+        {
+            [Serializable]
+            public class Item
+            {
+                public GameObject prefab = null!;
+                public byte wallMask;
+                public byte floorMask;
+            }
+
+            [SerializeField]
+            private Item[] items = Array.Empty<Item>();
+
+            private static byte RotateLeft(byte b, int times)
+            {
+                return (byte)(b >> times | b << (8 - times));
+            }
+
+            public IImmutableDictionary<byte, ImmutableArray<(GameObject, GridDirection)>> Compute()
+            {
+                var dict = new Dictionary<byte, IList<(GameObject, GridDirection)>>();
+
+                for (var i = 0; i <= 255; i++)
+                {
+                    var mask = (byte)i;
+                    var options = new List<(GameObject, GridDirection)>();
+
+                    for (var o = 0; o < 4; o++)
+                    {
+                        var rotatedMask = RotateLeft(mask, o * 2);
+                        var dir = (GridDirection)o;
+                        foreach (var item in items)
+                        {
+                            var wallMask = (byte)~rotatedMask;
+                            var floorMask = rotatedMask;
+
+                            var wallMaskMatches = (wallMask & item.wallMask) == item.wallMask;
+                            var floorMaskMatches = (floorMask & item.floorMask) == item.floorMask;
+
+                            if (wallMaskMatches && floorMaskMatches)
+                                options.Add((item.prefab, dir));
+                        }
+                    }
+
+                    dict.Add(mask, options);
+                }
+
+                return dict.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.ToImmutableArray());
+            }
+        }
+
         public static byte MaskKeyFor(Vector2Int delta)
         {
             return (delta.x, delta.y) switch
@@ -31,9 +86,9 @@ namespace DGJ24.Map
             foreach (var delta in TileSpace.Deltas)
             {
                 var borderPos = position + delta;
-                var isWall = !map.FloorTiles.Contains(borderPos);
+                var isFloor = map.FloorTiles.Contains(borderPos);
 
-                if (isWall)
+                if (isFloor)
                     mask += MaskKeyFor(delta);
             }
 

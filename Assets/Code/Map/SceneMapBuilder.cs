@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DGJ24.Map
 {
@@ -8,21 +10,32 @@ namespace DGJ24.Map
         public event Action<IMapBuilder.MapBuiltEvent>? MapBuilt;
 
         [SerializeField]
-        private GameObject floorPrefab = null!;
+        private OTiling.TileSet tileSet = new OTiling.TileSet();
+
+        [SerializeField]
+        private GameObject fallbackPrefab = null!;
 
         private void BuildMap()
         {
             var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5));
+            var prefabsByMask = tileSet.Compute();
 
-            foreach (var tilePosition in blueprint.FloorTiles)
+            foreach (var tile in blueprint.FloorTiles)
             {
-                var position = new Vector3(
-                    tilePosition.x * 2,
-                    floorPrefab.transform.position.y,
-                    tilePosition.y * 2
-                );
+                var position = TileSpace.PositionToWorldSpace(tile);
 
-                Instantiate(floorPrefab, position, Quaternion.identity);
+                var tileMask = OTiling.TilingMaskFor(blueprint, tile);
+                var options = prefabsByMask[tileMask];
+                var (prefab, forward) =
+                    options.Length > 0
+                        ? options[Random.Range(0, options.Length)]
+                        : (fallbackPrefab, GridDirection.ZPlus);
+
+                var tileGameObject = Instantiate(prefab, position, Quaternion.identity);
+                var tileTransform = tileGameObject.transform;
+                tileTransform.forward = TileSpace.DirectionToWorldSpace(
+                    TileSpace.GetVectorForDirection(forward)
+                );
             }
 
             MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint));
