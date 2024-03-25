@@ -5,8 +5,8 @@ namespace DGJ24.Tools {
 
 	public class Torch : MonoBehaviour {
 
-		[SerializeField] private Light torchLight;
-		[SerializeField] private AnimationCurve flashCurve;
+		[SerializeField] private Light? torchLight;
+		[SerializeField] private AnimationCurve? flashCurve;
 		[SerializeField] private float maxIntensity;
 		[SerializeField] private float maxRange;
 		[SerializeField] private float flashDuration;
@@ -17,14 +17,14 @@ namespace DGJ24.Tools {
 		private bool isFlashing;
 
 		private void Awake() {
-			baseIntensity = torchLight.intensity;
+			baseIntensity = torchLight!.intensity;
 			baseRange = torchLight.range;
 		}
 
 		public void Flash() {
 
 			if (isFlashing) return;
-			StartCoroutine(Flashing(torchLight, torchLight.intensity, maxIntensity, torchLight.range, maxRange, flashDuration, flashCurve));
+			StartCoroutine(Flashing(torchLight!, torchLight!.intensity, maxIntensity, torchLight.range, maxRange, flashDuration, flashCurve!));
 
 		}
 
