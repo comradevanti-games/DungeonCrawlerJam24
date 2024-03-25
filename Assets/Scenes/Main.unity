@@ -566,7 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 462e264636214f5f85d6d93179c94f43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorPrefab: {fileID: 7798699277280182670, guid: 7bc43022bded397acba97f2ffb1aee83,
+  floorPrefab: {fileID: 919132149155446097, guid: e04c3df83d7008b4594a59f2957c878d,
     type: 3}
 --- !u!114 &1296441724
 MonoBehaviour:
