@@ -1,51 +1,119 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
+using static DGJ24.TileSpace;
 
 namespace DGJ24.Map
 {
     internal static class MapGen
     {
-        public record Config;
+        public record Config(int Width, int Height);
 
-        private static readonly string[] layoutStrings =
+        private record MapInProgress(IImmutableSet<Vector2Int> FloorTiles);
+
+        private static readonly MapInProgress emptyMap = new MapInProgress(
+            ImmutableHashSet<Vector2Int>.Empty
+        );
+
+        private static MapBlueprint ToBlueprint(MapInProgress map)
         {
-            "wwwwww   ",
-            "wffffwwww",
-            "wfwfffffw",
-            "wfwwfwwfw",
-            "wfffffffw",
-            "wwwwwwwww"
-        };
+            return new MapBlueprint(map.FloorTiles);
+        }
+
+        private static MapInProgress PlaceFloorAt(MapInProgress map, Vector2Int tile)
+        {
+            return new MapInProgress(map.FloorTiles.Add(tile));
+        }
+
+        private static MapInProgress GeneratePaths(MapInProgress initialMap, RectInt bounds)
+        {
+            var paths = new HashSet<HashSet<Vector2Int>>();
+            var potentialFloorTiles = new List<Vector2Int>();
+
+            TilesInBounds(bounds)
+                .ForEach(tile =>
+                {
+                    var xEven = tile.x % 2 == 0;
+                    var yEven = tile.y % 2 == 0;
+                    if (xEven && yEven)
+                        paths.Add(new HashSet<Vector2Int> { tile });
+                    else if (!(!xEven && !yEven))
+                        potentialFloorTiles.Add(tile);
+                });
+
+            HashSet<Vector2Int>? TryGetPathAt(Vector2Int tile)
+            {
+                return paths.FirstOrDefault(path => path.Contains(tile));
+            }
+
+            while (potentialFloorTiles.Count > 0)
+            {
+                var tileIndex = Random.Range(0, potentialFloorTiles.Count);
+                var tile = potentialFloorTiles[tileIndex];
+                potentialFloorTiles.RemoveAt(tileIndex);
+
+                var connectedPaths = CardinalNeighborsOf(tile)
+                    .Select(TryGetPathAt)
+                    .FilterNull()
+                    .ToArray();
+
+                if (connectedPaths.Length != 2)
+                    continue;
+
+                var pathA = connectedPaths[0]!;
+                var pathB = connectedPaths[1]!;
+                if (pathA == pathB)
+                    continue;
+
+                paths.Remove(pathA);
+                pathB.UnionWith(pathA);
+                pathB.Add(tile);
+            }
+
+            var allTiles = paths.SelectMany(it => it);
+            return initialMap with { FloorTiles = initialMap.FloorTiles.Union(allTiles) };
+        }
+
+        private static MapInProgress RemoveDeadEnds(MapInProgress initialMap, RectInt bounds)
+        {
+            var newFloorTiles = new HashSet<Vector2Int>();
+
+            initialMap.FloorTiles.ForEach(tile =>
+            {
+                var neighbors = CardinalNeighborsOf(tile).ToHashSet();
+                var occupiedNeighbors = neighbors.Where(initialMap.FloorTiles.Contains);
+
+                var isDeadEnd = occupiedNeighbors.Count() == 1;
+                if (!isDeadEnd)
+                    return;
+
+                var possibleConnections = neighbors
+                    .Where(it => !initialMap.FloorTiles.Contains(it))
+                    .Where(it =>
+                        CardinalNeighborsOf(it).Except(tile).Any(initialMap.FloorTiles.Contains)
+                    )
+                    .ToImmutableArray();
+
+                var newTile = possibleConnections[Random.Range(0, possibleConnections.Length)];
+                newFloorTiles.Add(newTile);
+            });
+
+            return initialMap with
+            {
+                FloorTiles = initialMap.FloorTiles.Union(newFloorTiles)
+            };
+        }
 
         public static MapBlueprint Generate(Config config)
         {
-            var tiles = new Dictionary<Vector2Int, TileType>();
+            var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
+            var map = emptyMap;
 
-            for (var x = 0; x < layoutStrings.Length; x++)
-            {
-                var line = layoutStrings[x];
-                for (var y = 0; y < line.Length; y++)
-                {
-                    var c = line[y];
-                    if (c == ' ')
-                        continue;
+            map = GeneratePaths(map, bounds);
+            map = RemoveDeadEnds(map, bounds);
 
-                    var tileType = c switch
-                    {
-                        'w' => TileType.Wall,
-                        'f' => TileType.Floor,
-                        _ => throw new Exception("Unknown tile-type")
-                    };
-
-                    tiles.Add(new Vector2Int(x, y), tileType);
-                }
-            }
-
-            return new MapBlueprint(tiles.ToImmutableDictionary());
+            return ToBlueprint(map);
         }
     }
 }

@@ -12,11 +12,7 @@ namespace DGJ24.Map
         private void OnMapBuilt(IMapBuilder.MapBuiltEvent args)
         {
             walkableTiles.Clear();
-            foreach (var (position, tileType) in args.BuiltBlueprint.Tiles)
-            {
-                if (tileType == TileType.Floor)
-                    walkableTiles.Add(position);
-            }
+            walkableTiles.UnionWith(args.BuiltBlueprint.FloorTiles);
         }
 
         private void Awake()

@@ -10,29 +10,19 @@ namespace DGJ24.Map
         [SerializeField]
         private GameObject floorPrefab = null!;
 
-        [SerializeField]
-        private GameObject wallPrefab = null!;
-
         private void BuildMap()
         {
-            var blueprint = MapGen.Generate(new MapGen.Config());
+            var blueprint = MapGen.Generate(new MapGen.Config(40, 20));
 
-            foreach (var (tilePosition, tileType) in blueprint.Tiles)
+            foreach (var tilePosition in blueprint.FloorTiles)
             {
-                var prefab = tileType switch
-                {
-                    TileType.Wall => wallPrefab,
-                    TileType.Floor => floorPrefab,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
                 var position = new Vector3(
-                    tilePosition.x,
-                    prefab.transform.position.y,
-                    tilePosition.y
+                    tilePosition.x * 2,
+                    floorPrefab.transform.position.y,
+                    tilePosition.y * 2
                 );
 
-                Instantiate(prefab, position, Quaternion.identity);
+                Instantiate(floorPrefab, position, Quaternion.identity);
             }
 
             MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint));
