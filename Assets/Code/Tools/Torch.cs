@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace DGJ24.Tools {
@@ -7,26 +6,32 @@ namespace DGJ24.Tools {
 	public class Torch : MonoBehaviour {
 
 		[SerializeField] private Light torchLight;
-		[SerializeField] private AnimationCurve intensityCurve;
-		[SerializeField] private AnimationCurve rangeCurve;
+		[SerializeField] private AnimationCurve flashCurve;
 		[SerializeField] private float maxIntensity;
 		[SerializeField] private float maxRange;
+		[SerializeField] private float flashDuration;
+
+		private float baseIntensity;
+		private float baseRange;
 
 		private bool isFlashing;
+
+		private void Awake() {
+			baseIntensity = torchLight.intensity;
+			baseRange = torchLight.range;
+		}
 
 		public void Flash() {
 
 			if (isFlashing) return;
-			
-			Debug.Log("Flashed");
-
-			isFlashing = true;
-			StartCoroutine(LerpOnCurve(torchLight.intensity, maxIntensity, 0.5f, intensityCurve));
+			StartCoroutine(Flashing(torchLight, torchLight.intensity, maxIntensity, torchLight.range, maxRange, flashDuration, flashCurve));
 
 		}
 
-		public IEnumerator LerpOnCurve(float t, float target, float duration, AnimationCurve curve) {
+		private IEnumerator Flashing(Light l, float intensity, float intensityTarget, float range, float rangeTarget, float duration,
+			AnimationCurve curve) {
 
+			isFlashing = true;
 			float current = 0f;
 
 			while (current <= duration) {
@@ -35,14 +40,16 @@ namespace DGJ24.Tools {
 				float currentPercentage = Mathf.Clamp01(current / duration);
 				float curvePercentage = curve.Evaluate(currentPercentage);
 
-				torchLight.intensity = Mathf.LerpUnclamped(t, target, curvePercentage);
+				l.intensity = Mathf.LerpUnclamped(intensity, intensityTarget, curvePercentage);
+				l.range = Mathf.LerpUnclamped(range, rangeTarget, currentPercentage);
 				yield return null;
 
 			}
 
-			torchLight.intensity = 1;
+			l.intensity = baseIntensity;
+			l.range = baseRange;
+
 			isFlashing = false;
-			Debug.Log(isFlashing);
 
 		}
 

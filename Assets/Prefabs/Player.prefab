@@ -182,7 +182,7 @@ Light:
   serializedVersion: 11
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 30
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -335,7 +335,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxIntensity: 20
-  maxRange: 20
+  maxRange: 80
+  flashDuration: 0
 --- !u!1 &6934692041556047233
 GameObject:
   m_ObjectHideFlags: 0
