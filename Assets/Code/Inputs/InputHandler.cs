@@ -165,7 +165,11 @@ namespace DGJ24.Inputs {
 
 				if (ActionQueue == null) return;
 
-				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject));
+				if (TileTransform == null) return;
+
+				Vector2Int interactionTile =
+					TileSpace.GetDestinationTile(TileTransform.Position, GetRelativeDirection(Direction.Forward, TileTransform.Forward));
+				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject, interactionTile));
 
 			}
 
