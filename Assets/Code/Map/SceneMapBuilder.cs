@@ -12,7 +12,7 @@ namespace DGJ24.Map
 
         private void BuildMap()
         {
-            var blueprint = MapGen.Generate(new MapGen.Config(40, 20));
+            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5));
 
             foreach (var tilePosition in blueprint.FloorTiles)
             {

@@ -14,6 +14,7 @@ namespace DGJ24
         }
 
         public static IEnumerable<T> FilterNull<T>(this IEnumerable<T?> items)
+            where T : class
         {
             foreach (var item in items)
             {
@@ -21,6 +22,16 @@ namespace DGJ24
                     yield return item;
             }
         }
+        
+             public static IEnumerable<T> FilterNull<T>(this IEnumerable<T?> items)
+                    where T : struct
+                {
+                    foreach (var item in items)
+                    {
+                        if (item != null)
+                            yield return item.Value;
+                    }
+                }
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> items, T item)
         {

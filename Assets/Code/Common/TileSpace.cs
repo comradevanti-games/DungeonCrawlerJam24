@@ -50,9 +50,19 @@ namespace DGJ24
 
         public static IEnumerable<Vector2Int> TilesInBounds(RectInt bounds)
         {
-            for (var x = bounds.xMin; x <= bounds.xMax; x++)
-            for (var y = bounds.yMin; y <= bounds.yMax; y++)
+            for (var x = bounds.xMin; x < bounds.xMax; x++)
+            for (var y = bounds.yMin; y < bounds.yMax; y++)
                 yield return new Vector2Int(x, y);
+        }
+
+        public static RectInt Grow(RectInt bounds, int border)
+        {
+            return new RectInt(
+                bounds.xMin - border,
+                bounds.yMin - border,
+                bounds.width + border * 2,
+                bounds.height + border * 2
+            );
         }
     }
 }

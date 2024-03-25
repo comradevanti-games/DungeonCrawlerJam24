@@ -8,7 +8,7 @@ namespace DGJ24.Map
 {
     internal static class MapGen
     {
-        public record Config(int Width, int Height);
+        public record Config(int Width, int Height, int MinRoomSize, int MaxRoomSize);
 
         private record MapInProgress(IImmutableSet<Vector2Int> FloorTiles);
 
@@ -21,9 +21,61 @@ namespace DGJ24.Map
             return new MapBlueprint(map.FloorTiles);
         }
 
-        private static MapInProgress PlaceFloorAt(MapInProgress map, Vector2Int tile)
+        private static int RoomCountFor(RectInt bounds, int minRoomSize, int maxRoomSize)
         {
-            return new MapInProgress(map.FloorTiles.Add(tile));
+            var averageSize = (maxRoomSize + minRoomSize) / 2f;
+            var averageArea = averageSize * averageSize;
+            var mapArea = bounds.width * bounds.height;
+            var areaUsedByRooms = mapArea * 0.4f;
+            return Mathf.FloorToInt(areaUsedByRooms / averageArea);
+        }
+
+        private static bool MapHasFloorIn(RectInt bounds, MapInProgress map)
+        {
+            return map.FloorTiles.Any(bounds.Contains);
+        }
+
+        private static MapInProgress PlaceRoomAt(RectInt bounds, MapInProgress map)
+        {
+            var tiles = TilesInBounds(bounds);
+            return map with { FloorTiles = map.FloorTiles.Union(tiles) };
+        }
+
+        private static MapInProgress GenerateRooms(
+            MapInProgress initial,
+            RectInt bounds,
+            int minRoomSize,
+            int maxRoomSize
+        )
+        {
+            var roomCount = RoomCountFor(bounds, minRoomSize, maxRoomSize);
+
+            return Enumerable
+                .Range(0, roomCount)
+                .Aggregate(
+                    initial,
+                    (map, _) =>
+                    {
+                        var size = new Vector2Int(
+                            Random.Range(minRoomSize, maxRoomSize),
+                            Random.Range(minRoomSize, maxRoomSize)
+                        );
+
+                        RectInt roomBounds;
+                        var triesLeft = 100;
+                        do
+                        {
+                            var targetPosition = new Vector2Int(
+                                Random.Range(bounds.xMin, bounds.xMax - size.x),
+                                Random.Range(bounds.yMin, bounds.yMax - size.y)
+                            );
+                            roomBounds = new RectInt(targetPosition, size);
+                            triesLeft--;
+                        } while (MapHasFloorIn(roomBounds, map) && triesLeft > 0);
+
+                        return triesLeft == 0 ? map : PlaceRoomAt(roomBounds, map);
+                    }
+                );
         }
 
         private static MapInProgress GeneratePaths(MapInProgress initialMap, RectInt bounds)
@@ -75,7 +127,7 @@ namespace DGJ24.Map
             return initialMap with { FloorTiles = initialMap.FloorTiles.Union(allTiles) };
         }
 
-        private static MapInProgress RemoveDeadEnds(MapInProgress initialMap, RectInt bounds)
+        private static MapInProgress RemoveDeadEnds(MapInProgress initialMap)
         {
             var newFloorTiles = new HashSet<Vector2Int>();
 
@@ -110,8 +162,9 @@ namespace DGJ24.Map
             var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
             var map = emptyMap;
 
+            map = GenerateRooms(map, bounds, config.MinRoomSize, config.MaxRoomSize);
             map = GeneratePaths(map, bounds);
-            map = RemoveDeadEnds(map, bounds);
+            map = RemoveDeadEnds(map);
 
             return ToBlueprint(map);
         }
