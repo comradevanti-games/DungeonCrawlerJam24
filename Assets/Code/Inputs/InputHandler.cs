@@ -61,12 +61,32 @@ namespace DGJ24.Inputs {
 
 		}
 
-		private bool IsDiagonalInput(Vector2 input) {
-			return input.x != 0 && input.y != 0;
+		public void OnInteractionInput(InputAction.CallbackContext ctx) {
+
+			if (ctx.canceled) {
+
+				if (ActionQueue == null) return;
+
+				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject));
+
+			}
+
 		}
 
-		private Direction GetMovementDirection() {
-			return Direction.Forward;
+		public void OnTorchInput(InputAction.CallbackContext ctx) {
+
+			if (ctx.canceled) {
+
+				if (ActionQueue == null) return;
+
+				ActionQueue.TryEnqueue(new TorchActionRequest(gameObject));
+
+			}
+
+		}
+
+		private bool IsDiagonalInput(Vector2 input) {
+			return input.x != 0 && input.y != 0;
 		}
 
 	}
