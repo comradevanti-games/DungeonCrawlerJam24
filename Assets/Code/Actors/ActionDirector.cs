@@ -11,7 +11,6 @@ namespace DGJ24.Actors {
 		}
 
 		private void TryExecute(IActionMonitor.ActionBatchReadyEvent batch) {
-			// Check for conflicts
 
 			foreach (ActionRequest? action in batch.Batch) {
 
@@ -35,24 +34,18 @@ namespace DGJ24.Actors {
 			Vector3 actorPosition = actor.transform.position;
 
 			switch (direction) {
-				
-				//TODO: Use Real Movement
 
 				case Direction.Forward:
-					StartCoroutine(LerpPosition(actor, actor.transform.position, new Vector3(actorPosition.x, actorPosition.y, actorPosition.z + 1),
-						0.2f));
+					StartCoroutine(LerpPosition(actor, actorPosition, actorPosition + (actor.transform.forward * 2f), 0.2f));
 					break;
 				case Direction.Backward:
-					StartCoroutine(LerpPosition(actor, actor.transform.position, new Vector3(actorPosition.x, actorPosition.y, actorPosition.z - 1),
-						0.2f));
+					StartCoroutine(LerpPosition(actor, actorPosition, actorPosition + (actor.transform.forward * -2f), 0.2f));
 					break;
 				case Direction.Left:
-					StartCoroutine(LerpPosition(actor, actor.transform.position, new Vector3(actorPosition.x - 1, actorPosition.y, actorPosition.z),
-						0.2f));
+					StartCoroutine(LerpPosition(actor, actorPosition, actorPosition + (actor.transform.right * -2f), 0.2f));
 					break;
 				case Direction.Right:
-					StartCoroutine(LerpPosition(actor, actor.transform.position, new Vector3(actorPosition.x + 1, actorPosition.y, actorPosition.z),
-						0.2f));
+					StartCoroutine(LerpPosition(actor, actorPosition, actorPosition + (actor.transform.right * 2f), 0.2f));
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
@@ -61,19 +54,52 @@ namespace DGJ24.Actors {
 
 		}
 
-		private static void RotateActor(GameObject actor, Rotation rotation) { }
+		private void RotateActor(GameObject actor, Rotation rotation) {
+
+			switch (rotation) {
+
+				case Rotation.Right: {
+					Quaternion targetRotation = actor.transform.rotation * Quaternion.Euler(0, 90, 0);
+					StartCoroutine(LerpRotation(actor, actor.transform.rotation, targetRotation, 0.1f));
+					return;
+				}
+				case Rotation.Left: {
+					Quaternion targetRotation = actor.transform.rotation * Quaternion.Euler(0, -90, 0);
+					StartCoroutine(LerpRotation(actor, actor.transform.rotation, targetRotation, 0.1f));
+					break;
+				}
+
+			}
+
+		}
 
 		private static IEnumerator LerpPosition(GameObject actor, Vector3 origin, Vector3 targetPosition, float duration) {
 
 			float startTime = Time.time;
+			float endTime = startTime + duration;
 
-			while (Time.time - startTime < duration) {
+			while (Time.time < endTime) {
 				float progress = (Time.time - startTime) / duration;
 				actor.transform.position = Vector3.Lerp(origin, targetPosition, progress);
 				yield return null;
 			}
 
 			actor.transform.position = targetPosition;
+
+		}
+
+		private static IEnumerator LerpRotation(GameObject actor, Quaternion origin, Quaternion targetRotation, float duration) {
+
+			float startTime = Time.time;
+			float endTime = startTime + duration;
+
+			while (Time.time < endTime) {
+				float progress = (Time.time - startTime) / duration;
+				actor.transform.rotation = Quaternion.Lerp(origin, targetRotation, progress);
+				yield return null;
+			}
+
+			actor.transform.rotation = targetRotation;
 
 		}
 
