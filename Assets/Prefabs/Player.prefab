@@ -183,7 +183,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 0
+  m_Range: 30
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -267,6 +267,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f268a76e873a64586522f43b5631c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torchLight: {fileID: 2451763246237138047}
+  intensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0015068054
+      value: 0
+      inSlope: 32.49519
+      outSlope: 32.49519
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.011221979
+      value: 0.3156964
+      inSlope: 16.766857
+      outSlope: 16.766857
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6132467
+      value: 0.9409128
+      inSlope: -3.2421646
+      outSlope: -3.2421646
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.10745848
+    - serializedVersion: 3
+      time: 0.9970093
+      value: -0.004310608
+      inSlope: -2.463042
+      outSlope: -2.463042
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rangeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxIntensity: 20
+  maxRange: 20
 --- !u!1 &6934692041556047233
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,6 +540,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5188305076401732047}
+    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8766753373075758054}
   m_SourcePrefab: {fileID: 100100000, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911, type: 3}
 --- !u!4 &5122251507312903856 stripped
 Transform:
@@ -591,6 +664,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31afe9366a2036645bba343a353bc884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMoveDuration: 0.2
+  playerRotateDuration: 0.1
 --- !u!114 &5188305076401732047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,3 +679,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRequestCount: 3
+--- !u!114 &8766753373075758054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355760158475961633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02276dc33f8250e479083362ab4a31dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
