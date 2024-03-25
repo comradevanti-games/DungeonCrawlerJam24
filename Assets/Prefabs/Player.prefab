@@ -181,9 +181,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.78653437, g: 0.9019158, b: 0.9528302, a: 1}
   m_Intensity: 0.5
-  m_Range: 30
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -268,75 +268,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   torchLight: {fileID: 2451763246237138047}
-  intensityCurve:
+  flashCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0015068054
-      value: 0
-      inSlope: 32.49519
-      outSlope: 32.49519
+      time: -0.0015068054
+      value: -0.0023269653
+      inSlope: 55.66736
+      outSlope: 55.66736
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.011221979
-      value: 0.3156964
-      inSlope: 16.766857
-      outSlope: 16.766857
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6132467
-      value: 0.9409128
-      inSlope: -3.2421646
-      outSlope: -3.2421646
+      time: 0.10038313
+      value: 5.6696167
+      inSlope: 55.784546
+      outSlope: 55.784546
       tangentMode: 0
       weightedMode: 0
-      inWeight: 1
-      outWeight: 0.10745848
+      inWeight: 0.33333334
+      outWeight: 0.03703183
     - serializedVersion: 3
-      time: 0.9970093
-      value: -0.004310608
-      inSlope: -2.463042
-      outSlope: -2.463042
-      tangentMode: 34
+      time: 0.41148454
+      value: 4.150365
+      inSlope: -11.788568
+      outSlope: -11.788568
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
+      outWeight: 0.041085098
+    - serializedVersion: 3
+      time: 0.99556327
+      value: -0.0034689307
+      inSlope: 0.59240675
+      outSlope: 0.59240675
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.18378912
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  rangeCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  maxIntensity: 20
+  maxIntensity: 200
   maxRange: 80
-  flashDuration: 0
+  flashDuration: 0.75
 --- !u!1 &6934692041556047233
 GameObject:
   m_ObjectHideFlags: 0
