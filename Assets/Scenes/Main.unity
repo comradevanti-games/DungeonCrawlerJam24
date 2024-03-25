@@ -386,6 +386,7 @@ GameObject:
   - component: {fileID: 1574241589}
   - component: {fileID: 1574241588}
   - component: {fileID: 1574241587}
+  - component: {fileID: 1574241591}
   - component: {fileID: 1574241590}
   m_Layer: 0
   m_Name: SpawnLight
@@ -516,7 +517,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 2
+  MaxDistance: 5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -551,7 +552,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -591,6 +592,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1574241591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574241586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ba3d07acd2b1c748bf73a8fbd0ecc09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light: {fileID: 1574241588}
+  baseIntensity: 25
+  minIntensity: 2
+  maxIntensity: 45
+  minFlickerInterval: 2
+  maxFlickerInterval: 10
 --- !u!1 &1768874478 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7355760158475961633, guid: e0cc3af160a74341eb2989feb0269d63,
