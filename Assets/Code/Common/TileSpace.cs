@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -53,6 +54,24 @@ namespace DGJ24
             for (var x = bounds.xMin; x <= bounds.xMax; x++)
             for (var y = bounds.yMin; y <= bounds.yMax; y++)
                 yield return new Vector2Int(x, y);
+        }
+
+        public static Vector2Int GetDestinationTile(Vector2Int origin, GridDirection direction) {
+
+            switch (direction) {
+                
+                case GridDirection.XMinus:
+                    return origin + Deltas[6];
+                case GridDirection.XPlus:
+                    return origin + Deltas[2];
+                case GridDirection.ZPlus:
+                    return origin + Deltas[0];
+                case GridDirection.ZMinus:
+                    return origin + Deltas[4];
+                default:
+                    return origin;
+            }
+
         }
     }
 }
