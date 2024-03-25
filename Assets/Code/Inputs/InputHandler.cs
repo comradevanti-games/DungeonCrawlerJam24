@@ -6,6 +6,9 @@ namespace DGJ24.Inputs {
 
 	public class InputHandler : MonoBehaviour {
 
+		[SerializeField] private float playerMoveDuration = 5f;
+		[SerializeField] private float playerRotateDuration = 0.1f;
+
 		private ActionRequestQueue? ActionQueue { get; set; }
 
 		private void Awake() {
@@ -24,19 +27,19 @@ namespace DGJ24.Inputs {
 				if (ActionQueue == null) return;
 
 				if (input.x > 0.9) {
-					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Right));
+					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Right, playerMoveDuration));
 				}
 
 				if (input.x < -0.9) {
-					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Left));
+					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Left, playerMoveDuration));
 				}
 
 				if (input.y < -0.9) {
-					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Backward));
+					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Backward, playerMoveDuration));
 				}
 
 				if (input.y > 0.9) {
-					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Forward));
+					ActionQueue.TryEnqueue(new MovementActionRequest(gameObject, Direction.Forward, playerMoveDuration));
 				}
 
 			}
@@ -50,12 +53,36 @@ namespace DGJ24.Inputs {
 				if (ActionQueue == null) return;
 
 				if (ctx.ReadValue<float>() > 0) {
-					ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Right));
+					ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Right, playerRotateDuration));
 				}
 
 				if (ctx.ReadValue<float>() < 0) {
-					ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Left));
+					ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Left, playerRotateDuration));
 				}
+
+			}
+
+		}
+
+		public void OnInteractionInput(InputAction.CallbackContext ctx) {
+
+			if (ctx.canceled) {
+
+				if (ActionQueue == null) return;
+
+				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject));
+
+			}
+
+		}
+
+		public void OnTorchInput(InputAction.CallbackContext ctx) {
+
+			if (ctx.canceled) {
+
+				if (ActionQueue == null) return;
+
+				ActionQueue.TryEnqueue(new TorchActionRequest(gameObject));
 
 			}
 
@@ -63,10 +90,6 @@ namespace DGJ24.Inputs {
 
 		private bool IsDiagonalInput(Vector2 input) {
 			return input.x != 0 && input.y != 0;
-		}
-
-		private Direction GetMovementDirection() {
-			return Direction.Forward;
 		}
 
 	}

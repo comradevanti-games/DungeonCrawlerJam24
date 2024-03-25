@@ -148,8 +148,9 @@ GameObject:
   - component: {fileID: 2146009443071215611}
   - component: {fileID: 2451763246237138047}
   - component: {fileID: 7568215003796372150}
+  - component: {fileID: 6428807336599285580}
   m_Layer: 0
-  m_Name: Point Light
+  m_Name: Torch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,6 +255,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &6428807336599285580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657051495614323219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f268a76e873a64586522f43b5631c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6934692041556047233
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,13 +384,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 8225690085899939529, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8225690085899939529, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
@@ -387,7 +406,7 @@ PrefabInstance:
     - target: {fileID: 8225690085899939529, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8225690085899939529, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
@@ -524,11 +543,35 @@ MonoBehaviour:
     m_ActionId: 787c20e8-0e78-4fdd-9d3b-3aed907790dc
     m_ActionName: 'Game/Rotation[/Keyboard/q,/Keyboard/e]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6043540521554889337}
+        m_TargetAssemblyTypeName: DGJ24.Inputs.InputHandler, DGJ24.Inputs
+        m_MethodName: OnInteractionInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a815f1bf-bbd8-4ad7-a9f0-7a852ef4b7bc
     m_ActionName: 'Game/Interaction[/Keyboard/f]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6043540521554889337}
+        m_TargetAssemblyTypeName: DGJ24.Inputs.InputHandler, DGJ24.Inputs
+        m_MethodName: OnTorchInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a7657b79-9ff0-40cd-90f5-653a16ab391c
     m_ActionName: 'Game/Torch[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 0
