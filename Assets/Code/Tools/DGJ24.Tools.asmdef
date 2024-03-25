@@ -1,9 +1,8 @@
 {
-    "name": "DGJ24.Actors",
-    "rootNamespace": "DGJ24.Actors",
+    "name": "DGJ24.Tools",
+    "rootNamespace": "DGJ24.Tools",
     "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:839081a459c7830408c19d4beabd9937"
+        "GUID:c1fc4c24009364b45baaaefff0048f74"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
