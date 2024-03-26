@@ -1,0 +1,17 @@
+{
+    "name": "DGJ24.Pathfinding",
+    "rootNamespace": "DGJ24.Pathfinding",
+    "references": [
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:2bff13cdd07896c0ea1712cef7afead7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
