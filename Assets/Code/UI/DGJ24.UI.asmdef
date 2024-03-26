@@ -1,0 +1,16 @@
+{
+    "name": "DGJ24.UI",
+    "rootNamespace": "DGJ24.UI",
+    "references": [
+        "GUID:c1fc4c24009364b45baaaefff0048f74"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
