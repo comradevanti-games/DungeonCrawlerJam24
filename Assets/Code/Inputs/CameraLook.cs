@@ -22,8 +22,6 @@ namespace DGJ24.Inputs {
 
 		private void Awake() {
 			playerCam = GetComponent<Camera>();
-			Cursor.visible = false;
-			Cursor.lockState = CursorLockMode.Locked;
 		}
 
 		public void ResetView() {

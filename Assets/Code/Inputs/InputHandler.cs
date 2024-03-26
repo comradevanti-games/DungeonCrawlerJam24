@@ -4,12 +4,16 @@ using DGJ24.Map;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
+using UnityEngine.SceneManagement;
 
 namespace DGJ24.Inputs {
 
 	public class InputHandler : MonoBehaviour {
 
 		public UnityEvent? playerRotationPerformed;
+		public UnityEvent<double>? quitInputInitialized;
+		public UnityEvent? quitInputCanceled;
 
 		[SerializeField] private float playerMoveDuration = 5f;
 		[SerializeField] private float playerRotateDuration = 0.1f;
@@ -24,6 +28,8 @@ namespace DGJ24.Inputs {
 			WalkableService = Singletons.Get<IWalkableService>();
 			TileTransform.Position = Vector2Int.zero;
 			TileTransform.Forward = GridDirection.ZPlus;
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
 		}
 
 		public void OnMovementInput(InputAction.CallbackContext ctx) {
@@ -191,6 +197,26 @@ namespace DGJ24.Inputs {
 
 				ActionQueue.TryEnqueue(new TorchActionRequest(gameObject));
 
+			}
+
+		}
+
+		public void OnQuitInput(InputAction.CallbackContext ctx) {
+			
+			HoldInteraction? holdInteraction = ctx.interaction as HoldInteraction;
+
+			if (ctx.started) {
+				quitInputInitialized?.Invoke(holdInteraction.duration);
+			}
+
+			if (ctx.performed) {
+				Cursor.visible = true;
+				Cursor.lockState = CursorLockMode.None;
+				SceneManager.LoadScene("Menu");
+			}
+
+			if (ctx.canceled) {
+				quitInputCanceled?.Invoke();
 			}
 
 		}
