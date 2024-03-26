@@ -2,11 +2,14 @@ using System;
 using DGJ24.Actors;
 using DGJ24.Map;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace DGJ24.Inputs {
 
 	public class InputHandler : MonoBehaviour {
+
+		public UnityEvent? playerRotationPerformed;
 
 		[SerializeField] private float playerMoveDuration = 5f;
 		[SerializeField] private float playerRotateDuration = 0.1f;
@@ -66,13 +69,18 @@ namespace DGJ24.Inputs {
 
 					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Right, playerRotateDuration))) {
 						TileTransform.Forward = GetFacingDirection(Rotation.Right);
+						playerRotationPerformed?.Invoke();
 					}
 
 				}
 
 				if (ctx.ReadValue<float>() < 0) {
-					ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Left, playerRotateDuration));
-					TileTransform.Forward = GetFacingDirection(Rotation.Left);
+
+					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Left, playerRotateDuration))) {
+						TileTransform.Forward = GetFacingDirection(Rotation.Left);
+						playerRotationPerformed?.Invoke();
+					}
+
 				}
 
 			}

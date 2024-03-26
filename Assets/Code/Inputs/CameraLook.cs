@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ namespace DGJ24.Inputs {
 		[SerializeField] private float horizontalMaxAngleClamp;
 
 		private Camera playerCam = null!;
+		private Coroutine moveRoutine = null!;
 		private float xRotation;
 		private float yRotation;
 
@@ -24,13 +26,13 @@ namespace DGJ24.Inputs {
 			Cursor.lockState = CursorLockMode.Locked;
 		}
 
-		private void Update() {
+		public void ResetView() {
 
-			xRotation -= LookDelta.y * sensitivity;
-			yRotation += LookDelta.x * sensitivity;
-			xRotation = Mathf.Clamp(xRotation, verticalMinAngleClamp, verticalMaxAngleClamp);
-			yRotation = Mathf.Clamp(yRotation, horizontalMinAngleClamp, horizontalMaxAngleClamp);
-			playerCam.transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+			LookDelta = Vector2.zero;
+			yRotation = 0;
+
+			moveRoutine = StartCoroutine(LerpRotation(playerCam.transform, playerCam.transform.localRotation,
+				Quaternion.Euler(xRotation, yRotation, 0f), 0.1f));
 
 		}
 
@@ -45,11 +47,32 @@ namespace DGJ24.Inputs {
 					LookDelta = ctx.ReadValue<Vector2>();
 				}
 
+				xRotation -= LookDelta.y * sensitivity;
+				yRotation += LookDelta.x * sensitivity;
+				xRotation = Mathf.Clamp(xRotation, verticalMinAngleClamp, verticalMaxAngleClamp);
+				yRotation = Mathf.Clamp(yRotation, horizontalMinAngleClamp, horizontalMaxAngleClamp);
+				playerCam.transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+
 			}
 
 			if (ctx.canceled) {
 				LookDelta = Vector2.zero;
 			}
+
+		}
+
+		private static IEnumerator LerpRotation(Transform t, Quaternion origin, Quaternion targetRotation, float duration) {
+
+			float startTime = Time.time;
+			float endTime = startTime + duration;
+
+			while (Time.time < endTime) {
+				float progress = (Time.time - startTime) / duration;
+				t.localRotation = Quaternion.Lerp(origin, targetRotation, progress);
+				yield return null;
+			}
+
+			t.localRotation = targetRotation;
 
 		}
 

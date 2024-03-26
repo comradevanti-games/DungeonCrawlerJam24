@@ -176,7 +176,7 @@ Transform:
   m_GameObject: {fileID: 6657051495614323219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4, z: 0.189}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -194,7 +194,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0.78653437, g: 0.9019158, b: 0.9528302, a: 1}
   m_Intensity: 0.5
-  m_Range: 20
+  m_Range: 2
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -323,7 +323,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   maxIntensity: 20
   maxRange: 40
-  flashDuration: 0.9
+  flashDuration: 0.925
 --- !u!82 &227185339845927057
 AudioSource:
   m_ObjectHideFlags: 0
@@ -776,6 +776,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31afe9366a2036645bba343a353bc884, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRotationPerformed:
+    m_PersistentCalls:
+      m_Calls: []
   playerMoveDuration: 0.2
   playerRotateDuration: 0.1
 --- !u!81 &3664607139454339902
