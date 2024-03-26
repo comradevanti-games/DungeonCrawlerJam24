@@ -1,4 +1,3 @@
-using System;
 using DGJ24.Actors;
 using UnityEngine;
 
@@ -20,15 +19,10 @@ namespace DGJ24.AI
             requestQueue.TryEnqueue(nextAction);
         }
 
-        private void Start()
-        {
-            PlanNextAction();
-        }
-
         private void Awake()
         {
             requestQueue = GetComponent<IActionRequestQueue>();
-            Singletons.Get<IActorDirector>().AllActionsExecuted += () => PlanNextAction();
+            Singletons.Get<IActionMonitor>().BeginMonitoringActions += () => PlanNextAction();
         }
     }
 }
