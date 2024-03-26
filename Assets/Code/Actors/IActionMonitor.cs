@@ -16,8 +16,6 @@ namespace DGJ24.Actors {
 		/// </summary>
 		public event Action<ActionBatchReadyEvent> ActionBatchReady;
 
-		public event Action AllActionsExecuted;
-
 	}
 
 }

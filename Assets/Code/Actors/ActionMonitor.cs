@@ -9,14 +9,15 @@ namespace DGJ24.Actors {
 	public class ActionMonitor : MonoBehaviour, IActionMonitor {
 
 		public event Action<IActionMonitor.ActionBatchReadyEvent>? ActionBatchReady;
-		public event Action? AllActionsExecuted;
-		private IActorRepo ActorRepo { get; set; }
+		private IActorRepo? ActorRepo { get; set; }
 
 		private void Start() {
 			ActorRepo = Singletons.Get<IActorRepo>();
 		}
 
 		private void Update() {
+
+			if (ActorRepo == null) return;
 
 			if (!ActorRepo.Actors.All(actor => actor.ActionRequestQueue.HasQueued)) return;
 
