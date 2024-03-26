@@ -11,7 +11,7 @@ namespace DGJ24.Tools {
 		[SerializeField] private float maxRange;
 		[SerializeField] private float flashDuration;
 
-		private AudioSource torchAudio;
+		private AudioSource torchAudio = null!;
 
 		private float baseIntensity;
 		private float baseRange;
