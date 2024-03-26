@@ -38,7 +38,7 @@ namespace DGJ24.Map
                 );
             }
 
-            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint));
+            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles));
         }
 
         private void Start()

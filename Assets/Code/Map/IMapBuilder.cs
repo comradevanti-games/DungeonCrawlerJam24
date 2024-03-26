@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Immutable;
+using UnityEngine;
 
 namespace DGJ24.Map
 {
@@ -7,7 +9,7 @@ namespace DGJ24.Map
     /// </summary>
     internal interface IMapBuilder
     {
-        public record MapBuiltEvent(MapBlueprint BuiltBlueprint);
+        public record MapBuiltEvent(IImmutableSet<Vector2Int> FloorTiles);
 
         /// <summary>
         /// Raised when the builder completes building a map.
