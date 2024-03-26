@@ -47,7 +47,7 @@ namespace DGJ24.Map
                 .Select(position => Instantiate(enemyPrefab, position, Quaternion.identity))
                 .ToImmutableHashSet();
 
-            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles));
+            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles, enemies));
         }
 
         private void Start()

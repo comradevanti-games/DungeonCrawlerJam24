@@ -3,7 +3,8 @@
     "rootNamespace": "DGJ24.Actors",
     "references": [
         "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:839081a459c7830408c19d4beabd9937"
+        "GUID:839081a459c7830408c19d4beabd9937",
+        "GUID:2bff13cdd07896c0ea1712cef7afead7"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

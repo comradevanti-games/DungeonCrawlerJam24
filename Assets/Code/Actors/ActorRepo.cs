@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DGJ24.Map;
 using UnityEngine;
 
 namespace DGJ24.Actors
@@ -37,6 +38,13 @@ namespace DGJ24.Actors
         private void Awake()
         {
             AddInitialActors();
+            Singletons.Get<IMapBuilder>().MapBuilt += args =>
+                args.Enemies.ForEach(enemy =>
+                {
+                    var wasSuccess = TryAddActor(enemy);
+                    if (!wasSuccess)
+                        throw new Exception($"{enemy.name} was not a valid actor gameobject.");
+                });
         }
     }
 }
