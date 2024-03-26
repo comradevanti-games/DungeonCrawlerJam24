@@ -18,19 +18,36 @@ namespace DGJ24.Map
             int EnemyCount
         );
 
-        private record MapInProgress(
-            IImmutableSet<Vector2Int> FloorTiles,
-            IImmutableSet<Vector2Int> EnemyPositions
-        );
-
-        private static readonly MapInProgress emptyMap = new MapInProgress(
-            ImmutableHashSet<Vector2Int>.Empty,
-            ImmutableHashSet<Vector2Int>.Empty
-        );
-
-        private static MapBlueprint ToBlueprint(MapInProgress map)
+        private record FloorPlan(IImmutableSet<Vector2Int> Tiles)
         {
-            return new MapBlueprint(map.FloorTiles, map.EnemyPositions);
+            public static readonly FloorPlan Empty = new FloorPlan(
+                ImmutableHashSet<Vector2Int>.Empty
+            );
+
+            public bool HasFloorAt(Vector2Int tile) => Tiles.Contains(tile);
+
+            public bool HasFloorIn(RectInt bounds) => Tiles.Any(bounds.Contains);
+
+            public FloorPlan SetFloorAtAll(IEnumerable<Vector2Int> tiles) =>
+                this with
+                {
+                    Tiles = Tiles.Union(tiles)
+                };
+
+            public FloorPlan SetFloorIn(RectInt bounds)
+            {
+                var newTiles = TilesInBounds(bounds);
+                return SetFloorAtAll(newTiles);
+            }
+        }
+
+        private record EnemyPlan(IImmutableSet<Vector2Int> Tiles)
+        {
+            public static readonly EnemyPlan Empty = new EnemyPlan(
+                ImmutableHashSet<Vector2Int>.Empty
+            );
+
+            public EnemyPlan AddEnemyAt(Vector2Int tile) => this with { Tiles = Tiles.Add(tile) };
         }
 
         private static int RoomCountFor(RectInt bounds, int minRoomSize, int maxRoomSize)
@@ -42,55 +59,34 @@ namespace DGJ24.Map
             return Mathf.FloorToInt(areaUsedByRooms / averageArea);
         }
 
-        private static bool MapHasFloorIn(RectInt bounds, MapInProgress map)
-        {
-            return map.FloorTiles.Any(bounds.Contains);
-        }
-
-        private static MapInProgress PlaceRoomAt(RectInt bounds, MapInProgress map)
-        {
-            var tiles = TilesInBounds(bounds);
-            return map with { FloorTiles = map.FloorTiles.Union(tiles) };
-        }
-
-        private static MapInProgress GenerateRooms(
-            MapInProgress initial,
+        private static FloorPlan TryGenerateRoom(
+            FloorPlan floorPlan,
             RectInt bounds,
             int minRoomSize,
             int maxRoomSize
         )
         {
-            var roomCount = RoomCountFor(bounds, minRoomSize, maxRoomSize);
+            var size = new Vector2Int(
+                Random.Range(minRoomSize, maxRoomSize),
+                Random.Range(minRoomSize, maxRoomSize)
+            );
 
-            return Enumerable
-                .Range(0, roomCount)
-                .Aggregate(
-                    initial,
-                    (map, _) =>
-                    {
-                        var size = new Vector2Int(
-                            Random.Range(minRoomSize, maxRoomSize),
-                            Random.Range(minRoomSize, maxRoomSize)
-                        );
-
-                        RectInt roomBounds;
-                        var triesLeft = 100;
-                        do
-                        {
-                            var targetPosition = new Vector2Int(
-                                Random.Range(bounds.xMin, bounds.xMax - size.x),
-                                Random.Range(bounds.yMin, bounds.yMax - size.y)
-                            );
-                            roomBounds = new RectInt(targetPosition, size);
-                            triesLeft--;
-                        } while (MapHasFloorIn(roomBounds, map) && triesLeft > 0);
-
-                        return triesLeft == 0 ? map : PlaceRoomAt(roomBounds, map);
-                    }
+            RectInt roomBounds;
+            var triesLeft = 100;
+            do
+            {
+                var targetPosition = new Vector2Int(
+                    Random.Range(bounds.xMin, bounds.xMax - size.x),
+                    Random.Range(bounds.yMin, bounds.yMax - size.y)
                 );
+                roomBounds = new RectInt(targetPosition, size);
+                triesLeft--;
+            } while (floorPlan.HasFloorIn(roomBounds) && triesLeft > 0);
+
+            return triesLeft == 0 ? floorPlan : floorPlan.SetFloorIn(roomBounds);
         }
 
-        private static MapInProgress GeneratePaths(MapInProgress initialMap, RectInt bounds)
+        private static FloorPlan GeneratePaths(FloorPlan floorPlan, RectInt bounds)
         {
             var paths = new HashSet<HashSet<Vector2Int>>();
             var potentialFloorTiles = new List<Vector2Int>();
@@ -136,43 +132,38 @@ namespace DGJ24.Map
             }
 
             var allTiles = paths.SelectMany(it => it);
-            return initialMap with { FloorTiles = initialMap.FloorTiles.Union(allTiles) };
+            return floorPlan.SetFloorAtAll(allTiles);
         }
 
-        private static MapInProgress RemoveDeadEnds(MapInProgress initialMap)
+        private static FloorPlan RemoveDeadEnds(FloorPlan floorPlan)
         {
             var newFloorTiles = new HashSet<Vector2Int>();
 
-            initialMap.FloorTiles.ForEach(tile =>
+            floorPlan.Tiles.ForEach(tile =>
             {
                 var neighbors = CardinalNeighborsOf(tile).ToHashSet();
-                var occupiedNeighbors = neighbors.Where(initialMap.FloorTiles.Contains);
+                var occupiedNeighbors = neighbors.Where(floorPlan.HasFloorAt);
 
                 var isDeadEnd = occupiedNeighbors.Count() == 1;
                 if (!isDeadEnd)
                     return;
 
                 var possibleConnections = neighbors
-                    .Where(it => !initialMap.FloorTiles.Contains(it))
-                    .Where(it =>
-                        CardinalNeighborsOf(it).Except(tile).Any(initialMap.FloorTiles.Contains)
-                    )
+                    .Where(it => !floorPlan.Tiles.Contains(it))
+                    .Where(it => CardinalNeighborsOf(it).Except(tile).Any(floorPlan.HasFloorAt))
                     .ToImmutableArray();
 
                 var newTile = possibleConnections[Random.Range(0, possibleConnections.Length)];
                 newFloorTiles.Add(newTile);
             });
 
-            return initialMap with
-            {
-                FloorTiles = initialMap.FloorTiles.Union(newFloorTiles)
-            };
+            return floorPlan.SetFloorAtAll(newFloorTiles);
         }
 
-        private static MapInProgress PlaceEnemy(MapInProgress map)
+        private static EnemyPlan PlaceEnemy(FloorPlan floorPlan, EnemyPlan enemyPlan)
         {
-            var potentialEnemyTiles = map
-                .FloorTiles.Except(map.EnemyPositions)
+            var potentialEnemyTiles = floorPlan
+                .Tiles.Except(enemyPlan.Tiles)
                 .Where(tile => tile.magnitude > 10f)
                 .ToImmutableArray();
 
@@ -182,25 +173,31 @@ namespace DGJ24.Map
             var index = Random.Range(0, potentialEnemyTiles.Length);
             var tile = potentialEnemyTiles[index];
 
-            return map with
-            {
-                EnemyPositions = map.EnemyPositions.Add(tile)
-            };
+            return enemyPlan.AddEnemyAt(tile);
         }
 
         public static MapBlueprint Generate(Config config)
         {
             var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
-            var map = emptyMap;
+            var floorPlan = FloorPlan.Empty;
 
-            map = GenerateRooms(map, bounds, config.MinRoomSize, config.MaxRoomSize);
-            map = GeneratePaths(map, bounds);
-            map = RemoveDeadEnds(map);
+            var roomCount = RoomCountFor(bounds, config.MinRoomSize, config.MaxRoomSize);
+            for (var i = 0; i < roomCount; i++)
+                floorPlan = TryGenerateRoom(
+                    floorPlan,
+                    bounds,
+                    config.MinRoomSize,
+                    config.MinRoomSize
+                );
 
+            floorPlan = GeneratePaths(floorPlan, bounds);
+            floorPlan = RemoveDeadEnds(floorPlan);
+
+            var enemyPlan = EnemyPlan.Empty;
             for (var i = 0; i < config.EnemyCount; i++)
-                map = PlaceEnemy(map);
+                enemyPlan = PlaceEnemy(floorPlan, enemyPlan);
 
-            return ToBlueprint(map);
+            return new MapBlueprint(floorPlan.Tiles, enemyPlan.Tiles);
         }
     }
 }
