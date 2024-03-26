@@ -9,6 +9,7 @@ namespace DGJ24.Actors {
 	public class ActionMonitor : MonoBehaviour, IActionMonitor {
 
 		public event Action<IActionMonitor.ActionBatchReadyEvent>? ActionBatchReady;
+		public event Action? AllActionsExecuted;
 		private IActorRepo ActorRepo { get; set; }
 
 		private void Start() {
