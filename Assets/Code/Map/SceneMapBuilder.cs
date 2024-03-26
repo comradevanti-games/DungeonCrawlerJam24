@@ -19,6 +19,9 @@ namespace DGJ24.Map
         [SerializeField]
         private GameObject enemyPrefab = null!;
 
+        [SerializeField]
+        private GameObject lootPrefab = null!;
+
         private void BuildMap()
         {
             var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5, 3, 10));
@@ -46,6 +49,13 @@ namespace DGJ24.Map
                 .EnemyTiles.Select(TileSpace.PositionToWorldSpace)
                 .Select(position => Instantiate(enemyPrefab, position, Quaternion.identity))
                 .ToImmutableHashSet();
+
+            blueprint
+                .LootTiles.Select(TileSpace.PositionToWorldSpace)
+                .ForEach(position =>
+                {
+                    Instantiate(lootPrefab, position, Quaternion.identity);
+                });
 
             MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles, enemies));
         }
