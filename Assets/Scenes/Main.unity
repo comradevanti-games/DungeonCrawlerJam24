@@ -868,6 +868,8 @@ MonoBehaviour:
       floorMask: 31
   fallbackPrefab: {fileID: 919132149155446097, guid: e04c3df83d7008b4594a59f2957c878d,
     type: 3}
+  enemyPrefab: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
+    type: 3}
 --- !u!114 &1296441724
 MonoBehaviour:
   m_ObjectHideFlags: 0

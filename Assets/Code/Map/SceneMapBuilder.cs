@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Immutable;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,6 +15,9 @@ namespace DGJ24.Map
 
         [SerializeField]
         private GameObject fallbackPrefab = null!;
+
+        [SerializeField]
+        private GameObject enemyPrefab = null!;
 
         private void BuildMap()
         {
@@ -37,6 +41,11 @@ namespace DGJ24.Map
                     TileSpace.GetVectorForDirection(forward)
                 );
             }
+
+            var enemies = blueprint
+                .EnemyTiles.Select(TileSpace.PositionToWorldSpace)
+                .Select(position => Instantiate(enemyPrefab, position, Quaternion.identity))
+                .ToImmutableHashSet();
 
             MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles));
         }
