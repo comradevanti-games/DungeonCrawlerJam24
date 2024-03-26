@@ -21,7 +21,7 @@ namespace DGJ24.Map
 
         private void BuildMap()
         {
-            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5, 3));
+            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5, 3, 10));
             var prefabsByMask = tileSet.Compute();
 
             foreach (var tile in blueprint.FloorTiles)
