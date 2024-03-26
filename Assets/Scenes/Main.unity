@@ -482,6 +482,36 @@ PrefabInstance:
       propertyPath: m_UIInputModule
       value: 
       objectReference: {fileID: 108158851}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1915711097}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerHealthChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DGJ24.UI.HealthDisplay, DGJ24.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2425033673765810577, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
