@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 namespace DGJ24.Inputs {
 
 	public class CameraLook : MonoBehaviour {
 
 		[SerializeField] private float sensitivity = 0f;
+		[SerializeField] private float gamePadSens = 0f;
 		[SerializeField] private float verticalMinAngleClamp;
 		[SerializeField] private float verticalMaxAngleClamp;
 		[SerializeField] private float horizontalMinAngleClamp;
@@ -15,6 +17,8 @@ namespace DGJ24.Inputs {
 		private float xRotation;
 		private float yRotation;
 
+		private bool isUsingController = false;
+
 		private Vector2 LookDelta { get; set; }
 
 		private void Awake() {
@@ -22,6 +26,8 @@ namespace DGJ24.Inputs {
 			Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
 		}
+
+		private void ChangeInputMethod() { }
 
 		private void Update() {
 
@@ -36,7 +42,14 @@ namespace DGJ24.Inputs {
 		public void OnCameraLookInput(InputAction.CallbackContext ctx) {
 
 			if (ctx.performed) {
-				LookDelta = ctx.ReadValue<Vector2>();
+
+				if (ctx.action.activeControl.device == Gamepad.current) {
+					LookDelta = ctx.ReadValue<Vector2>() * gamePadSens;
+				}
+				else {
+					LookDelta = ctx.ReadValue<Vector2>();
+				}
+
 			}
 
 			if (ctx.canceled) {

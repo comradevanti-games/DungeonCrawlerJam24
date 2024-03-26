@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: 0.085
+  gamePadSens: 12
   verticalMinAngleClamp: -30
   verticalMaxAngleClamp: 30
   horizontalMinAngleClamp: -40

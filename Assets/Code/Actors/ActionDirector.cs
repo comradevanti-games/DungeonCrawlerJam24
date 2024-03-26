@@ -123,6 +123,7 @@ namespace DGJ24.Actors {
 				.FirstOrDefault(tileTransform => interactedTiles.Any(x => tileTransform.Position == x))?.gameObject;
 
 			// TODO: Interact with other Objects based on what they are.
+			OnActionRequestExecuted(actor);
 
 		}
 
