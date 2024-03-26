@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
 
 namespace DGJ24.Inputs {
 
@@ -17,8 +16,6 @@ namespace DGJ24.Inputs {
 		private float xRotation;
 		private float yRotation;
 
-		private bool isUsingController = false;
-
 		private Vector2 LookDelta { get; set; }
 
 		private void Awake() {
@@ -26,8 +23,6 @@ namespace DGJ24.Inputs {
 			Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
 		}
-
-		private void ChangeInputMethod() { }
 
 		private void Update() {
 
