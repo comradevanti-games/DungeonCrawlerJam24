@@ -160,14 +160,11 @@ namespace DGJ24.Actors {
 
 		private void Interact(GameObject actor, Vector2Int[] interactedTiles) {
 
-			GameObject? tileObject = FindObjectsByType<TileTransform>(
-					FindObjectsInactive.Exclude,
-					FindObjectsSortMode.None
-				)
-				.FirstOrDefault(tileTransform =>
+			IEnumerable<GameObject> tileObjects = FindObjectsByType<TileTransform>(
+					FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+				.Where(tileTransform =>
 					interactedTiles.Any(x => tileTransform.Position == x)
-				)
-				?.gameObject;
+				).Select(tileTransform => tileTransform.gameObject);
 
 			// TODO: Interact with other Objects based on what they are.
 			OnActionRequestExecuted(actor);
