@@ -3,5 +3,8 @@ using UnityEngine;
 
 namespace DGJ24.Map
 {
-    internal record MapBlueprint(IImmutableSet<Vector2Int> FloorTiles);
+    internal record MapBlueprint(
+        IImmutableSet<Vector2Int> FloorTiles,
+        IImmutableSet<Vector2Int> EnemyTiles
+    );
 }

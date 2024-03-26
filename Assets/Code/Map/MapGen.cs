@@ -1,24 +1,36 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using UnityEngine;
 using static DGJ24.TileSpace;
+using Random = UnityEngine.Random;
 
 namespace DGJ24.Map
 {
     internal static class MapGen
     {
-        public record Config(int Width, int Height, int MinRoomSize, int MaxRoomSize);
+        public record Config(
+            int Width,
+            int Height,
+            int MinRoomSize,
+            int MaxRoomSize,
+            int EnemyCount
+        );
 
-        private record MapInProgress(IImmutableSet<Vector2Int> FloorTiles);
+        private record MapInProgress(
+            IImmutableSet<Vector2Int> FloorTiles,
+            IImmutableSet<Vector2Int> EnemyPositions
+        );
 
         private static readonly MapInProgress emptyMap = new MapInProgress(
+            ImmutableHashSet<Vector2Int>.Empty,
             ImmutableHashSet<Vector2Int>.Empty
         );
 
         private static MapBlueprint ToBlueprint(MapInProgress map)
         {
-            return new MapBlueprint(map.FloorTiles);
+            return new MapBlueprint(map.FloorTiles, map.EnemyPositions);
         }
 
         private static int RoomCountFor(RectInt bounds, int minRoomSize, int maxRoomSize)
@@ -157,6 +169,25 @@ namespace DGJ24.Map
             };
         }
 
+        private static MapInProgress PlaceEnemy(MapInProgress map)
+        {
+            var potentialEnemyTiles = map
+                .FloorTiles.Except(map.EnemyPositions)
+                .Where(tile => tile.magnitude > 10f)
+                .ToImmutableArray();
+
+            if (potentialEnemyTiles.Length == 0)
+                throw new Exception("Map too small to spawn enemy");
+
+            var index = Random.Range(0, potentialEnemyTiles.Length);
+            var tile = potentialEnemyTiles[index];
+
+            return map with
+            {
+                EnemyPositions = map.EnemyPositions.Add(tile)
+            };
+        }
+
         public static MapBlueprint Generate(Config config)
         {
             var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
@@ -165,6 +196,9 @@ namespace DGJ24.Map
             map = GenerateRooms(map, bounds, config.MinRoomSize, config.MaxRoomSize);
             map = GeneratePaths(map, bounds);
             map = RemoveDeadEnds(map);
+
+            for (var i = 0; i < config.EnemyCount; i++)
+                map = PlaceEnemy(map);
 
             return ToBlueprint(map);
         }
