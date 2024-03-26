@@ -2,43 +2,57 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 using DGJ24.Map;
 using UnityEngine;
 
-namespace DGJ24.Actors {
+namespace DGJ24.Actors
+{
+    public class ActionMonitor : MonoBehaviour, IActionMonitor
+    {
+        public event Action<IActionMonitor.ActionBatchReadyEvent>? ActionBatchReady;
 
-	public class ActionMonitor : MonoBehaviour, IActionMonitor {
+        public event Action? BeginMonitoringActions;
 
-		public event Action<IActionMonitor.ActionBatchReadyEvent>? ActionBatchReady;
-		private IActorRepo? ActorRepo { get; set; }
+        private IActorRepo actorRepo = null!;
 
-		
-		private void Start() {
-			ActorRepo = Singletons.Get<IActorRepo>();
-		}
+        private IImmutableSet<ActionRequest> GetActionBatch(IEnumerable<IActor> actors)
+        {
+            HashSet<ActionRequest> set = new();
 
-		private void Update() {
+            foreach (IActor? actor in actors)
+            {
+                set.Add(actor.ActionRequestQueue.TryDequeue());
+            }
 
-			if (ActorRepo == null) return;
+            return set.ToImmutableHashSet();
+        }
 
-			if (!ActorRepo.Actors.All(actor => actor.ActionRequestQueue.HasQueued)) return;
+        private async void MonitorActions()
+        {
+            BeginMonitoringActions?.Invoke();
 
-			ActionBatchReady?.Invoke(new IActionMonitor.ActionBatchReadyEvent(GetActionBatch(ActorRepo.Actors)));
+            while (true)
+            {
+                if (actorRepo.Actors.All(actor => actor.ActionRequestQueue.HasQueued))
+                    break;
+                await Task.Yield();
+            }
 
-		}
+            ActionBatchReady?.Invoke(
+                new IActionMonitor.ActionBatchReadyEvent(GetActionBatch(actorRepo.Actors))
+            );
+        }
 
-		private IImmutableSet<ActionRequest> GetActionBatch(IEnumerable<IActor> actors) {
+        private void Awake()
+        {
+            actorRepo = Singletons.Get<IActorRepo>();
+            Singletons.Get<IActorDirector>().AllActionsExecuted += () => MonitorActions();
+        }
 
-			HashSet<ActionRequest> set = new();
-
-			foreach (IActor? actor in actors) {
-				set.Add(actor.ActionRequestQueue.TryDequeue());
-			}
-
-			return set.ToImmutableHashSet();
-
-		}
-
-	}
-
+        private void Start()
+        {
+            MonitorActions();
+        }
+    }
 }
