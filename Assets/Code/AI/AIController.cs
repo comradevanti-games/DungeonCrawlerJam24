@@ -1,3 +1,4 @@
+using System;
 using DGJ24.Actors;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ namespace DGJ24.AI
             var thinkContext = new IAIBrain.ThinkContext(gameObject);
             var nextAction = Brain.DetermineNextAction(thinkContext);
             requestQueue.TryEnqueue(nextAction);
+        }
+
+        private void Start()
+        {
+            PlanNextAction();
         }
 
         private void Awake()
