@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthDisplay : MonoBehaviour {
+namespace DGJ24.UI {
 
-	// Start is called before the first frame update
-	void Start() { }
+	public class HealthDisplay : MonoBehaviour {
 
-	// Update is called once per frame
-	void Update() { }
+		public void OnPlayerHealthChanged(int newHealth) { }
+
+	}
 
 }
