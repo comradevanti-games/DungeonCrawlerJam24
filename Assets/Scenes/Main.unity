@@ -345,6 +345,18 @@ MonoBehaviour:
         type: 3}
       wallMask: 170
       floorMask: 85
+    - prefab: {fileID: 919132149155446097, guid: f117aa1836dd50b4b879f8257dcef916,
+        type: 3}
+      wallMask: 162
+      floorMask: 93
+    - prefab: {fileID: 919132149155446097, guid: 0c6b3e9a32b74f349a35df2a3e6c4e44,
+        type: 3}
+      wallMask: 66
+      floorMask: 29
+    - prefab: {fileID: 919132149155446097, guid: 7757b6050f9d6e543a44be9d3c14c900,
+        type: 3}
+      wallMask: 72
+      floorMask: 23
     - prefab: {fileID: 919132149155446097, guid: 53684162bee28a74c9d7633d3b841538,
         type: 3}
       wallMask: 17
@@ -371,8 +383,8 @@ MonoBehaviour:
       floorMask: 127
     - prefab: {fileID: 919132149155446097, guid: 23aacff6d5e2da142b7992cf92920595,
         type: 3}
-      wallMask: 1
-      floorMask: 124
+      wallMask: 64
+      floorMask: 31
   fallbackPrefab: {fileID: 919132149155446097, guid: e04c3df83d7008b4594a59f2957c878d,
     type: 3}
 --- !u!114 &1296441724
