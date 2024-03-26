@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4749801438631723665}
   - component: {fileID: 8586631558943935071}
   - component: {fileID: 8510829937473959890}
+  - component: {fileID: 6449300815982103870}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5310343716699524860}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.1246}
+  m_LocalPosition: {x: 0, y: 1.7, z: 0.1246}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65,7 +66,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60.440388
   orthographic: 0
   orthographic size: 5
@@ -128,6 +129,23 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &6449300815982103870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310343716699524860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e68415033c93247a0c66cfa10aa89f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 0.085
+  verticalMinAngleClamp: -30
+  verticalMaxAngleClamp: 30
+  horizontalMinAngleClamp: -40
+  horizontalMaxAngleClamp: 40
 --- !u!1 &6657051495614323219
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +174,7 @@ Transform:
   m_GameObject: {fileID: 6657051495614323219}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.145}
+  m_LocalPosition: {x: 0, y: 1.4, z: 0.189}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -332,8 +350,8 @@ Transform:
   m_GameObject: {fileID: 6934692041556047233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.25, y: 1, z: 0.25}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
+  m_LocalScale: {x: 0.25, y: 1.7, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5122251507312903856}
@@ -619,6 +637,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a7657b79-9ff0-40cd-90f5-653a16ab391c
     m_ActionName: 'Game/Torch[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6449300815982103870}
+        m_TargetAssemblyTypeName: DGJ24.Inputs.CameraLook, DGJ24.Inputs
+        m_MethodName: OnCameraLookInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: be3057ff-af16-44d9-8401-f7db77e421e2
+    m_ActionName: 'Game/CameraLook[/Mouse/delta]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Main
   m_DefaultActionMap: Game
