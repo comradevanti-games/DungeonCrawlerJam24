@@ -67,7 +67,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 100
-  field of view: 60.440388
+  field of view: 88.50715
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -300,8 +300,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.03703183
     - serializedVersion: 3
-      time: 0.41148454
-      value: 4.150365
+      time: 0.5240944
+      value: 4.06516
       inSlope: -11.788568
       outSlope: -11.788568
       tangentMode: 0
@@ -320,9 +320,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxIntensity: 200
-  maxRange: 80
-  flashDuration: 0.75
+  maxIntensity: 20
+  maxRange: 40
+  flashDuration: 0.9
 --- !u!1 &6934692041556047233
 GameObject:
   m_ObjectHideFlags: 0
