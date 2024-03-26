@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8586631558943935071}
   - component: {fileID: 8510829937473959890}
   - component: {fileID: 6449300815982103870}
+  - component: {fileID: 8723020531928431296}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -147,6 +148,14 @@ MonoBehaviour:
   verticalMaxAngleClamp: 30
   horizontalMinAngleClamp: -40
   horizontalMaxAngleClamp: 40
+--- !u!81 &8723020531928431296
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310343716699524860}
+  m_Enabled: 1
 --- !u!1 &6657051495614323219
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,10 +544,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3664607139454339902}
-    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2425033673765810577}
   m_SourcePrefab: {fileID: 100100000, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911, type: 3}
 --- !u!4 &5122251507312903856 stripped
@@ -691,14 +696,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRequestCount: 3
---- !u!81 &3664607139454339902
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7355760158475961633}
-  m_Enabled: 1
 --- !u!114 &2425033673765810577
 MonoBehaviour:
   m_ObjectHideFlags: 0
