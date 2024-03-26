@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 0
-  m_FogColor: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.05
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
@@ -28,7 +28,7 @@ RenderSettings:
   m_SubtractiveShadowColor: {r: 0.21466714, g: 0.21799204, b: 0.2264151, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
-  m_FlareStrength: 0.5
+  m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
@@ -523,41 +523,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1552159929}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResetView
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DGJ24.Inputs.CameraLook, DGJ24.Inputs
-      objectReference: {fileID: 0}
-    - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7355760158475961633, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: m_Name
@@ -656,7 +621,7 @@ GameObject:
   - component: {fileID: 1255585746}
   - component: {fileID: 1255585745}
   m_Layer: 5
-  m_Name: UserInterface
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -903,7 +868,7 @@ MonoBehaviour:
       floorMask: 31
   fallbackPrefab: {fileID: 919132149155446097, guid: e04c3df83d7008b4594a59f2957c878d,
     type: 3}
-  enemyPrefab: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
+  enemyPrefab: {fileID: 8515917592445619662, guid: c8e3eb1ba67f9c92ea535c11d1f9de17,
     type: 3}
   lootPrefab: {fileID: 2226792917931865743, guid: 19d60389bec0719a5b1488058a2d78ce,
     type: 3}
@@ -1038,18 +1003,6 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 653005213}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1552159929 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6449300815982103870, guid: e0cc3af160a74341eb2989feb0269d63,
-    type: 3}
-  m_PrefabInstance: {fileID: 653005213}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e68415033c93247a0c66cfa10aa89f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1574241586
 GameObject:
   m_ObjectHideFlags: 0
