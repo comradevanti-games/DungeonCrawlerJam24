@@ -20,7 +20,7 @@ namespace DGJ24.Pathfinding
         private IWalkableService walkableService = null!;
         private TileNavigator navigator = null!;
 
-        public bool IsBlocked(Tile coord) => walkableService.IsWalkable(coord.ToV2());
+        public bool IsBlocked(Tile coord) => !walkableService.IsWalkable(coord.ToV2());
 
         public IEnumerable<Tile> GetNeighbors(Tile tile) =>
             TileSpaceMath
