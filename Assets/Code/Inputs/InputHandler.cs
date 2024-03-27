@@ -25,8 +25,8 @@ namespace DGJ24.Inputs
 
         private void Awake()
         {
-            ActionQueue = GetComponent<IActionRequestQueue>();
-            TileTransform = GetComponent<ITileTransform>();
+            ActionQueue = gameObject.RequireComponent<IActionRequestQueue>();
+            TileTransform = gameObject.RequireComponent<ITileTransform>();
             TileTransform.Position = Vector2Int.zero;
             TileTransform.Forward = CardinalDirection.Forward;
             Cursor.visible = false;
@@ -43,7 +43,7 @@ namespace DGJ24.Inputs
                     return;
 
                 CardinalDirection inputDirection = GetInputDirection(input);
-                
+
                 _ = ActionQueue.TryEnqueue(
                     new MovementActionRequest(gameObject, inputDirection, playerMoveDuration)
                 );
@@ -58,7 +58,7 @@ namespace DGJ24.Inputs
                 if (input == 0)
                     return;
                 var dir = input > 0 ? RotationDirection.Right : RotationDirection.Left;
-                
+
                 if (
                     ActionQueue.TryEnqueue(
                         new RotationActionRequest(gameObject, dir, playerRotateDuration)

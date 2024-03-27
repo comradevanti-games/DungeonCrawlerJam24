@@ -27,7 +27,7 @@ namespace DGJ24.AI
 
         private void Awake()
         {
-            requestQueue = GetComponent<IActionRequestQueue>();
+            requestQueue = gameObject.RequireComponent<IActionRequestQueue>();
             Singletons.Get<IActionMonitor>().BeginMonitoringActions += () => PlanNextAction();
         }
     }

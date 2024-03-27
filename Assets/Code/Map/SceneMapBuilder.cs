@@ -51,7 +51,7 @@ namespace DGJ24.Map
                 {
                     var position = TileSpaceMath.PositionToWorldSpace(tile);
                     var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-                    enemy.GetComponent<ITileTransform>().Position = tile;
+                    enemy.RequireComponent<ITileTransform>().Position = tile;
                     return enemy;
                 })
                 .ToImmutableHashSet();

@@ -21,7 +21,7 @@ namespace DGJ24.Tools {
 		private void Awake() {
 			baseIntensity = torchLight!.intensity;
 			baseRange = torchLight.range;
-			torchAudio = GetComponent<AudioSource>();
+			torchAudio = gameObject.RequireComponent<AudioSource>();
 		}
 
 		public void Use() {

@@ -36,7 +36,7 @@ namespace DGJ24.Actors
         )
         {
             var queues = actors
-                .Select(it => it.Require<IActionRequestQueue>())
+                .Select(it => it.RequireComponent<IActionRequestQueue>())
                 .ToImmutableHashSet();
 
             if (!queues.All(it => it.HasQueued))

@@ -5,7 +5,7 @@ namespace DGJ24
 {
     public static class RequireExt
     {
-        public static T Require<T>(this GameObject gameObject)
+        public static T RequireComponent<T>(this GameObject gameObject)
             where T : class
         {
             return gameObject.GetComponent<T>()

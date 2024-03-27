@@ -21,7 +21,7 @@ namespace DGJ24.Inputs {
 		private Vector2 LookDelta { get; set; }
 
 		private void Awake() {
-			playerCam = GetComponent<Camera>();
+			playerCam = gameObject.RequireComponent<Camera>();
 		}
 
 		public void ResetView() {

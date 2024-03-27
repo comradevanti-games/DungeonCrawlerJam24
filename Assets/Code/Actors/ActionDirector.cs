@@ -53,7 +53,7 @@ namespace DGJ24.Actors
 
         private void MoveActor(GameObject actor, CardinalDirection localDirection, float duration)
         {
-            var actorTransform = actor.GetComponent<ITileTransform>();
+            var actorTransform = actor.RequireComponent<ITileTransform>();
             var globalDirection = actorTransform.LocalToGlobal(localDirection);
 
             var actorTile = actorTransform.Position;
@@ -76,7 +76,7 @@ namespace DGJ24.Actors
 
         private void RotateActor(GameObject actor, RotationDirection rotation, float duration)
         {
-            var actorTransform = actor.GetComponent<ITileTransform>();
+            var actorTransform = actor.RequireComponent<ITileTransform>();
             var actorForward = actorTransform.Forward;
             actorTransform.Rotate(rotation);
             var nextForward = actorTransform.Forward;

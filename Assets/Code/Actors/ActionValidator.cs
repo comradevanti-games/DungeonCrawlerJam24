@@ -12,7 +12,7 @@ namespace DGJ24.Actors
 
         private bool CanDoMove(MovementActionRequest request)
         {
-            var actorTransform = request.Actor.GetComponent<ITileTransform>();
+            var actorTransform = request.Actor.RequireComponent<ITileTransform>();
             var direction = actorTransform.LocalToGlobal(request.LocalDirection);
             var destinationTile = MoveByDirection(actorTransform.Position, direction);
             return walkableService.IsWalkable(destinationTile);
