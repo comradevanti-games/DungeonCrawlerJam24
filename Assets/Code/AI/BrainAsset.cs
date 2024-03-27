@@ -1,9 +1,10 @@
+using DGJ24.Actors;
 using UnityEngine;
 
 namespace DGJ24.AI
 {
-    internal abstract class BrainAsset : ScriptableObject
+    internal abstract class BrainAsset : ScriptableObject, IAIBrain
     {
-        public abstract IAIBrain Brain { get; }
+        public abstract ActionRequest DetermineNextAction(IAIBrain.ThinkContext ctx);
     }
 }

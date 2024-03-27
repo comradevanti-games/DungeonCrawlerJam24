@@ -1,3 +1,4 @@
+using System;
 using DGJ24.Actors;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace DGJ24.AI
 
         private IActionRequestQueue requestQueue = null!;
 
-        private IAIBrain Brain => brainAsset ? brainAsset!.Brain : new EmptyBrain();
+        private IAIBrain Brain => brainAsset ? brainAsset! : new EmptyBrain();
 
         private void PlanNextAction()
         {
