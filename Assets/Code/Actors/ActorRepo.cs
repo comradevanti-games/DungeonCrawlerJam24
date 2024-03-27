@@ -17,7 +17,7 @@ namespace DGJ24.Actors
 
         private bool TryAddActor(GameObject actorGameObject)
         {
-            var actor = GameObjectActor.TryMakeFrom(actorGameObject);
+            var actor = IActor.TryMakeFrom(actorGameObject);
             if (actor == null)
                 return false;
 
