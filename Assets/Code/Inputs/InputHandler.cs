@@ -28,7 +28,7 @@ namespace DGJ24.Inputs {
 			TileTransform = GetComponent<ITileTransform>();
 			WalkableService = Singletons.Get<IWalkableService>();
 			TileTransform.Position = Vector2Int.zero;
-			TileTransform.Forward = GridDirection.ZPlus;
+			TileTransform.Forward = CardinalDirection.Forward;
 			Cursor.visible = false;
 			Cursor.lockState = CursorLockMode.Locked;
 		}
@@ -114,59 +114,59 @@ namespace DGJ24.Inputs {
 
 		}
 
-		private GridDirection GetFacingDirection(Rotation rotationDir) {
+		private CardinalDirection GetFacingDirection(Rotation rotationDir) {
 
 			if (rotationDir == Rotation.Left) {
 
 				return TileTransform!.Forward switch {
-					GridDirection.XPlus => GridDirection.ZPlus,
-					GridDirection.XMinus => GridDirection.ZMinus,
-					GridDirection.ZPlus => GridDirection.XMinus,
-					GridDirection.ZMinus => GridDirection.XPlus,
+					CardinalDirection.Right => CardinalDirection.Forward,
+					CardinalDirection.Left => CardinalDirection.Backward,
+					CardinalDirection.Forward => CardinalDirection.Left,
+					CardinalDirection.Backward => CardinalDirection.Right,
 					_ => throw new ArgumentOutOfRangeException()
 				};
 
 			}
 
 			return TileTransform!.Forward switch {
-				GridDirection.XPlus => GridDirection.ZMinus,
-				GridDirection.XMinus => GridDirection.ZPlus,
-				GridDirection.ZPlus => GridDirection.XPlus,
-				GridDirection.ZMinus => GridDirection.XMinus,
+				CardinalDirection.Right => CardinalDirection.Backward,
+				CardinalDirection.Left => CardinalDirection.Forward,
+				CardinalDirection.Forward => CardinalDirection.Right,
+				CardinalDirection.Backward => CardinalDirection.Left,
 				_ => throw new ArgumentOutOfRangeException()
 			};
 
 		}
 
-		private GridDirection GetRelativeDirection(CardinalDirection input, GridDirection currentForward) {
+		private CardinalDirection GetRelativeDirection(CardinalDirection input, CardinalDirection currentForward) {
 
 			return currentForward switch {
-				GridDirection.XPlus => input switch {
-					CardinalDirection.Forward => GridDirection.XPlus,
-					CardinalDirection.Backward => GridDirection.XMinus,
-					CardinalDirection.Left => GridDirection.ZPlus,
-					CardinalDirection.Right => GridDirection.ZMinus,
+				CardinalDirection.Right => input switch {
+					CardinalDirection.Forward => CardinalDirection.Right,
+					CardinalDirection.Backward => CardinalDirection.Left,
+					CardinalDirection.Left => CardinalDirection.Forward,
+					CardinalDirection.Right => CardinalDirection.Backward,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
-				GridDirection.XMinus => input switch {
-					CardinalDirection.Forward => GridDirection.XMinus,
-					CardinalDirection.Backward => GridDirection.XPlus,
-					CardinalDirection.Left => GridDirection.ZMinus,
-					CardinalDirection.Right => GridDirection.ZPlus,
+				CardinalDirection.Left => input switch {
+					CardinalDirection.Forward => CardinalDirection.Left,
+					CardinalDirection.Backward => CardinalDirection.Right,
+					CardinalDirection.Left => CardinalDirection.Backward,
+					CardinalDirection.Right => CardinalDirection.Forward,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
-				GridDirection.ZPlus => input switch {
-					CardinalDirection.Forward => GridDirection.ZPlus,
-					CardinalDirection.Backward => GridDirection.ZMinus,
-					CardinalDirection.Left => GridDirection.XMinus,
-					CardinalDirection.Right => GridDirection.XPlus,
+				CardinalDirection.Forward => input switch {
+					CardinalDirection.Forward => CardinalDirection.Forward,
+					CardinalDirection.Backward => CardinalDirection.Backward,
+					CardinalDirection.Left => CardinalDirection.Left,
+					CardinalDirection.Right => CardinalDirection.Right,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
-				GridDirection.ZMinus => input switch {
-					CardinalDirection.Forward => GridDirection.ZMinus,
-					CardinalDirection.Backward => GridDirection.ZPlus,
-					CardinalDirection.Left => GridDirection.XPlus,
-					CardinalDirection.Right => GridDirection.XMinus,
+				CardinalDirection.Backward => input switch {
+					CardinalDirection.Forward => CardinalDirection.Backward,
+					CardinalDirection.Backward => CardinalDirection.Forward,
+					CardinalDirection.Left => CardinalDirection.Right,
+					CardinalDirection.Right => CardinalDirection.Left,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
 				_ => throw new ArgumentOutOfRangeException(nameof(currentForward), currentForward, null)

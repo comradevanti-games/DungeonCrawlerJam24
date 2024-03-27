@@ -60,18 +60,10 @@ namespace DGJ24.TileSpace
             );
         }
 
-        public static Vector2Int GetVectorForDirection(GridDirection direction) =>
-            direction switch
-            {
-                GridDirection.ZPlus => Vector2Int.up,
-                GridDirection.XPlus => Vector2Int.right,
-                GridDirection.ZMinus => Vector2Int.down,
-                GridDirection.XMinus => Vector2Int.left,
+        public static Vector2Int GetVectorForDirection(CardinalDirection direction) =>
+            CardinalDirections[(int)direction];
 
-                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-            };
-
-        public static Vector2Int GetDestinationTile(Vector2Int origin, GridDirection direction)
+        public static Vector2Int GetDestinationTile(Vector2Int origin, CardinalDirection direction)
         {
             return origin + GetVectorForDirection(direction);
         }

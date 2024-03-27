@@ -39,7 +39,7 @@ namespace DGJ24.Map
                 var (prefab, forward) =
                     options.Length > 0
                         ? options[Random.Range(0, options.Length)]
-                        : (fallbackPrefab, GridDirection.ZPlus);
+                        : (fallbackPrefab, CardinalDirection.Forward);
 
                 var tileGameObject = Instantiate(prefab, position, Quaternion.identity);
                 var tileTransform = tileGameObject.transform;

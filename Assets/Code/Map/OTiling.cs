@@ -31,19 +31,19 @@ namespace DGJ24.Map
                 return (byte)(b >> times | b << (8 - times));
             }
 
-            public IImmutableDictionary<byte, ImmutableArray<(GameObject, GridDirection)>> Compute()
+            public IImmutableDictionary<byte, ImmutableArray<(GameObject, CardinalDirection)>> Compute()
             {
-                var dict = new Dictionary<byte, IList<(GameObject, GridDirection)>>();
+                var dict = new Dictionary<byte, IList<(GameObject, CardinalDirection)>>();
 
                 for (var i = 0; i <= 255; i++)
                 {
                     var mask = (byte)i;
-                    var options = new List<(GameObject, GridDirection)>();
+                    var options = new List<(GameObject, CardinalDirection)>();
 
                     for (var o = 0; o < 4; o++)
                     {
                         var rotatedMask = RotateLeft(mask, o * 2);
-                        var dir = (GridDirection)o;
+                        var dir = (CardinalDirection)o;
                         foreach (var item in items)
                         {
                             var wallMask = (byte)~rotatedMask;

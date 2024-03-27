@@ -15,6 +15,6 @@ namespace DGJ24.TileSpace
         /// <summary>
         /// The direction the object is facing.
         /// </summary>
-        public GridDirection Forward { get; set; }
+        public CardinalDirection Forward { get; set; }
     }
 }
