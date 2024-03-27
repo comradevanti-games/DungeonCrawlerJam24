@@ -14,6 +14,8 @@ namespace DGJ24.Actors
 
         public bool HasQueued => RequestCount > 0;
 
+        public ActionRequest? TryPeek() => requests.TryPeek(out var request) ? request : null;
+
         public ActionRequest? TryDequeue() => requests.TryDequeue(out var request) ? request : null;
 
         public bool TryEnqueue(ActionRequest request)

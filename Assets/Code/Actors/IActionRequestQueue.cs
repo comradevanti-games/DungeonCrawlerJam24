@@ -11,6 +11,13 @@ namespace DGJ24.Actors
         public bool HasQueued { get; }
 
         /// <summary>
+        /// Attempts to get the next item from the queue, without
+        /// removing it.
+        /// </summary>
+        /// <returns>The next item or null if the queue is empty.</returns>
+        public ActionRequest? TryPeek();
+
+        /// <summary>
         /// Attempts to get the next request from the queue. This removes the
         /// request from the queue.
         /// </summary>
