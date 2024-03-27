@@ -12,20 +12,13 @@ namespace DGJ24.TileSpace
         /// <summary>
         /// All tile-space entities in the scene.
         /// </summary>
-        public IEnumerable<ITileSpaceEntity> All { get; }
+        public IEnumerable<GameObject> All { get; }
 
         /// <summary>
-        /// Attempt to add a game-object to this repo.
+        /// Adds a game-object to this repo. It is your responsibility to make
+        /// sure that this object is a valid tile-space entity.
         /// </summary>
-        /// <param name="entityGameObject">The game-object to add.</param>
-        /// <returns>Whether the game-object could be added.</returns>
-        public bool TryAdd(GameObject entityGameObject);
-
-        public void AddOrThrow(GameObject entityGameObject)
-        {
-            var success = TryAdd(entityGameObject);
-            if (!success)
-                throw new Exception($"{entityGameObject.name} is not a tile-space entity");
-        }
+        /// <param name="entity">The game-object to add.</param>
+        public void Add(GameObject entity);
     }
 }

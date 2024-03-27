@@ -9,23 +9,18 @@ namespace DGJ24.TileSpace
         [SerializeField]
         private GameObject[] initial = Array.Empty<GameObject>();
 
-        private readonly ISet<ITileSpaceEntity> entities = new HashSet<ITileSpaceEntity>();
+        private readonly ISet<GameObject> entities = new HashSet<GameObject>();
 
-        public IEnumerable<ITileSpaceEntity> All => entities;
+        public IEnumerable<GameObject> All => entities;
 
-        public bool TryAdd(GameObject entityGameObject)
+        public void Add(GameObject entity)
         {
-            var entity = TileSpaceGameObject.TryMakeFrom(entityGameObject);
-            if (entity == null)
-                return false;
-
             entities.Add(entity);
-            return true;
         }
 
         private void Awake()
         {
-            initial.ForEach(((ITileSpaceEntityRepo)this).AddOrThrow);
+            initial.ForEach(Add);
         }
     }
 }

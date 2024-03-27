@@ -55,14 +55,14 @@ namespace DGJ24.Map
                     return enemy;
                 })
                 .ToImmutableHashSet();
-            enemies.ForEach(tileSpaceEntityRepo.AddOrThrow);
+            enemies.ForEach(tileSpaceEntityRepo.Add);
 
             blueprint
                 .LootTiles.Select(TileSpaceMath.PositionToWorldSpace)
                 .ForEach(position =>
                 {
                     var loot = Instantiate(lootPrefab, position, Quaternion.identity);
-                    tileSpaceEntityRepo.AddOrThrow(loot);
+                    tileSpaceEntityRepo.Add(loot);
                 });
 
             MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles, enemies));
