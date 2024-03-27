@@ -196,7 +196,7 @@ namespace DGJ24.Inputs {
 
 				if (ActionQueue == null) return;
 
-				ActionQueue.TryEnqueue(new TorchActionRequest(gameObject));
+				ActionQueue.TryEnqueue(new ToolActionRequest(gameObject));
 
 			}
 

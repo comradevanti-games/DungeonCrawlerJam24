@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DGJ24.Tools {
 
-	public class Torch : MonoBehaviour {
+	internal class Torch : MonoBehaviour, ITool {
 
 		[SerializeField] private Light? torchLight;
 		[SerializeField] private AnimationCurve? flashCurve;
@@ -24,7 +24,7 @@ namespace DGJ24.Tools {
 			torchAudio = GetComponent<AudioSource>();
 		}
 
-		public void Flash() {
+		public void Use() {
 
 			if (isFlashing) return;
 			StartCoroutine(Flashing(torchLight!, torchLight!.intensity, maxIntensity, torchLight.range, maxRange, flashDuration, flashCurve!));

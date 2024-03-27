@@ -19,5 +19,5 @@ namespace DGJ24.Actors
     public record InteractionActionRequest(GameObject Actor, params Vector2Int[] TilePositions)
         : ActionRequest(Actor);
 
-    public record TorchActionRequest(GameObject Actor) : ActionRequest(Actor);
+    public record ToolActionRequest(GameObject Actor) : ActionRequest(Actor);
 }

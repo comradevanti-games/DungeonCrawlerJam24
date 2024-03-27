@@ -53,8 +53,8 @@ namespace DGJ24.Actors
                     case RotationActionRequest request:
                         RotateActor(request.Actor, request.Rotation, request.RotateDuration);
                         break;
-                    case TorchActionRequest request:
-                        UseTorch(request.Actor, OnActionRequestExecuted);
+                    case ToolActionRequest request:
+                        UseTool(request.Actor, OnActionRequestExecuted);
                         break;
                     case InteractionActionRequest request:
                         Interact(request.Actor, request.TilePositions);
@@ -135,9 +135,9 @@ namespace DGJ24.Actors
             }
         }
 
-        private void UseTorch(GameObject actor, Action<GameObject> callback)
+        private void UseTool(GameObject actor, Action<GameObject> callback)
         {
-            actor.GetComponentInChildren<Torch>().Flash();
+            actor.GetComponentInChildren<ITool>().Use();
             callback.Invoke(actor);
         }
 
