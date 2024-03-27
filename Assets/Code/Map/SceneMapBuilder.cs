@@ -47,8 +47,13 @@ namespace DGJ24.Map
             }
 
             var enemies = blueprint
-                .EnemyTiles.Select(TileSpaceMath.PositionToWorldSpace)
-                .Select(position => Instantiate(enemyPrefab, position, Quaternion.identity))
+                .EnemyTiles.Select(tile =>
+                {
+                    var position = TileSpaceMath.PositionToWorldSpace(tile);
+                    var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+                    enemy.GetComponent<ITileTransform>().Position = tile;
+                    return enemy;
+                })
                 .ToImmutableHashSet();
             enemies.ForEach(tileSpaceEntityRepo.AddOrThrow);
 
