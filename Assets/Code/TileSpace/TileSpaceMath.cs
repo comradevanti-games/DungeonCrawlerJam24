@@ -72,5 +72,13 @@ namespace DGJ24.TileSpace
 
         public static Vector3 PositionToWorldSpace(Vector2Int dir) =>
             new Vector3(dir.x * 2, 0, dir.y * 2);
+
+        public static CardinalDirection RotateDirection(
+            CardinalDirection direction,
+            RotationDirection rotation
+        )
+        {
+            return (CardinalDirection)(int)Mathf.Repeat((int)direction + (int)rotation, 3);
+        }
     }
 }
