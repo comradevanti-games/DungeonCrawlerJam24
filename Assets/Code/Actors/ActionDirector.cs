@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DGJ24.TileSpace;
@@ -65,7 +64,7 @@ namespace DGJ24.Actors
             Vector3 targetPosition = TileSpaceMath.PositionToWorldSpace(nextTile);
 
             StartCoroutine(
-                LerpPosition(
+                LerpOverTime.Position(
                     actor.transform,
                     actorPosition,
                     targetPosition,
@@ -90,7 +89,7 @@ namespace DGJ24.Actors
             );
 
             StartCoroutine(
-                LerpRotation(
+                LerpOverTime.Rotation(
                     actor.transform,
                     origin,
                     targetRotation,
@@ -127,50 +126,6 @@ namespace DGJ24.Actors
                     AllActionsExecuted?.Invoke();
                 }
             }
-        }
-
-        private static IEnumerator LerpPosition(
-            Transform moveTransform,
-            Vector3 origin,
-            Vector3 targetPosition,
-            float duration,
-            Action onDone
-        )
-        {
-            float startTime = Time.time;
-            float endTime = startTime + duration;
-
-            while (Time.time < endTime)
-            {
-                float progress = (Time.time - startTime) / duration;
-                moveTransform.position = Vector3.Lerp(origin, targetPosition, progress);
-                yield return null;
-            }
-
-            moveTransform.position = targetPosition;
-            onDone.Invoke();
-        }
-
-        private static IEnumerator LerpRotation(
-            Transform rotateTransform,
-            Quaternion origin,
-            Quaternion targetRotation,
-            float duration,
-            Action onDone
-        )
-        {
-            float startTime = Time.time;
-            float endTime = startTime + duration;
-
-            while (Time.time < endTime)
-            {
-                float progress = (Time.time - startTime) / duration;
-                rotateTransform.rotation = Quaternion.Lerp(origin, targetRotation, progress);
-                yield return null;
-            }
-
-            rotateTransform.rotation = targetRotation;
-            onDone.Invoke();
         }
     }
 }
