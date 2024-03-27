@@ -75,7 +75,7 @@ namespace DGJ24.Inputs {
 				if (ctx.ReadValue<float>() > 0) {
 
 					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, RotationDirection.Right, playerRotateDuration))) {
-						TileTransform.Forward = GetFacingDirection(RotationDirection.Right);
+						TileTransform.Rotate(RotationDirection.Right);
 						playerRotationPerformed?.Invoke();
 					}
 
@@ -84,7 +84,7 @@ namespace DGJ24.Inputs {
 				if (ctx.ReadValue<float>() < 0) {
 
 					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, RotationDirection.Left, playerRotateDuration))) {
-						TileTransform.Forward = GetFacingDirection(RotationDirection.Left);
+						TileTransform.Rotate(RotationDirection.Left);
 						playerRotationPerformed?.Invoke();
 					}
 
@@ -111,30 +111,6 @@ namespace DGJ24.Inputs {
 			}
 
 			return CardinalDirection.Forward;
-
-		}
-
-		private CardinalDirection GetFacingDirection(RotationDirection rotationDir) {
-
-			if (rotationDir == RotationDirection.Left) {
-
-				return TileTransform!.Forward switch {
-					CardinalDirection.Right => CardinalDirection.Forward,
-					CardinalDirection.Left => CardinalDirection.Backward,
-					CardinalDirection.Forward => CardinalDirection.Left,
-					CardinalDirection.Backward => CardinalDirection.Right,
-					_ => throw new ArgumentOutOfRangeException()
-				};
-
-			}
-
-			return TileTransform!.Forward switch {
-				CardinalDirection.Right => CardinalDirection.Backward,
-				CardinalDirection.Left => CardinalDirection.Forward,
-				CardinalDirection.Forward => CardinalDirection.Right,
-				CardinalDirection.Backward => CardinalDirection.Left,
-				_ => throw new ArgumentOutOfRangeException()
-			};
 
 		}
 

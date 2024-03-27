@@ -61,5 +61,10 @@ namespace DGJ24.TileSpace
                 _ => throw new ArgumentOutOfRangeException(nameof(Forward), Forward, null)
             };
         }
+
+        public void Rotate(RotationDirection direction)
+        {
+            Forward = TileSpaceMath.RotateDirection(Forward, direction);
+        }
     }
 }
