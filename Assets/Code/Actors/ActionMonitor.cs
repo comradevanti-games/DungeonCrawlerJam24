@@ -58,7 +58,8 @@ namespace DGJ24.Actors
             while (nextActionBatch == null)
             {
                 await Task.Yield();
-                if(!enabled) return;
+                if (destroyCancellationToken.IsCancellationRequested)
+                    return;
                 nextActionBatch = TryGetNextActionBatch(actorRepo.Actors.ToImmutableHashSet());
             }
 
