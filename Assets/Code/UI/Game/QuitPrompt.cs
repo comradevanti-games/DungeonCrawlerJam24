@@ -6,7 +6,7 @@ namespace DGJ24.UI {
 
 	internal class QuitPrompt : MonoBehaviour {
 
-		[SerializeField] private GameObject quitPanel;
+		[SerializeField] private GameObject quitPanel = null!;
 		[SerializeField] private Image quitLoadingBar = null!;
 
 		private Coroutine? holdRoutine;
