@@ -13,10 +13,10 @@ namespace DGJ24.Map
     internal static class OTiling
     {
         [Serializable]
-        public class TileSet
+        internal class TileSet
         {
             [Serializable]
-            public class Item
+            internal class Item
             {
                 public GameObject prefab = null!;
                 public byte wallMask;

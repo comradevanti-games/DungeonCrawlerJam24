@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace DGJ24.Actors {
 
-	public class ActorHealth : MonoBehaviour, IDamageable {
+	internal class ActorHealth : MonoBehaviour, IDamageable {
 
 		public UnityEvent<int>? healthPointsChanged;
 

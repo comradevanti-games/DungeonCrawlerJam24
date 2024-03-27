@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 namespace DGJ24.UI {
 
-	public class MenuOptionController : MonoBehaviour {
+	internal class MenuOptionController : MonoBehaviour {
 
 		public void Play() {
 			SceneManager.LoadScene("Main");

@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace DGJ24.Inputs {
 
-	public class InputHandler : MonoBehaviour {
+	internal class InputHandler : MonoBehaviour {
 
 		public UnityEvent? playerRotationPerformed;
 		public UnityEvent<double>? quitInputInitialized;
@@ -19,12 +19,12 @@ namespace DGJ24.Inputs {
 		[SerializeField] private float playerMoveDuration = 5f;
 		[SerializeField] private float playerRotateDuration = 0.1f;
 
-		private ActionRequestQueue? ActionQueue { get; set; }
+		private IActionRequestQueue? ActionQueue { get; set; }
 		private TileTransform? TileTransform { get; set; }
 		private IWalkableService? WalkableService { get; set; }
 
 		private void Awake() {
-			ActionQueue = GetComponent<ActionRequestQueue>();
+			ActionQueue = GetComponent<IActionRequestQueue>();
 			TileTransform = GetComponent<TileTransform>();
 			WalkableService = Singletons.Get<IWalkableService>();
 			TileTransform.Position = Vector2Int.zero;

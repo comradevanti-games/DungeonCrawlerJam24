@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DGJ24.UI {
 
-	public class HealthDisplay : MonoBehaviour {
+	internal class HealthDisplay : MonoBehaviour {
 
 		[SerializeField] private GameObject[]? healthPieces;
 

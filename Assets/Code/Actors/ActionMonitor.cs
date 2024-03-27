@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DGJ24.Actors
 {
-    public class ActionMonitor : MonoBehaviour, IActionMonitor
+    internal class ActionMonitor : MonoBehaviour, IActionMonitor
     {
         public event Action<IActionMonitor.ActionBatchReadyEvent>? ActionBatchReady;
 

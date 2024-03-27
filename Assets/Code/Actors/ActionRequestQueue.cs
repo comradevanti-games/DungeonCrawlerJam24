@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DGJ24.Actors
 {
-    public class ActionRequestQueue : MonoBehaviour, IActionRequestQueue
+    internal class ActionRequestQueue : MonoBehaviour, IActionRequestQueue
     {
         [SerializeField]
         private int maxRequestCount;

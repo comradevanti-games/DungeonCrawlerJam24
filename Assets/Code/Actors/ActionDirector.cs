@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DGJ24.Actors {
 
-	public class ActionDirector : MonoBehaviour, IActorDirector {
+	internal class ActionDirector : MonoBehaviour, IActorDirector {
 
 		public event Action? AllActionsExecuted;
 

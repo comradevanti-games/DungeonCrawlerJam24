@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace DGJ24.Inputs {
 
-	public class CameraLook : MonoBehaviour {
+	internal class CameraLook : MonoBehaviour {
 
 		[SerializeField] private float sensitivity = 0f;
 		[SerializeField] private float gamePadSens = 0f;

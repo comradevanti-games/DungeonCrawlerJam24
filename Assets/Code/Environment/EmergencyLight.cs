@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DGJ24.Environment {
 
-	public class EmergencyLight : MonoBehaviour {
+	internal class EmergencyLight : MonoBehaviour {
 
 		[SerializeField] private Light light;
 		[SerializeField] private float baseIntensity = 25f;

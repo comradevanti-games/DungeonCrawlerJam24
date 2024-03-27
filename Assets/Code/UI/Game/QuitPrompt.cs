@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace DGJ24.UI {
 
-	public class QuitPrompt : MonoBehaviour {
+	internal class QuitPrompt : MonoBehaviour {
 
 		[SerializeField] private GameObject quitPanel;
 		[SerializeField] private Image quitLoadingBar = null!;
