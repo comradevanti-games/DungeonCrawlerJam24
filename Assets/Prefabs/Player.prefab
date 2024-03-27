@@ -627,6 +627,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 8913376879287994552}
+    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: -1777642094980388592}
     - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
@@ -653,6 +657,20 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3833232981390846073}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8913376879287994552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355760158475961633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bf05c7f7e48b6242adaf4789bbc434f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionLayer: 1
+  interactableLayers: 0300000002000000
 --- !u!114 &-1777642094980388592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +777,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: be3057ff-af16-44d9-8401-f7db77e421e2
     m_ActionName: 'Game/CameraLook[/Mouse/delta]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 694b4c3b-529d-4d26-9e6a-70fe21cf9f20
+    m_ActionName: 'Game/Quit[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Main
   m_DefaultActionMap: Game
@@ -791,6 +813,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  quitInputInitialized:
+    m_PersistentCalls:
+      m_Calls: []
+  quitInputCanceled:
+    m_PersistentCalls:
+      m_Calls: []
   playerMoveDuration: 0.2
   playerRotateDuration: 0.1
 --- !u!81 &3664607139454339902

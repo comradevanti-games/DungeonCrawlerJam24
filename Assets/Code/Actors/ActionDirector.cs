@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
 using UnityEngine;
@@ -98,14 +99,36 @@ namespace DGJ24.Actors {
 		}
 
 		private void Interact(GameObject actor) {
-			/*
-			IEnumerable<GameObject> entities = tileSpaceEntityRepo.All.Where(entity =>
-			    interactedTiles.Any(x => entity.Position == x)
-			);
-			*/
 
-			// TODO: Interact with other Objects based on what they are.
+			var actorTile = actor.GetComponent<ITileTransform>();
+			var interactionTile = TileSpaceMath.MoveByDirection(actorTile.Position, actorTile.Forward);
+
+			IEnumerable<IInteractable> entities = tileSpaceEntityRepo.All.Where(entity =>
+				entity.GetComponent<ITileTransform>().Position == interactionTile).Select(it => it.GetComponent<IInteractable>());
+
+			foreach (var entity in entities) {
+				ExecuteInteraction(actor.GetComponent<IInteractable>(), entity);
+			}
+			
 			OnActionRequestExecuted(actor);
+		}
+
+		private void ExecuteInteraction(IInteractable actor, IInteractable interactable) {
+
+			switch (actor.InteractionLayer) {
+
+				case InteractionLayer.None:
+					break;
+				case InteractionLayer.Player:
+					break;
+				case InteractionLayer.Enemy:
+					break;
+				case InteractionLayer.Scrap:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+			
 		}
 
 		private void OnActionRequestExecuted(GameObject actor) {
