@@ -5,9 +5,9 @@ namespace DGJ24.Map
 {
     internal class SceneMapKeeper : MonoBehaviour, IWalkableService
     {
-        private readonly ISet<Vector2Int> walkableTiles = new HashSet<Vector2Int>();
+        private readonly HashSet<Vector2Int> walkableTiles = new HashSet<Vector2Int>();
 
-        public bool IsWalkable(Vector2Int tilePosition) => walkableTiles.Contains(tilePosition);
+        public IReadOnlyCollection<Vector2Int> WalkableTiles => walkableTiles;
 
         private void OnMapBuilt(IMapBuilder.MapBuiltEvent args)
         {

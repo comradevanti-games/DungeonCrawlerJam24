@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DGJ24.Map
@@ -8,10 +10,15 @@ namespace DGJ24.Map
     public interface IWalkableService
     {
         /// <summary>
+        /// All currently walkable tiles.
+        /// </summary>
+        public IReadOnlyCollection<Vector2Int> WalkableTiles { get; }
+
+        /// <summary>
         /// Checks if a specific position is walkable.
         /// </summary>
         /// <param name="tilePosition">The position to check.</param>
         /// <returns>Whether the tile is walkable</returns>
-        public bool IsWalkable(Vector2Int tilePosition);
+        public bool IsWalkable(Vector2Int tilePosition) => WalkableTiles.Contains(tilePosition);
     }
 }
