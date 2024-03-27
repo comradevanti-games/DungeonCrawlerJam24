@@ -74,8 +74,8 @@ namespace DGJ24.Inputs {
 
 				if (ctx.ReadValue<float>() > 0) {
 
-					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Right, playerRotateDuration))) {
-						TileTransform.Forward = GetFacingDirection(Rotation.Right);
+					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, RotationDirection.Right, playerRotateDuration))) {
+						TileTransform.Forward = GetFacingDirection(RotationDirection.Right);
 						playerRotationPerformed?.Invoke();
 					}
 
@@ -83,8 +83,8 @@ namespace DGJ24.Inputs {
 
 				if (ctx.ReadValue<float>() < 0) {
 
-					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, Rotation.Left, playerRotateDuration))) {
-						TileTransform.Forward = GetFacingDirection(Rotation.Left);
+					if (ActionQueue.TryEnqueue(new RotationActionRequest(gameObject, RotationDirection.Left, playerRotateDuration))) {
+						TileTransform.Forward = GetFacingDirection(RotationDirection.Left);
 						playerRotationPerformed?.Invoke();
 					}
 
@@ -114,9 +114,9 @@ namespace DGJ24.Inputs {
 
 		}
 
-		private CardinalDirection GetFacingDirection(Rotation rotationDir) {
+		private CardinalDirection GetFacingDirection(RotationDirection rotationDir) {
 
-			if (rotationDir == Rotation.Left) {
+			if (rotationDir == RotationDirection.Left) {
 
 				return TileTransform!.Forward switch {
 					CardinalDirection.Right => CardinalDirection.Forward,

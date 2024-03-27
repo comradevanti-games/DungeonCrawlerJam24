@@ -125,13 +125,13 @@ namespace DGJ24.Actors
             }
         }
 
-        private void RotateActor(GameObject actor, Rotation rotation, float duration)
+        private void RotateActor(GameObject actor, RotationDirection rotation, float duration)
         {
             Quaternion origin = actor.transform.rotation;
 
             switch (rotation)
             {
-                case Rotation.Right:
+                case RotationDirection.Right:
                 {
                     Quaternion targetRotation =
                         actor.transform.rotation * Quaternion.Euler(0, 90, 0);
@@ -146,7 +146,7 @@ namespace DGJ24.Actors
                     );
                     return;
                 }
-                case Rotation.Left:
+                case RotationDirection.Left:
                 {
                     Quaternion targetRotation =
                         actor.transform.rotation * Quaternion.Euler(0, -90, 0);

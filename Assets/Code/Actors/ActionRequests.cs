@@ -13,7 +13,7 @@ namespace DGJ24.Actors
     public record MovementActionRequest(GameObject Actor, CardinalDirection Direction, float MoveDuration)
         : ActionRequest(Actor);
 
-    public record RotationActionRequest(GameObject Actor, Rotation Rotation, float RotateDuration)
+    public record RotationActionRequest(GameObject Actor, RotationDirection Rotation, float RotateDuration)
         : ActionRequest(Actor);
 
     public record InteractionActionRequest(GameObject Actor, params Vector2Int[] TilePositions)
