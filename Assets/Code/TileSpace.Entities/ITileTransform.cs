@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace DGJ24.TileSpace
@@ -16,5 +17,49 @@ namespace DGJ24.TileSpace
         /// The direction the object is facing.
         /// </summary>
         public CardinalDirection Forward { get; set; }
+
+        public CardinalDirection LocalToGlobal(CardinalDirection local)
+        {
+            return Forward switch
+            {
+                CardinalDirection.Right
+                    => local switch
+                    {
+                        CardinalDirection.Forward => CardinalDirection.Right,
+                        CardinalDirection.Backward => CardinalDirection.Left,
+                        CardinalDirection.Left => CardinalDirection.Forward,
+                        CardinalDirection.Right => CardinalDirection.Backward,
+                        _ => throw new ArgumentOutOfRangeException(nameof(local), local, null)
+                    },
+                CardinalDirection.Left
+                    => local switch
+                    {
+                        CardinalDirection.Forward => CardinalDirection.Left,
+                        CardinalDirection.Backward => CardinalDirection.Right,
+                        CardinalDirection.Left => CardinalDirection.Backward,
+                        CardinalDirection.Right => CardinalDirection.Forward,
+                        _ => throw new ArgumentOutOfRangeException(nameof(local), local, null)
+                    },
+                CardinalDirection.Forward
+                    => local switch
+                    {
+                        CardinalDirection.Forward => CardinalDirection.Forward,
+                        CardinalDirection.Backward => CardinalDirection.Backward,
+                        CardinalDirection.Left => CardinalDirection.Left,
+                        CardinalDirection.Right => CardinalDirection.Right,
+                        _ => throw new ArgumentOutOfRangeException(nameof(local), local, null)
+                    },
+                CardinalDirection.Backward
+                    => local switch
+                    {
+                        CardinalDirection.Forward => CardinalDirection.Backward,
+                        CardinalDirection.Backward => CardinalDirection.Forward,
+                        CardinalDirection.Left => CardinalDirection.Right,
+                        CardinalDirection.Right => CardinalDirection.Left,
+                        _ => throw new ArgumentOutOfRangeException(nameof(local), local, null)
+                    },
+                _ => throw new ArgumentOutOfRangeException(nameof(Forward), Forward, null)
+            };
+        }
     }
 }

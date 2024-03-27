@@ -50,7 +50,7 @@ namespace DGJ24.Inputs {
 				CardinalDirection inputDirection = GetInputDirection(input);
 
 				Vector2Int destination =
-					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(inputDirection, TileTransform.Forward));
+					TileSpaceMath.GetDestinationTile(TileTransform.Position, TileTransform.LocalToGlobal(inputDirection) );
 
 				if (!WalkableService.IsWalkable(destination)) {
 					return;
@@ -138,42 +138,6 @@ namespace DGJ24.Inputs {
 
 		}
 
-		private CardinalDirection GetRelativeDirection(CardinalDirection input, CardinalDirection currentForward) {
-
-			return currentForward switch {
-				CardinalDirection.Right => input switch {
-					CardinalDirection.Forward => CardinalDirection.Right,
-					CardinalDirection.Backward => CardinalDirection.Left,
-					CardinalDirection.Left => CardinalDirection.Forward,
-					CardinalDirection.Right => CardinalDirection.Backward,
-					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
-				},
-				CardinalDirection.Left => input switch {
-					CardinalDirection.Forward => CardinalDirection.Left,
-					CardinalDirection.Backward => CardinalDirection.Right,
-					CardinalDirection.Left => CardinalDirection.Backward,
-					CardinalDirection.Right => CardinalDirection.Forward,
-					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
-				},
-				CardinalDirection.Forward => input switch {
-					CardinalDirection.Forward => CardinalDirection.Forward,
-					CardinalDirection.Backward => CardinalDirection.Backward,
-					CardinalDirection.Left => CardinalDirection.Left,
-					CardinalDirection.Right => CardinalDirection.Right,
-					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
-				},
-				CardinalDirection.Backward => input switch {
-					CardinalDirection.Forward => CardinalDirection.Backward,
-					CardinalDirection.Backward => CardinalDirection.Forward,
-					CardinalDirection.Left => CardinalDirection.Right,
-					CardinalDirection.Right => CardinalDirection.Left,
-					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
-				},
-				_ => throw new ArgumentOutOfRangeException(nameof(currentForward), currentForward, null)
-			};
-
-		}
-
 		public void OnInteractionInput(InputAction.CallbackContext ctx) {
 
 			if (ctx.canceled) {
@@ -183,7 +147,7 @@ namespace DGJ24.Inputs {
 				if (TileTransform == null) return;
 
 				Vector2Int interactionTile =
-					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(CardinalDirection.Forward, TileTransform.Forward));
+					TileSpaceMath.GetDestinationTile(TileTransform.Position, TileTransform.Forward);
 				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject, interactionTile));
 
 			}
