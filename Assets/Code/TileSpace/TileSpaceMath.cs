@@ -62,6 +62,18 @@ namespace DGJ24.TileSpace
         public static Vector2Int VectorForDirection(CardinalDirection direction) =>
             CardinalDirectionVectors[(int)direction];
 
+        public static CardinalDirection? TryDirectionForVector(Vector2Int vector)
+        {
+            return (vector.x, vector.y)switch
+            {
+                (0, 1) => CardinalDirection.Forward,
+                (1, 0) => CardinalDirection.Right,
+                (0, -1) => CardinalDirection.Backward,
+                (-1, 0) => CardinalDirection.Left,
+                _ => null
+            };
+        }
+        
         public static Vector2Int MoveByDirection(Vector2Int tile, CardinalDirection direction)
         {
             return tile + VectorForDirection(direction);
