@@ -43,9 +43,7 @@ namespace DGJ24.Map
 
                 var tileGameObject = Instantiate(prefab, position, Quaternion.identity);
                 var tileTransform = tileGameObject.transform;
-                tileTransform.forward = TileSpaceMath.DirectionToWorldSpace(
-                    TileSpaceMath.VectorForDirection(forward)
-                );
+                tileTransform.forward = TileSpaceMath.DirectionToWorldSpace(forward);
             }
 
             var enemies = blueprint

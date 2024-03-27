@@ -10,14 +10,19 @@ namespace DGJ24.Actors
     /// </summary>
     public record NoOpActionRequest(GameObject Actor) : ActionRequest(Actor);
 
-    public record MovementActionRequest(GameObject Actor, CardinalDirection Direction, float MoveDuration)
-        : ActionRequest(Actor);
+    public record MovementActionRequest(
+        GameObject Actor,
+        CardinalDirection LocalDirection,
+        float MoveDuration
+    ) : ActionRequest(Actor);
 
-    public record RotationActionRequest(GameObject Actor, RotationDirection Rotation, float RotateDuration)
-        : ActionRequest(Actor);
+    public record RotationActionRequest(
+        GameObject Actor,
+        RotationDirection Rotation,
+        float RotateDuration
+    ) : ActionRequest(Actor);
 
-    public record InteractionActionRequest(GameObject Actor, params Vector2Int[] TilePositions)
-        : ActionRequest(Actor);
+    public record InteractionActionRequest(GameObject Actor) : ActionRequest(Actor);
 
     public record ToolActionRequest(GameObject Actor) : ActionRequest(Actor);
 }

@@ -14,7 +14,6 @@ namespace DGJ24.Actors
 
         private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
         private HashSet<GameObject> ActivityPool { get; } = new();
-        private Queue<IActionMonitor.ActionBatchReadyEvent> ActionBatchQueue { get; } = new();
 
         private void Awake()
         {
@@ -22,33 +21,16 @@ namespace DGJ24.Actors
             Singletons.Get<IActionMonitor>().ActionBatchReady += TryExecute;
         }
 
-        private void Update()
-        {
-            if (!ActivityPool.Any() && ActionBatchQueue.Count == 0)
-                return;
-
-            if (ActionBatchQueue.Count > 0)
-            {
-                TryExecute(ActionBatchQueue.Dequeue());
-            }
-        }
-
         private void TryExecute(IActionMonitor.ActionBatchReadyEvent batch)
         {
-            if (ActivityPool.Count > 0)
-            {
-                ActionBatchQueue.Enqueue(batch);
-                return;
-            }
+            ActivityPool.UnionWith(batch.Batch.Select(it => it.Actor));
 
             foreach (ActionRequest? action in batch.Batch)
             {
-                ActivityPool.Add(action.Actor);
-
                 switch (action)
                 {
                     case MovementActionRequest request:
-                        MoveActor(request.Actor, request.Direction, request.MoveDuration);
+                        MoveActor(request.Actor, request.LocalDirection, request.MoveDuration);
                         break;
                     case RotationActionRequest request:
                         RotateActor(request.Actor, request.Rotation, request.RotateDuration);
@@ -57,7 +39,7 @@ namespace DGJ24.Actors
                         UseTool(request.Actor, OnActionRequestExecuted);
                         break;
                     case InteractionActionRequest request:
-                        Interact(request.Actor, request.TilePositions);
+                        Interact(request.Actor);
                         break;
                     case NoOpActionRequest:
                         OnActionRequestExecuted(action.Actor);
@@ -70,19 +52,18 @@ namespace DGJ24.Actors
             }
         }
 
-        private void MoveActor(GameObject actor, CardinalDirection direction, float duration)
+        private void MoveActor(GameObject actor, CardinalDirection localDirection, float duration)
         {
-            Vector3 actorPosition = actor.transform.position;
+            var actorTransform = actor.GetComponent<ITileTransform>();
+            var globalDirection = actorTransform.LocalToGlobal(localDirection);
 
-            Vector3 targetPosition = direction switch
-            {
-                CardinalDirection.Forward => actorPosition + (actor.transform.forward * 2f),
-                CardinalDirection.Backward => actorPosition + (actor.transform.forward * -2f),
-                CardinalDirection.Left => actorPosition + (actor.transform.right * -2f),
-                CardinalDirection.Right => actorPosition + (actor.transform.right * 2f),
-                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
-            };
-            
+            var actorTile = actorTransform.Position;
+            var nextTile = TileSpaceMath.MoveByDirection(actorTile, globalDirection);
+            actorTransform.Position = nextTile;
+
+            Vector3 actorPosition = TileSpaceMath.PositionToWorldSpace(actorTile);
+            Vector3 targetPosition = TileSpaceMath.PositionToWorldSpace(nextTile);
+
             StartCoroutine(
                 LerpPosition(
                     actor,
@@ -96,43 +77,21 @@ namespace DGJ24.Actors
 
         private void RotateActor(GameObject actor, RotationDirection rotation, float duration)
         {
-            Quaternion origin = actor.transform.rotation;
+            var actorTransform = actor.GetComponent<ITileTransform>();
+            var actorForward = actorTransform.Forward;
+            var nextForward = TileSpaceMath.RotateDirection(actorTransform.Forward, rotation);
+            actorTransform.Forward = nextForward;
 
-            switch (rotation)
-            {
-                case RotationDirection.Right:
-                {
-                    Quaternion targetRotation =
-                        actor.transform.rotation * Quaternion.Euler(0, 90, 0);
-                    StartCoroutine(
-                        LerpRotation(
-                            actor,
-                            origin,
-                            targetRotation,
-                            duration,
-                            OnActionRequestExecuted
-                        )
-                    );
-                    return;
-                }
-                case RotationDirection.Left:
-                {
-                    Quaternion targetRotation =
-                        actor.transform.rotation * Quaternion.Euler(0, -90, 0);
-                    StartCoroutine(
-                        LerpRotation(
-                            actor,
-                            origin,
-                            targetRotation,
-                            duration,
-                            OnActionRequestExecuted
-                        )
-                    );
-                    break;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(rotation), rotation, null);
-            }
+            Quaternion origin = Quaternion.LookRotation(
+                TileSpaceMath.DirectionToWorldSpace(actorForward)
+            );
+            Quaternion targetRotation = Quaternion.LookRotation(
+                TileSpaceMath.DirectionToWorldSpace(nextForward)
+            );
+
+            StartCoroutine(
+                LerpRotation(actor, origin, targetRotation, duration, OnActionRequestExecuted)
+            );
         }
 
         private void UseTool(GameObject actor, Action<GameObject> callback)
@@ -141,11 +100,11 @@ namespace DGJ24.Actors
             callback.Invoke(actor);
         }
 
-        private void Interact(GameObject actor, Vector2Int[] interactedTiles)
+        private void Interact(GameObject actor)
         {
-            IEnumerable<ITileSpaceEntity> entities = tileSpaceEntityRepo.All.Where(entity =>
-                interactedTiles.Any(x => entity.Transform.Position == x)
-            );
+            //IEnumerable<ITileSpaceEntity> entities = tileSpaceEntityRepo.All.Where(entity =>
+            //    interactedTiles.Any(x => entity.Transform.Position == x)
+            //);
 
             // TODO: Interact with other Objects based on what they are.
             OnActionRequestExecuted(actor);
@@ -155,10 +114,12 @@ namespace DGJ24.Actors
         {
             if (ActivityPool.Contains(actor))
             {
+                
                 ActivityPool.Remove(actor);
 
                 if (ActivityPool.Count == 0)
                 {
+                    
                     AllActionsExecuted?.Invoke();
                 }
             }

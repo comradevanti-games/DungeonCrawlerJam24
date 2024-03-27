@@ -14,39 +14,60 @@ namespace DGJ24.Actors
 
         public event Action? BeginMonitoringActions;
 
+        private IActionValidator validator = null!;
         private IActorRepo actorRepo = null!;
 
-        private IImmutableSet<ActionRequest> GetActionBatch(IEnumerable<IActor> actors)
+        private void ValidateActorQueue(IActor actor)
         {
-            HashSet<ActionRequest> set = new();
-
-            foreach (IActor? actor in actors)
+            while (true)
             {
-                set.Add(actor.ActionRequestQueue.TryDequeue());
-            }
+                var next = actor.ActionRequestQueue.TryPeek();
 
-            return set.ToImmutableHashSet();
+                if (next == null)
+                    return;
+                if (validator.IsActionValid(next))
+                    return;
+
+                
+                _ = actor.ActionRequestQueue.TryDequeue();
+            }
+        }
+
+        private IImmutableSet<ActionRequest>? TryGetNextActionBatch(
+            IReadOnlyCollection<IActor> actors
+        )
+        {
+            if (!actors.All(it => it.ActionRequestQueue.HasQueued))
+                return null;
+
+            
+            actors.ForEach(ValidateActorQueue);
+
+            if (!actors.All(it => it.ActionRequestQueue.HasQueued))
+                return null;
+
+            
+            return actors.Select(it => it.ActionRequestQueue.TryDequeue()!).ToImmutableHashSet();
         }
 
         private async void MonitorActions()
         {
             BeginMonitoringActions?.Invoke();
 
-            while (true)
+            IImmutableSet<ActionRequest>? nextActionBatch = null;
+            while (nextActionBatch == null)
             {
-                if (actorRepo.Actors.All(actor => actor.ActionRequestQueue.HasQueued))
-                    break;
                 await Task.Yield();
+                nextActionBatch = TryGetNextActionBatch(actorRepo.Actors.ToImmutableHashSet());
             }
 
-            ActionBatchReady?.Invoke(
-                new IActionMonitor.ActionBatchReadyEvent(GetActionBatch(actorRepo.Actors))
-            );
+            ActionBatchReady?.Invoke(new IActionMonitor.ActionBatchReadyEvent(nextActionBatch));
         }
 
         private void Awake()
         {
             actorRepo = Singletons.Get<IActorRepo>();
+            validator = Singletons.Get<IActionValidator>();
             Singletons.Get<IActorDirector>().AllActionsExecuted += () => MonitorActions();
         }
 

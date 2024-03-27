@@ -68,7 +68,11 @@ namespace DGJ24.TileSpace
             return tile + VectorForDirection(direction);
         }
 
-        public static Vector3 DirectionToWorldSpace(Vector2Int dir) => new Vector3(dir.x, 0, dir.y);
+        public static Vector3 DirectionToWorldSpace(CardinalDirection direction)
+        {
+            var dir = VectorForDirection(direction);
+            return new Vector3(dir.x, 0, dir.y);
+        }
 
         public static Vector3 PositionToWorldSpace(Vector2Int tile) =>
             new Vector3(tile.x * 2, 0, tile.y * 2);
