@@ -78,7 +78,14 @@ namespace DGJ24.TileSpace
             RotationDirection rotation
         )
         {
-            return (CardinalDirection)(int)Mathf.Repeat((int)direction + (int)rotation, 3);
+            var unrepeated = (int)direction + (int)rotation;
+            var repeated = unrepeated switch
+            {
+                -1 => 3,
+                4 => 0,
+                _ => unrepeated
+            };
+            return (CardinalDirection)repeated;
         }
     }
 }
