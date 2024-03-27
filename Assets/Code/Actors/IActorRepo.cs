@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace DGJ24.Actors
 {
@@ -10,6 +11,6 @@ namespace DGJ24.Actors
         /// <summary>
         /// All actors in the current scene.
         /// </summary>
-        public IEnumerable<IActor> Actors { get; }
+        public IEnumerable<GameObject> Actors { get; }
     }
 }

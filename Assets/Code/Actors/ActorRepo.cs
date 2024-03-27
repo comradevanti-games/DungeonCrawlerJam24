@@ -11,40 +11,24 @@ namespace DGJ24.Actors
         [SerializeField]
         private GameObject[] initialActors = Array.Empty<GameObject>();
 
-        private readonly IList<IActor> actors = new List<IActor>();
+        private readonly IList<GameObject> actors = new List<GameObject>();
 
-        public IEnumerable<IActor> Actors => actors;
+        public IEnumerable<GameObject> Actors => actors;
 
-        private bool TryAddActor(GameObject actorGameObject)
+        private void AddActor(GameObject actor)
         {
-            var actor = IActor.TryMakeFrom(actorGameObject);
-            if (actor == null)
-                return false;
-
             actors.Add(actor);
-            return true;
         }
 
         private void AddInitialActors()
         {
-            foreach (var initialActor in initialActors)
-            {
-                var wasSuccess = TryAddActor(initialActor);
-                if (!wasSuccess)
-                    throw new Exception($"{initialActor.name} was not a valid actor gameobject.");
-            }
+            initialActors.ForEach(AddActor);
         }
 
         private void Awake()
         {
             AddInitialActors();
-            Singletons.Get<IMapBuilder>().MapBuilt += args =>
-                args.Enemies.ForEach(enemy =>
-                {
-                    var wasSuccess = TryAddActor(enemy);
-                    if (!wasSuccess)
-                        throw new Exception($"{enemy.name} was not a valid actor gameobject.");
-                });
+            Singletons.Get<IMapBuilder>().MapBuilt += args => args.Enemies.ForEach(AddActor);
         }
     }
 }

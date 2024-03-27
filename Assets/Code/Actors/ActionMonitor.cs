@@ -17,37 +17,38 @@ namespace DGJ24.Actors
         private IActionValidator validator = null!;
         private IActorRepo actorRepo = null!;
 
-        private void ValidateActorQueue(IActor actor)
+        private void ValidateActorQueue(IActionRequestQueue queue)
         {
             while (true)
             {
-                var next = actor.ActionRequestQueue.TryPeek();
+                var next = queue.TryPeek();
 
                 if (next == null)
                     return;
                 if (validator.IsActionValid(next))
                     return;
 
-                
-                _ = actor.ActionRequestQueue.TryDequeue();
+                _ = queue.TryDequeue();
             }
         }
 
         private IImmutableSet<ActionRequest>? TryGetNextActionBatch(
-            IReadOnlyCollection<IActor> actors
+            IReadOnlyCollection<GameObject> actors
         )
         {
-            if (!actors.All(it => it.ActionRequestQueue.HasQueued))
+            var queues = actors
+                .Select(it => it.Require<IActionRequestQueue>())
+                .ToImmutableHashSet();
+
+            if (!queues.All(it => it.HasQueued))
                 return null;
 
-            
-            actors.ForEach(ValidateActorQueue);
+            queues.ForEach(ValidateActorQueue);
 
-            if (!actors.All(it => it.ActionRequestQueue.HasQueued))
+            if (!queues.All(it => it.HasQueued))
                 return null;
 
-            
-            return actors.Select(it => it.ActionRequestQueue.TryDequeue()!).ToImmutableHashSet();
+            return queues.Select(it => it.TryDequeue()!).ToImmutableHashSet();
         }
 
         private async void MonitorActions()
