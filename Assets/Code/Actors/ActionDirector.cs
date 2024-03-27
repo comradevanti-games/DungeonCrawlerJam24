@@ -70,7 +70,7 @@ namespace DGJ24.Actors
                     actorPosition,
                     targetPosition,
                     duration,
-                    OnActionRequestExecuted
+                    () => OnActionRequestExecuted(actor)
                 )
             );
         }
@@ -90,7 +90,13 @@ namespace DGJ24.Actors
             );
 
             StartCoroutine(
-                LerpRotation(actor, origin, targetRotation, duration, OnActionRequestExecuted)
+                LerpRotation(
+                    actor,
+                    origin,
+                    targetRotation,
+                    duration,
+                    () => OnActionRequestExecuted(actor)
+                )
             );
         }
 
@@ -128,7 +134,7 @@ namespace DGJ24.Actors
             Vector3 origin,
             Vector3 targetPosition,
             float duration,
-            Action<GameObject> callback
+            Action onDone
         )
         {
             float startTime = Time.time;
@@ -142,7 +148,7 @@ namespace DGJ24.Actors
             }
 
             actor.transform.position = targetPosition;
-            callback.Invoke(actor);
+            onDone.Invoke();
         }
 
         private static IEnumerator LerpRotation(
@@ -150,7 +156,7 @@ namespace DGJ24.Actors
             Quaternion origin,
             Quaternion targetRotation,
             float duration,
-            Action<GameObject> callback
+            Action onDone
         )
         {
             float startTime = Time.time;
@@ -164,7 +170,7 @@ namespace DGJ24.Actors
             }
 
             actor.transform.rotation = targetRotation;
-            callback.Invoke(actor);
+            onDone.Invoke();
         }
     }
 }
