@@ -74,55 +74,24 @@ namespace DGJ24.Actors
         {
             Vector3 actorPosition = actor.transform.position;
 
-            switch (direction)
+            Vector3 targetPosition = direction switch
             {
-                case CardinalDirection.Forward:
-                    StartCoroutine(
-                        LerpPosition(
-                            actor,
-                            actorPosition,
-                            actorPosition + (actor.transform.forward * 2f),
-                            duration,
-                            OnActionRequestExecuted
-                        )
-                    );
-                    break;
-                case CardinalDirection.Backward:
-                    StartCoroutine(
-                        LerpPosition(
-                            actor,
-                            actorPosition,
-                            actorPosition + (actor.transform.forward * -2f),
-                            duration,
-                            OnActionRequestExecuted
-                        )
-                    );
-                    break;
-                case CardinalDirection.Left:
-                    StartCoroutine(
-                        LerpPosition(
-                            actor,
-                            actorPosition,
-                            actorPosition + (actor.transform.right * -2f),
-                            duration,
-                            OnActionRequestExecuted
-                        )
-                    );
-                    break;
-                case CardinalDirection.Right:
-                    StartCoroutine(
-                        LerpPosition(
-                            actor,
-                            actorPosition,
-                            actorPosition + (actor.transform.right * 2f),
-                            duration,
-                            OnActionRequestExecuted
-                        )
-                    );
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-            }
+                CardinalDirection.Forward => actorPosition + (actor.transform.forward * 2f),
+                CardinalDirection.Backward => actorPosition + (actor.transform.forward * -2f),
+                CardinalDirection.Left => actorPosition + (actor.transform.right * -2f),
+                CardinalDirection.Right => actorPosition + (actor.transform.right * 2f),
+                _ => throw new ArgumentOutOfRangeException(nameof(direction), direction, null)
+            };
+            
+            StartCoroutine(
+                LerpPosition(
+                    actor,
+                    actorPosition,
+                    targetPosition,
+                    duration,
+                    OnActionRequestExecuted
+                )
+            );
         }
 
         private void RotateActor(GameObject actor, RotationDirection rotation, float duration)
