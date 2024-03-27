@@ -5,17 +5,14 @@ namespace DGJ24.AI
 {
     internal class AIController : MonoBehaviour
     {
-        [SerializeField]
-        private BrainAsset? brainAsset;
-
         private IActionRequestQueue requestQueue = null!;
 
-        private IAIBrain Brain => brainAsset ? brainAsset! : new EmptyBrain();
+        private IAIBrain brain = null!;
 
         private void PlanNextAction()
         {
             var thinkContext = new IAIBrain.ThinkContext(gameObject);
-            var nextAction = Brain.DetermineNextAction(thinkContext);
+            var nextAction = brain.DetermineNextAction(thinkContext);
             requestQueue.TryEnqueue(nextAction);
         }
 
@@ -29,6 +26,8 @@ namespace DGJ24.AI
         {
             requestQueue = gameObject.RequireComponent<IActionRequestQueue>();
             Singletons.Get<IActionMonitor>().BeginMonitoringActions += () => PlanNextAction();
+
+            brain = GetComponent<IAIBrain>() ?? new EmptyBrain();
         }
     }
 }
