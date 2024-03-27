@@ -79,8 +79,8 @@ namespace DGJ24.Actors
         {
             var actorTransform = actor.GetComponent<ITileTransform>();
             var actorForward = actorTransform.Forward;
-            var nextForward = TileSpaceMath.RotateDirection(actorTransform.Forward, rotation);
-            actorTransform.Forward = nextForward;
+            actorTransform.Rotate(rotation);
+            var nextForward = actorTransform.Forward;
 
             Quaternion origin = Quaternion.LookRotation(
                 TileSpaceMath.DirectionToWorldSpace(actorForward)
@@ -114,12 +114,10 @@ namespace DGJ24.Actors
         {
             if (ActivityPool.Contains(actor))
             {
-                
                 ActivityPool.Remove(actor);
 
                 if (ActivityPool.Count == 0)
                 {
-                    
                     AllActionsExecuted?.Invoke();
                 }
             }
