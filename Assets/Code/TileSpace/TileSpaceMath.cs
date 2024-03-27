@@ -10,7 +10,7 @@ namespace DGJ24.TileSpace
     /// </summary>
     public static class TileSpaceMath
     {
-        public static readonly Vector2Int[] CardinalDirections =
+        public static readonly Vector2Int[] CardinalDirectionVectors =
         {
             Vector2Int.up,
             Vector2Int.right,
@@ -18,7 +18,7 @@ namespace DGJ24.TileSpace
             Vector2Int.left,
         };
 
-        public static readonly Vector2Int[] Deltas =
+        public static readonly Vector2Int[] DirectionVectors =
         {
             new Vector2Int(0, 1),
             new Vector2Int(1, 1),
@@ -32,7 +32,7 @@ namespace DGJ24.TileSpace
 
         public static IEnumerable<Vector2Int> CardinalNeighborsOf(Vector2Int tile)
         {
-            return CardinalDirections.Select(dir => tile + dir);
+            return CardinalDirectionVectors.Select(dir => tile + dir);
         }
 
         public static RectInt MakeCenteredBounds(Vector2Int center, int width, int height)
@@ -60,12 +60,12 @@ namespace DGJ24.TileSpace
             );
         }
 
-        public static Vector2Int GetVectorForDirection(CardinalDirection direction) =>
-            CardinalDirections[(int)direction];
+        public static Vector2Int VectorForDirection(CardinalDirection direction) =>
+            CardinalDirectionVectors[(int)direction];
 
-        public static Vector2Int GetDestinationTile(Vector2Int origin, CardinalDirection direction)
+        public static Vector2Int MoveByDirection(Vector2Int tile, CardinalDirection direction)
         {
-            return origin + GetVectorForDirection(direction);
+            return tile + VectorForDirection(direction);
         }
 
         public static Vector3 DirectionToWorldSpace(Vector2Int dir) => new Vector3(dir.x, 0, dir.y);

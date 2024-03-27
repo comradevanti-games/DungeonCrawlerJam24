@@ -84,7 +84,7 @@ namespace DGJ24.Map
         {
             byte mask = 0;
 
-            foreach (var delta in TileSpaceMath.Deltas)
+            foreach (var delta in TileSpaceMath.DirectionVectors)
             {
                 var borderPos = position + delta;
                 var isFloor = map.FloorTiles.Contains(borderPos);

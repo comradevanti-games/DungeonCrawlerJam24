@@ -44,7 +44,7 @@ namespace DGJ24.Map
                 var tileGameObject = Instantiate(prefab, position, Quaternion.identity);
                 var tileTransform = tileGameObject.transform;
                 tileTransform.forward = TileSpaceMath.DirectionToWorldSpace(
-                    TileSpaceMath.GetVectorForDirection(forward)
+                    TileSpaceMath.VectorForDirection(forward)
                 );
             }
 

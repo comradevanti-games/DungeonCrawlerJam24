@@ -50,7 +50,7 @@ namespace DGJ24.Inputs {
 				CardinalDirection inputDirection = GetInputDirection(input);
 
 				Vector2Int destination =
-					TileSpaceMath.GetDestinationTile(TileTransform.Position, TileTransform.LocalToGlobal(inputDirection) );
+					TileSpaceMath.MoveByDirection(TileTransform.Position, TileTransform.LocalToGlobal(inputDirection) );
 
 				if (!WalkableService.IsWalkable(destination)) {
 					return;
@@ -123,7 +123,7 @@ namespace DGJ24.Inputs {
 				if (TileTransform == null) return;
 
 				Vector2Int interactionTile =
-					TileSpaceMath.GetDestinationTile(TileTransform.Position, TileTransform.Forward);
+					TileSpaceMath.MoveByDirection(TileTransform.Position, TileTransform.Forward);
 				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject, interactionTile));
 
 			}
