@@ -29,7 +29,7 @@ namespace DGJ24.Actors
                 switch (action)
                 {
                     case MovementActionRequest request:
-                        MoveActor(request.Actor, request.LocalDirection, request.MoveDuration);
+                        MoveActor(request.Actor, request.Direction, request.MoveDuration);
                         break;
                     case RotationActionRequest request:
                         RotateActor(request.Actor, request.Rotation, request.RotateDuration);
@@ -51,13 +51,12 @@ namespace DGJ24.Actors
             }
         }
 
-        private void MoveActor(GameObject actor, CardinalDirection localDirection, float duration)
+        private void MoveActor(GameObject actor, CardinalDirection direction, float duration)
         {
             var actorTransform = actor.RequireComponent<ITileTransform>();
-            var globalDirection = actorTransform.LocalToGlobal(localDirection);
 
             var actorTile = actorTransform.Position;
-            var nextTile = TileSpaceMath.MoveByDirection(actorTile, globalDirection);
+            var nextTile = TileSpaceMath.MoveByDirection(actorTile, direction);
             actorTransform.Position = nextTile;
 
             Vector3 actorPosition = TileSpaceMath.PositionToWorldSpace(actorTile);

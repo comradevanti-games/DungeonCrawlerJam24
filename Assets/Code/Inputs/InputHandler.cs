@@ -42,10 +42,11 @@ namespace DGJ24.Inputs
                 if (IsDiagonalInput(input))
                     return;
 
-                CardinalDirection inputDirection = GetInputDirection(input);
+                CardinalDirection localDir = GetInputDirection(input);
+                var globalDir = TileTransform.LocalToGlobal(localDir);
 
                 _ = ActionQueue.TryEnqueue(
-                    new MovementActionRequest(gameObject, inputDirection, playerMoveDuration)
+                    new MovementActionRequest(gameObject, globalDir, playerMoveDuration)
                 );
             }
         }
@@ -57,11 +58,11 @@ namespace DGJ24.Inputs
                 var input = ctx.ReadValue<float>();
                 if (input == 0)
                     return;
-                var dir = input > 0 ? RotationDirection.Right : RotationDirection.Left;
+                var turnDir = input > 0 ? RotationDirection.Right : RotationDirection.Left;
 
                 if (
                     ActionQueue.TryEnqueue(
-                        new RotationActionRequest(gameObject, dir, playerRotateDuration)
+                        new RotationActionRequest(gameObject, turnDir, playerRotateDuration)
                     )
                 )
                 {
