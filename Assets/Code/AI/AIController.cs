@@ -19,6 +19,12 @@ namespace DGJ24.AI
             requestQueue.TryEnqueue(nextAction);
         }
 
+        private void Update()
+        {
+            if (!requestQueue.HasQueued)
+                PlanNextAction();
+        }
+
         private void Awake()
         {
             requestQueue = GetComponent<IActionRequestQueue>();
