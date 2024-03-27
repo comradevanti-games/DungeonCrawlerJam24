@@ -47,7 +47,7 @@ namespace DGJ24.Inputs {
 
 				if (ActionQueue == null) return;
 
-				Direction inputDirection = GetInputDirection(input);
+				CardinalDirection inputDirection = GetInputDirection(input);
 
 				Vector2Int destination =
 					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(inputDirection, TileTransform.Forward));
@@ -94,23 +94,23 @@ namespace DGJ24.Inputs {
 
 		}
 
-		private Direction GetInputDirection(Vector2 input) {
+		private CardinalDirection GetInputDirection(Vector2 input) {
 
 			switch (input.x) {
 				case > 0.9f:
-					return Direction.Right;
+					return CardinalDirection.Right;
 				case < -0.9f:
-					return Direction.Left;
+					return CardinalDirection.Left;
 			}
 
 			switch (input.y) {
 				case > 0.9f:
-					return Direction.Forward;
+					return CardinalDirection.Forward;
 				case < -0.9f:
-					return Direction.Backward;
+					return CardinalDirection.Backward;
 			}
 
-			return Direction.Forward;
+			return CardinalDirection.Forward;
 
 		}
 
@@ -138,35 +138,35 @@ namespace DGJ24.Inputs {
 
 		}
 
-		private GridDirection GetRelativeDirection(Direction input, GridDirection currentForward) {
+		private GridDirection GetRelativeDirection(CardinalDirection input, GridDirection currentForward) {
 
 			return currentForward switch {
 				GridDirection.XPlus => input switch {
-					Direction.Forward => GridDirection.XPlus,
-					Direction.Backward => GridDirection.XMinus,
-					Direction.Left => GridDirection.ZPlus,
-					Direction.Right => GridDirection.ZMinus,
+					CardinalDirection.Forward => GridDirection.XPlus,
+					CardinalDirection.Backward => GridDirection.XMinus,
+					CardinalDirection.Left => GridDirection.ZPlus,
+					CardinalDirection.Right => GridDirection.ZMinus,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
 				GridDirection.XMinus => input switch {
-					Direction.Forward => GridDirection.XMinus,
-					Direction.Backward => GridDirection.XPlus,
-					Direction.Left => GridDirection.ZMinus,
-					Direction.Right => GridDirection.ZPlus,
+					CardinalDirection.Forward => GridDirection.XMinus,
+					CardinalDirection.Backward => GridDirection.XPlus,
+					CardinalDirection.Left => GridDirection.ZMinus,
+					CardinalDirection.Right => GridDirection.ZPlus,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
 				GridDirection.ZPlus => input switch {
-					Direction.Forward => GridDirection.ZPlus,
-					Direction.Backward => GridDirection.ZMinus,
-					Direction.Left => GridDirection.XMinus,
-					Direction.Right => GridDirection.XPlus,
+					CardinalDirection.Forward => GridDirection.ZPlus,
+					CardinalDirection.Backward => GridDirection.ZMinus,
+					CardinalDirection.Left => GridDirection.XMinus,
+					CardinalDirection.Right => GridDirection.XPlus,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
 				GridDirection.ZMinus => input switch {
-					Direction.Forward => GridDirection.ZMinus,
-					Direction.Backward => GridDirection.ZPlus,
-					Direction.Left => GridDirection.XPlus,
-					Direction.Right => GridDirection.XMinus,
+					CardinalDirection.Forward => GridDirection.ZMinus,
+					CardinalDirection.Backward => GridDirection.ZPlus,
+					CardinalDirection.Left => GridDirection.XPlus,
+					CardinalDirection.Right => GridDirection.XMinus,
 					_ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
 				},
 				_ => throw new ArgumentOutOfRangeException(nameof(currentForward), currentForward, null)
@@ -183,7 +183,7 @@ namespace DGJ24.Inputs {
 				if (TileTransform == null) return;
 
 				Vector2Int interactionTile =
-					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(Direction.Forward, TileTransform.Forward));
+					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(CardinalDirection.Forward, TileTransform.Forward));
 				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject, interactionTile));
 
 			}

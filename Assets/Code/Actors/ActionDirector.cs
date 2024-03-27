@@ -70,13 +70,13 @@ namespace DGJ24.Actors
             }
         }
 
-        private void MoveActor(GameObject actor, Direction direction, float duration)
+        private void MoveActor(GameObject actor, CardinalDirection direction, float duration)
         {
             Vector3 actorPosition = actor.transform.position;
 
             switch (direction)
             {
-                case Direction.Forward:
+                case CardinalDirection.Forward:
                     StartCoroutine(
                         LerpPosition(
                             actor,
@@ -87,7 +87,7 @@ namespace DGJ24.Actors
                         )
                     );
                     break;
-                case Direction.Backward:
+                case CardinalDirection.Backward:
                     StartCoroutine(
                         LerpPosition(
                             actor,
@@ -98,7 +98,7 @@ namespace DGJ24.Actors
                         )
                     );
                     break;
-                case Direction.Left:
+                case CardinalDirection.Left:
                     StartCoroutine(
                         LerpPosition(
                             actor,
@@ -109,7 +109,7 @@ namespace DGJ24.Actors
                         )
                     );
                     break;
-                case Direction.Right:
+                case CardinalDirection.Right:
                     StartCoroutine(
                         LerpPosition(
                             actor,

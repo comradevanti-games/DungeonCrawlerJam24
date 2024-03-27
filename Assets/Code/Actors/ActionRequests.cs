@@ -10,7 +10,7 @@ namespace DGJ24.Actors
     /// </summary>
     public record NoOpActionRequest(GameObject Actor) : ActionRequest(Actor);
 
-    public record MovementActionRequest(GameObject Actor, Direction Direction, float MoveDuration)
+    public record MovementActionRequest(GameObject Actor, CardinalDirection Direction, float MoveDuration)
         : ActionRequest(Actor);
 
     public record RotationActionRequest(GameObject Actor, Rotation Rotation, float RotateDuration)

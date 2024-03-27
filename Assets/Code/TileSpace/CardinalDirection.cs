@@ -1,6 +1,6 @@
 namespace DGJ24.TileSpace {
 
-	public enum Direction {
+	public enum CardinalDirection {
 
 		Forward,
 		Backward,
