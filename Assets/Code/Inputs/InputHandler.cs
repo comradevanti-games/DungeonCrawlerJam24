@@ -20,12 +20,12 @@ namespace DGJ24.Inputs {
 		[SerializeField] private float playerRotateDuration = 0.1f;
 
 		private IActionRequestQueue? ActionQueue { get; set; }
-		private TileTransform? TileTransform { get; set; }
+		private ITileTransform? TileTransform { get; set; }
 		private IWalkableService? WalkableService { get; set; }
 
 		private void Awake() {
 			ActionQueue = GetComponent<IActionRequestQueue>();
-			TileTransform = GetComponent<TileTransform>();
+			TileTransform = GetComponent<ITileTransform>();
 			WalkableService = Singletons.Get<IWalkableService>();
 			TileTransform.Position = Vector2Int.zero;
 			TileTransform.Forward = GridDirection.ZPlus;
