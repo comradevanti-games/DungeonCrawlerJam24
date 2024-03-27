@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace DGJ24
+namespace DGJ24.TileSpace
 {
     /// <summary>
     /// Functions related to tile-space math.
     /// </summary>
-    public static class TileSpace
+    public static class TileSpaceMath
     {
         public static readonly Vector2Int[] CardinalDirections =
         {

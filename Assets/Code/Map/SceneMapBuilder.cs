@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Linq;
+using DGJ24.TileSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -29,7 +30,7 @@ namespace DGJ24.Map
 
             foreach (var tile in blueprint.FloorTiles)
             {
-                var position = TileSpace.PositionToWorldSpace(tile);
+                var position = TileSpaceMath.PositionToWorldSpace(tile);
 
                 var tileMask = OTiling.TilingMaskFor(blueprint, tile);
                 var options = prefabsByMask[tileMask];
@@ -40,18 +41,18 @@ namespace DGJ24.Map
 
                 var tileGameObject = Instantiate(prefab, position, Quaternion.identity);
                 var tileTransform = tileGameObject.transform;
-                tileTransform.forward = TileSpace.DirectionToWorldSpace(
-                    TileSpace.GetVectorForDirection(forward)
+                tileTransform.forward = TileSpaceMath.DirectionToWorldSpace(
+                    TileSpaceMath.GetVectorForDirection(forward)
                 );
             }
 
             var enemies = blueprint
-                .EnemyTiles.Select(TileSpace.PositionToWorldSpace)
+                .EnemyTiles.Select(TileSpaceMath.PositionToWorldSpace)
                 .Select(position => Instantiate(enemyPrefab, position, Quaternion.identity))
                 .ToImmutableHashSet();
 
             blueprint
-                .LootTiles.Select(TileSpace.PositionToWorldSpace)
+                .LootTiles.Select(TileSpaceMath.PositionToWorldSpace)
                 .ForEach(position =>
                 {
                     Instantiate(lootPrefab, position, Quaternion.identity);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using UnityEngine;
-using static DGJ24.TileSpace;
+using static DGJ24.TileSpace.TileSpaceMath;
 using Random = UnityEngine.Random;
 
 namespace DGJ24.Map

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DGJ24 {
+namespace DGJ24.TileSpace {
 
 	public class TileTransform : MonoBehaviour, ITileTransform {
 

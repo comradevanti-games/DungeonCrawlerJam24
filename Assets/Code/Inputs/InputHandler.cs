@@ -1,6 +1,7 @@
 using System;
 using DGJ24.Actors;
 using DGJ24.Map;
+using DGJ24.TileSpace;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -49,7 +50,7 @@ namespace DGJ24.Inputs {
 				Direction inputDirection = GetInputDirection(input);
 
 				Vector2Int destination =
-					TileSpace.GetDestinationTile(TileTransform.Position, GetRelativeDirection(inputDirection, TileTransform.Forward));
+					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(inputDirection, TileTransform.Forward));
 
 				if (!WalkableService.IsWalkable(destination)) {
 					return;
@@ -182,7 +183,7 @@ namespace DGJ24.Inputs {
 				if (TileTransform == null) return;
 
 				Vector2Int interactionTile =
-					TileSpace.GetDestinationTile(TileTransform.Position, GetRelativeDirection(Direction.Forward, TileTransform.Forward));
+					TileSpaceMath.GetDestinationTile(TileTransform.Position, GetRelativeDirection(Direction.Forward, TileTransform.Forward));
 				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject, interactionTile));
 
 			}

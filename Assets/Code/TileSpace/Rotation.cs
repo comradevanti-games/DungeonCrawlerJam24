@@ -1,4 +1,4 @@
-namespace DGJ24 {
+namespace DGJ24.TileSpace {
 
 	public enum Rotation {
 

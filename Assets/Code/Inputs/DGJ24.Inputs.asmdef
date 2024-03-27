@@ -2,10 +2,11 @@
     "name": "DGJ24.Inputs",
     "rootNamespace": "DGJ24.Inputs",
     "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:31b233a2e05b9dd9db53064d8ee53c26",
-        "GUID:2bff13cdd07896c0ea1712cef7afead7"
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:2bff13cdd07896c0ea1712cef7afead7",
+        "GUID:18b6ff678bb7a4ef0ac2ac140cc5dabd",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

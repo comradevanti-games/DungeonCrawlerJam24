@@ -6,6 +6,7 @@ using AStarNavigator;
 using AStarNavigator.Algorithms;
 using AStarNavigator.Providers;
 using DGJ24.Map;
+using DGJ24.TileSpace;
 using UnityEngine;
 
 namespace DGJ24.Pathfinding
@@ -23,7 +24,7 @@ namespace DGJ24.Pathfinding
         public bool IsBlocked(Tile coord) => walkableService.IsWalkable(coord.ToV2());
 
         public IEnumerable<Tile> GetNeighbors(Tile tile) =>
-            TileSpace
+            TileSpaceMath
                 .CardinalNeighborsOf(tile.ToV2())
                 .Where(walkableService.IsWalkable)
                 .Select(it => it.ToTile());

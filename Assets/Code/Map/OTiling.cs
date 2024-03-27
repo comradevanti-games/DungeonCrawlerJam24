@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using DGJ24.TileSpace;
 using UnityEngine;
 
 namespace DGJ24.Map
@@ -83,7 +84,7 @@ namespace DGJ24.Map
         {
             byte mask = 0;
 
-            foreach (var delta in TileSpace.Deltas)
+            foreach (var delta in TileSpaceMath.Deltas)
             {
                 var borderPos = position + delta;
                 var isFloor = map.FloorTiles.Contains(borderPos);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DGJ24
+namespace DGJ24.TileSpace
 {
     /// <summary>
     /// Represents the transform of an object that lives in tile-space.

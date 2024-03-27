@@ -2,7 +2,8 @@
     "name": "DGJ24.Map",
     "rootNamespace": "DGJ24.Map",
     "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74"
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:18b6ff678bb7a4ef0ac2ac140cc5dabd"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
