@@ -66,7 +66,7 @@ namespace DGJ24.Actors
 
             StartCoroutine(
                 LerpPosition(
-                    actor,
+                    actor.transform,
                     actorPosition,
                     targetPosition,
                     duration,
@@ -91,7 +91,7 @@ namespace DGJ24.Actors
 
             StartCoroutine(
                 LerpRotation(
-                    actor,
+                    actor.transform,
                     origin,
                     targetRotation,
                     duration,
@@ -130,7 +130,7 @@ namespace DGJ24.Actors
         }
 
         private static IEnumerator LerpPosition(
-            GameObject actor,
+            Transform moveTransform,
             Vector3 origin,
             Vector3 targetPosition,
             float duration,
@@ -143,16 +143,16 @@ namespace DGJ24.Actors
             while (Time.time < endTime)
             {
                 float progress = (Time.time - startTime) / duration;
-                actor.transform.position = Vector3.Lerp(origin, targetPosition, progress);
+                moveTransform.position = Vector3.Lerp(origin, targetPosition, progress);
                 yield return null;
             }
 
-            actor.transform.position = targetPosition;
+            moveTransform.position = targetPosition;
             onDone.Invoke();
         }
 
         private static IEnumerator LerpRotation(
-            GameObject actor,
+            Transform rotateTransform,
             Quaternion origin,
             Quaternion targetRotation,
             float duration,
@@ -165,11 +165,11 @@ namespace DGJ24.Actors
             while (Time.time < endTime)
             {
                 float progress = (Time.time - startTime) / duration;
-                actor.transform.rotation = Quaternion.Lerp(origin, targetRotation, progress);
+                rotateTransform.rotation = Quaternion.Lerp(origin, targetRotation, progress);
                 yield return null;
             }
 
-            actor.transform.rotation = targetRotation;
+            rotateTransform.rotation = targetRotation;
             onDone.Invoke();
         }
     }
