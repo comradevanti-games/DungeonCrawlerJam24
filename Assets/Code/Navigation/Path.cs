@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using UnityEngine;
 
-namespace DGJ24.Pathfinding
+namespace DGJ24.Navigation
 {
     public record Path(IImmutableList<Vector2Int> Targets)
     {

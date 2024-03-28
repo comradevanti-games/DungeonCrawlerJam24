@@ -5,7 +5,6 @@ namespace DGJ24.Map
 {
     internal record MapBlueprint(
         IImmutableSet<Vector2Int> FloorTiles,
-        IImmutableSet<Vector2Int> EnemyTiles,
-        IImmutableSet<Vector2Int> LootTiles
+        IImmutableSet<Vector2Int> EnemyTiles
     );
 }

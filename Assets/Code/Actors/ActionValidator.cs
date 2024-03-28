@@ -1,5 +1,6 @@
 using System;
 using DGJ24.Map;
+using DGJ24.Navigation;
 using DGJ24.TileSpace;
 using UnityEngine;
 using static DGJ24.TileSpace.TileSpaceMath;
@@ -8,13 +9,13 @@ namespace DGJ24.Actors
 {
     internal class ActionValidator : MonoBehaviour, IActionValidator
     {
-        private IWalkableService walkableService = null!;
+        private IWalkableProvider walkableProvider = null!;
 
         private bool CanDoMove(MovementActionRequest request)
         {
             var actorTransform = request.Actor.RequireComponent<ITileTransform>();
             var destinationTile = MoveByDirection(actorTransform.Position, request.Direction);
-            return walkableService.IsWalkable(destinationTile);
+            return walkableProvider.IsWalkable(destinationTile);
         }
 
         public bool IsActionValid(ActionRequest request)
@@ -34,7 +35,7 @@ namespace DGJ24.Actors
 
         private void Awake()
         {
-            walkableService = Singletons.Get<IWalkableService>();
+            walkableProvider = Singletons.Get<IWalkableProvider>();
         }
     }
 }

@@ -8,7 +8,7 @@ using DGJ24.Map;
 using DGJ24.TileSpace;
 using UnityEngine;
 
-namespace DGJ24.Pathfinding
+namespace DGJ24.Navigation
 {
     internal class ScenePathFinder
         : MonoBehaviour,
@@ -17,15 +17,15 @@ namespace DGJ24.Pathfinding
             INeighborProvider,
             IDistanceAlgorithm
     {
-        private IWalkableService walkableService = null!;
+        private IWalkableProvider walkableProvider = null!;
         private TileNavigator navigator = null!;
 
-        public bool IsBlocked(Tile coord) => !walkableService.IsWalkable(coord.ToV2());
+        public bool IsBlocked(Tile coord) => !walkableProvider.IsWalkable(coord.ToV2());
 
         public IEnumerable<Tile> GetNeighbors(Tile tile) =>
             TileSpaceMath
                 .CardinalNeighborsOf(tile.ToV2())
-                .Where(walkableService.IsWalkable)
+                .Where(walkableProvider.IsWalkable)
                 .Select(it => it.ToTile());
 
         public double Calculate(Tile from, Tile to) => 1;
@@ -41,7 +41,7 @@ namespace DGJ24.Pathfinding
         private void Awake()
         {
             navigator = new TileNavigator(this, this, this, this);
-            walkableService = Singletons.Get<IWalkableService>();
+            walkableProvider = Singletons.Get<IWalkableProvider>();
         }
     }
 }
