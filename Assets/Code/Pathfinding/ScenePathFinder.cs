@@ -17,15 +17,15 @@ namespace DGJ24.Pathfinding
             INeighborProvider,
             IDistanceAlgorithm
     {
-        private IWalkableService walkableService = null!;
+        private IFloorPlan floorPlan = null!;
         private TileNavigator navigator = null!;
 
-        public bool IsBlocked(Tile coord) => !walkableService.IsWalkable(coord.ToV2());
+        public bool IsBlocked(Tile coord) => !floorPlan.Contains(coord.ToV2());
 
         public IEnumerable<Tile> GetNeighbors(Tile tile) =>
             TileSpaceMath
                 .CardinalNeighborsOf(tile.ToV2())
-                .Where(walkableService.IsWalkable)
+                .Where(floorPlan.Contains)
                 .Select(it => it.ToTile());
 
         public double Calculate(Tile from, Tile to) => 1;
@@ -41,7 +41,7 @@ namespace DGJ24.Pathfinding
         private void Awake()
         {
             navigator = new TileNavigator(this, this, this, this);
-            walkableService = Singletons.Get<IWalkableService>();
+            floorPlan = Singletons.Get<IFloorPlan>();
         }
     }
 }

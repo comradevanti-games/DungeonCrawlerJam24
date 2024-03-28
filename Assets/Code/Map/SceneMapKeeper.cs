@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace DGJ24.Map
 {
-    internal class SceneMapKeeper : MonoBehaviour, IWalkableService
+    internal class SceneMapKeeper : MonoBehaviour, IFloorPlan
     {
         private readonly HashSet<Vector2Int> walkableTiles = new HashSet<Vector2Int>();
 
-        public IReadOnlyCollection<Vector2Int> WalkableTiles => walkableTiles;
+        public IReadOnlyCollection<Vector2Int> Tiles => walkableTiles;
 
         private void OnMapBuilt(IMapBuilder.MapBuiltEvent args)
         {

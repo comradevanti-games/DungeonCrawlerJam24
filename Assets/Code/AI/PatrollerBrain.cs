@@ -12,13 +12,13 @@ namespace DGJ24.AI
     internal class PatrollerBrain : MonoBehaviour, IAIBrain
     {
         private IPathfinder pathfinder = null!;
-        private IWalkableService walkableService = null!;
+        private IFloorPlan floorPlan = null!;
         private ITileTransform tileTransform = null!;
         private Path? currentPath = null;
 
         private void TryUpdatePath()
         {
-            var potentialTiles = walkableService.WalkableTiles;
+            var potentialTiles = floorPlan.Tiles;
             var index = Random.Range(0, potentialTiles.Count);
             var tile = potentialTiles.ElementAt(index);
 
@@ -45,7 +45,7 @@ namespace DGJ24.AI
 
         private void Awake()
         {
-            walkableService = Singletons.Get<IWalkableService>();
+            floorPlan = Singletons.Get<IFloorPlan>();
             pathfinder = Singletons.Get<IPathfinder>();
             tileTransform = gameObject.RequireComponent<ITileTransform>();
         }

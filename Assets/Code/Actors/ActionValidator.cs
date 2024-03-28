@@ -8,13 +8,13 @@ namespace DGJ24.Actors
 {
     internal class ActionValidator : MonoBehaviour, IActionValidator
     {
-        private IWalkableService walkableService = null!;
+        private IFloorPlan floorPlan = null!;
 
         private bool CanDoMove(MovementActionRequest request)
         {
             var actorTransform = request.Actor.RequireComponent<ITileTransform>();
             var destinationTile = MoveByDirection(actorTransform.Position, request.Direction);
-            return walkableService.IsWalkable(destinationTile);
+            return floorPlan.Contains(destinationTile);
         }
 
         public bool IsActionValid(ActionRequest request)
@@ -34,7 +34,7 @@ namespace DGJ24.Actors
 
         private void Awake()
         {
-            walkableService = Singletons.Get<IWalkableService>();
+            floorPlan = Singletons.Get<IFloorPlan>();
         }
     }
 }
