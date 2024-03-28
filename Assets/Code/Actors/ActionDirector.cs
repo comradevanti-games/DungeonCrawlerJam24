@@ -5,6 +5,7 @@ using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DGJ24.Actors {
 
@@ -100,35 +101,67 @@ namespace DGJ24.Actors {
 
 		private void Interact(GameObject actor) {
 
-			var actorTile = actor.GetComponent<ITileTransform>();
-			var interactionTile = TileSpaceMath.MoveByDirection(actorTile.Position, actorTile.Forward);
+			ITileTransform? actorTile = actor.GetComponent<ITileTransform>();
+			Vector2Int interactionTile = TileSpaceMath.MoveByDirection(actorTile.Position, actorTile.Forward);
+			IInteractable actorInteractable = actor.GetComponent<IInteractable>();
 
-			IEnumerable<IInteractable> entities = tileSpaceEntityRepo.All.Where(entity =>
-				entity.GetComponent<ITileTransform>().Position == interactionTile).Select(it => it.GetComponent<IInteractable>());
+			IEnumerable<GameObject> entities = tileSpaceEntityRepo.All.Where(entity =>
+				entity.GetComponent<ITileTransform>().Position == interactionTile);
 
-			foreach (var entity in entities) {
-				ExecuteInteraction(actor.GetComponent<IInteractable>(), entity);
+			foreach (GameObject? entity in entities) {
+
+				IInteractable? entityInteractable = entity.GetComponent<IInteractable>();
+
+				if (!actorInteractable.CanInteract(entityInteractable.InteractionLayer))
+					continue;
+
+				ExecuteInteraction(actorInteractable, entityInteractable);
+
 			}
-			
+
 			OnActionRequestExecuted(actor);
+
 		}
 
 		private void ExecuteInteraction(IInteractable actor, IInteractable interactable) {
+
+			Debug.Log(actor.InteractionLayer + " tried to interact with " + interactable.InteractionLayer);
 
 			switch (actor.InteractionLayer) {
 
 				case InteractionLayer.None:
 					break;
 				case InteractionLayer.Player:
+
+					if (interactable.InteractionLayer == InteractionLayer.Loot) {
+						CollectLoot(interactable.InteractableObject);
+						interactable.InteractionLayer = InteractionLayer.None;
+					}
+
 					break;
 				case InteractionLayer.Enemy:
+
+					if (interactable.InteractionLayer == InteractionLayer.Player) {
+						HitPlayer();
+					}
+
 					break;
-				case InteractionLayer.Scrap:
+				case InteractionLayer.Loot:
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			
+
+		}
+
+		private void CollectLoot(GameObject loot) {
+
+			loot.SetActive(false);
+
+		}
+
+		private void HitPlayer() {
+			Debug.Log("Enemy Hit The Player!");
 		}
 
 		private void OnActionRequestExecuted(GameObject actor) {

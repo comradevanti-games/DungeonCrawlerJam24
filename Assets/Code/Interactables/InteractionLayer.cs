@@ -8,7 +8,7 @@ namespace DGJ24.Interactables {
 		None,
 		Player,
 		Enemy,
-		Scrap
+		Loot
 
 	}
 

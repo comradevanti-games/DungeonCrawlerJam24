@@ -145,8 +145,8 @@ MonoBehaviour:
   gamePadSens: 12
   verticalMinAngleClamp: -30
   verticalMaxAngleClamp: 30
-  horizontalMinAngleClamp: -40
-  horizontalMaxAngleClamp: 40
+  horizontalMinAngleClamp: -20
+  horizontalMaxAngleClamp: 20
 --- !u!1 &6657051495614323219
 GameObject:
   m_ObjectHideFlags: 0
