@@ -19,5 +19,10 @@ namespace DGJ24.TileSpace
         /// </summary>
         /// <param name="entity">The game-object to add.</param>
         public void Add(GameObject entity);
+
+        /// <summary>
+        /// Checks whether there is an entity at a specific tile.
+        /// </summary>
+        public bool HasEntityAt(Vector2Int tile);
     }
 }
