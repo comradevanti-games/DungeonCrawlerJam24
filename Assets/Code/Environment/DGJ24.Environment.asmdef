@@ -2,7 +2,9 @@
     "name": "DGJ24.Environment",
     "rootNamespace": "DGJ24.Environment",
     "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74"
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:2bff13cdd07896c0ea1712cef7afead7",
+        "GUID:18b6ff678bb7a4ef0ac2ac140cc5dabd"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
