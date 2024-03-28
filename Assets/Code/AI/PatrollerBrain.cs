@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using DGJ24.Actors;
 using DGJ24.Map;
-using DGJ24.Pathfinding;
+using DGJ24.Navigation;
 using DGJ24.TileSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;

@@ -1,7 +1,7 @@
 using AStarNavigator;
 using UnityEngine;
 
-namespace DGJ24.Pathfinding
+namespace DGJ24.Navigation
 {
     internal static class ConversionExt
     {

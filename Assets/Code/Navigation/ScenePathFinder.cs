@@ -8,7 +8,7 @@ using DGJ24.Map;
 using DGJ24.TileSpace;
 using UnityEngine;
 
-namespace DGJ24.Pathfinding
+namespace DGJ24.Navigation
 {
     internal class ScenePathFinder
         : MonoBehaviour,

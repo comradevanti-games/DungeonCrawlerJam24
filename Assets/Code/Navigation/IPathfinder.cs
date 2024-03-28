@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DGJ24.Pathfinding
+namespace DGJ24.Navigation
 {
     /// <summary>
     /// Functions for path-finding in the map.
