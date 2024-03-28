@@ -1,10 +1,7 @@
 {
-    "name": "DGJ24.UI",
-    "rootNamespace": "DGJ24.UI",
-    "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
-    ],
+    "name": "DGJ24.Audio",
+    "rootNamespace": "DGJ24.Audio",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

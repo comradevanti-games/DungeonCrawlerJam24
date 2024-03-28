@@ -5,11 +5,13 @@ using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
 
 namespace DGJ24.Actors {
 
 	internal class ActionDirector : MonoBehaviour, IActorDirector {
+
+		public UnityEvent<int> collectedLoot;
 
 		public event Action? AllActionsExecuted;
 
@@ -142,7 +144,7 @@ namespace DGJ24.Actors {
 				case InteractionLayer.Enemy:
 
 					if (interactable.InteractionLayer == InteractionLayer.Player) {
-						HitPlayer();
+						HitPlayer(interactable.InteractableObject);
 					}
 
 					break;
@@ -155,13 +157,16 @@ namespace DGJ24.Actors {
 		}
 
 		private void CollectLoot(GameObject loot) {
-
 			loot.SetActive(false);
-
+			collectedLoot.Invoke(1);
 		}
 
-		private void HitPlayer() {
-			Debug.Log("Enemy Hit The Player!");
+		private void HitPlayer(GameObject hitObject) {
+
+			if (hitObject.TryGetComponent(out IDamageable hit)) {
+				hit.Damage(1);
+			}
+
 		}
 
 		private void OnActionRequestExecuted(GameObject actor) {
