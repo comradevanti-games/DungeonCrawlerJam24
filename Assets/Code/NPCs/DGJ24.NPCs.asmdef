@@ -1,15 +1,11 @@
 {
-    "name": "DGJ24.Actors",
-    "rootNamespace": "DGJ24.Actors",
+    "name": "DGJ24.NPCs",
+    "rootNamespace": "DGJ24.NPCs",
     "references": [
         "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:a0695e9c980617a49a58a77367fc9d61",
-        "GUID:2bff13cdd07896c0ea1712cef7afead7",
-        "GUID:c8244fdefd8e79b06ac79e080a4409c8",
-        "GUID:d1fa6506cfbd5349bb24486a6346b0c8",
         "GUID:18b6ff678bb7a4ef0ac2ac140cc5dabd",
         "GUID:b98ed773b805afb08bfbe7ff96444b09",
-        "GUID:839081a459c7830408c19d4beabd9937"
+        "GUID:2bff13cdd07896c0ea1712cef7afead7"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

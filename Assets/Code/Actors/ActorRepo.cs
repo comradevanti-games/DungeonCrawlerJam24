@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DGJ24.Map;
+using DGJ24.NPCs;
 using UnityEngine;
 
 namespace DGJ24.Actors
@@ -27,7 +28,7 @@ namespace DGJ24.Actors
         private void Awake()
         {
             AddInitialActors();
-            Singletons.Get<IMapBuilder>().MapBuilt += args => args.Enemies.ForEach(AddActor);
+            Singletons.Get<INpcSpawner>().NpcSpawned += args => AddActor(args.Npc);
         }
     }
 }

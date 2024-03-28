@@ -10,13 +10,7 @@ namespace DGJ24.Map
 {
     internal static class MapGen
     {
-        public record Config(
-            int Width,
-            int Height,
-            int MinRoomSize,
-            int MaxRoomSize,
-            int EnemyCount
-        );
+        public record Config(int Width, int Height, int MinRoomSize, int MaxRoomSize);
 
         private record FloorPlan(IImmutableSet<Vector2Int> Tiles)
         {
@@ -160,22 +154,6 @@ namespace DGJ24.Map
             return floorPlan.SetFloorAtAll(newFloorTiles);
         }
 
-        private static EnemyPlan PlaceEnemy(FloorPlan floorPlan, EnemyPlan enemyPlan)
-        {
-            var potentialEnemyTiles = floorPlan
-                .Tiles.Except(enemyPlan.Tiles)
-                .Where(tile => tile.magnitude > 10f)
-                .ToImmutableArray();
-
-            if (potentialEnemyTiles.Length == 0)
-                throw new Exception("Map too small to spawn enemy");
-
-            var index = Random.Range(0, potentialEnemyTiles.Length);
-            var tile = potentialEnemyTiles[index];
-
-            return enemyPlan.AddEnemyAt(tile);
-        }
-
         public static MapBlueprint Generate(Config config)
         {
             var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
@@ -192,12 +170,7 @@ namespace DGJ24.Map
 
             floorPlan = GeneratePaths(floorPlan, bounds);
             floorPlan = RemoveDeadEnds(floorPlan);
-
-            var enemyPlan = EnemyPlan.Empty;
-            for (var i = 0; i < config.EnemyCount; i++)
-                enemyPlan = PlaceEnemy(floorPlan, enemyPlan);
-
-            return new MapBlueprint(floorPlan.Tiles, enemyPlan.Tiles);
+            return new MapBlueprint(floorPlan.Tiles);
         }
     }
 }

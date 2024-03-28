@@ -17,15 +17,9 @@ namespace DGJ24.Map
         [SerializeField]
         private GameObject fallbackPrefab = null!;
 
-        [SerializeField]
-        private GameObject enemyPrefab = null!;
-
-
-        private ITileSpaceEntityRepo tileSpaceEntityRepo;
-
         private void BuildMap()
         {
-            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5, 3));
+            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5));
             var prefabsByMask = tileSet.Compute();
 
             foreach (var tile in blueprint.FloorTiles)
@@ -44,28 +38,12 @@ namespace DGJ24.Map
                 tileTransform.forward = TileSpaceMath.DirectionToWorldSpace(forward);
             }
 
-            var enemies = blueprint
-                .EnemyTiles.Select(tile =>
-                {
-                    var position = TileSpaceMath.PositionToWorldSpace(tile);
-                    var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-                    enemy.RequireComponent<ITileTransform>().Position = tile;
-                    return enemy;
-                })
-                .ToImmutableHashSet();
-            enemies.ForEach(tileSpaceEntityRepo.Add);
-
-            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles, enemies));
+            MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles));
         }
 
         private void Start()
         {
             BuildMap();
-        }
-
-        private void Awake()
-        {
-            tileSpaceEntityRepo = Singletons.Get<ITileSpaceEntityRepo>();
         }
     }
 }

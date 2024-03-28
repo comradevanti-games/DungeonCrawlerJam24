@@ -9,10 +9,7 @@ namespace DGJ24.Map
     /// </summary>
     public interface IMapBuilder
     {
-        public record MapBuiltEvent(
-            IImmutableSet<Vector2Int> FloorTiles,
-            IImmutableSet<GameObject> Enemies
-        );
+        public record MapBuiltEvent(IImmutableSet<Vector2Int> FloorTiles);
 
         /// <summary>
         /// Raised when the builder completes building a map.
