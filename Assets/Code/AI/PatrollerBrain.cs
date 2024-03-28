@@ -39,14 +39,20 @@ namespace DGJ24.AI
         {
             var nextTile = path.Targets.First();
             var diff = nextTile - tileTransform.Position;
-            var dir = TileSpaceMath.TryDirectionForVector(diff);
-            if (dir == null)
+            var dirToNextTile = TileSpaceMath.TryDirectionForVector(diff);
+            if (dirToNextTile == null)
             {
                 prevPath = null;
                 return new NoOpActionRequest(actor);
             }
 
-            return new MovementActionRequest(actor, dir.Value, 0.5f);
+            var turnDir = TileSpaceMath.TryRotationTowards(
+                tileTransform.Forward,
+                dirToNextTile.Value
+            );
+            if (turnDir == null)
+                return new MovementActionRequest(actor, dirToNextTile.Value, 0.5f);
+            return new RotationActionRequest(actor, turnDir.Value, 0.5f);
         }
 
         public ActionRequest DetermineNextAction(IAIBrain.ThinkContext ctx)

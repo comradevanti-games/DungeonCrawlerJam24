@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -64,7 +65,7 @@ namespace DGJ24.TileSpace
 
         public static CardinalDirection? TryDirectionForVector(Vector2Int vector)
         {
-            return (vector.x, vector.y)switch
+            return (vector.x, vector.y) switch
             {
                 (0, 1) => CardinalDirection.Forward,
                 (1, 0) => CardinalDirection.Right,
@@ -73,7 +74,7 @@ namespace DGJ24.TileSpace
                 _ => null
             };
         }
-        
+
         public static Vector2Int MoveByDirection(Vector2Int tile, CardinalDirection direction)
         {
             return tile + VectorForDirection(direction);
@@ -101,6 +102,23 @@ namespace DGJ24.TileSpace
                 _ => unrepeated
             };
             return (CardinalDirection)repeated;
+        }
+
+        public static RotationDirection? TryRotationTowards(
+            CardinalDirection from,
+            CardinalDirection to
+        )
+        {
+            var diff = (int)to - (int)from;
+            if (diff == 0)
+                return null;
+
+            if (diff == 3)
+                diff = -1;
+            else if (diff == -3)
+                diff = 1;
+
+            return diff > 0 ? RotationDirection.Right : RotationDirection.Left;
         }
     }
 }
