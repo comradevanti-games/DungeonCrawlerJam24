@@ -14,7 +14,6 @@ namespace DGJ24.Actors {
 
 		public event Action? AllActionsExecuted;
 		public event Action<int>? LootCollected;
-		public event Action? PlayerDied;
 
 		private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
 
@@ -180,13 +179,6 @@ namespace DGJ24.Actors {
 					TotalRoundCount++;
 				}
 			}
-		}
-
-		public void OnPlayerDeath() {
-
-			PlayerDied?.Invoke();
-			SceneManager.LoadScene("Menu");
-
 		}
 
 	}

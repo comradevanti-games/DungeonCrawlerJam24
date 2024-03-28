@@ -1,0 +1,18 @@
+{
+    "name": "DGJ24.Game",
+    "rootNamespace": "DGJ24.Game",
+    "references": [
+        "GUID:31b233a2e05b9dd9db53064d8ee53c26",
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:cced0f5b32b1f5a46be4d07fd7729f09"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
