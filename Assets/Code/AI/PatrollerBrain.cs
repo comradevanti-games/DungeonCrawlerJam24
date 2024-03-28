@@ -5,6 +5,7 @@ using DGJ24.Map;
 using DGJ24.Navigation;
 using DGJ24.TileSpace;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 using Random = UnityEngine.Random;
 
 namespace DGJ24.AI
@@ -14,33 +15,48 @@ namespace DGJ24.AI
         private IPathfinder pathfinder = null!;
         private IFloorPlan floorPlan = null!;
         private ITileTransform tileTransform = null!;
-        private Path? currentPath = null;
+        private Path? prevPath = null;
 
-        private void TryUpdatePath()
+        private Path? TryFindRandomPath()
         {
             var potentialTiles = floorPlan.Tiles;
             var index = Random.Range(0, potentialTiles.Count);
             var tile = potentialTiles.ElementAt(index);
 
-            currentPath = pathfinder.TryFindPath(tileTransform.Position, tile);
+            return pathfinder.TryFindPath(tileTransform.Position, tile);
+        }
+
+        private Path? TryUpdatePath(Path? currentPath)
+        {
+            var newPath =
+                currentPath != null
+                    ? currentPath.SkipTo(tileTransform.Position)
+                    : TryFindRandomPath();
+            return newPath == null || newPath.IsEmpty ? null : newPath;
+        }
+
+        private ActionRequest Follow(GameObject actor, Path path)
+        {
+            var nextTile = path.Targets.First();
+            var diff = nextTile - tileTransform.Position;
+            var dir = TileSpaceMath.TryDirectionForVector(diff);
+            if (dir == null)
+            {
+                prevPath = null;
+                return new NoOpActionRequest(actor);
+            }
+
+            return new MovementActionRequest(actor, dir.Value, 0.5f);
         }
 
         public ActionRequest DetermineNextAction(IAIBrain.ThinkContext ctx)
         {
-            if (currentPath == null || currentPath.IsEmpty)
-                TryUpdatePath();
+            var currentPath = TryUpdatePath(prevPath);
+            prevPath = currentPath;
 
-            if (currentPath == null || currentPath.IsEmpty)
-                return new NoOpActionRequest(ctx.Actor);
-
-            var nextTile = currentPath.Targets.First();
-            var diff = nextTile - tileTransform.Position;
-            var dir = TileSpaceMath.TryDirectionForVector(diff);
-            if (dir == null) throw new Exception("Path included non-cardinal segment!");
-
-            currentPath = currentPath.Step();
-            
-            return new MovementActionRequest(ctx.Actor, dir.Value, 0.1f);
+            return currentPath != null
+                ? Follow(ctx.Actor, currentPath)
+                : new NoOpActionRequest(ctx.Actor);
         }
 
         private void Awake()

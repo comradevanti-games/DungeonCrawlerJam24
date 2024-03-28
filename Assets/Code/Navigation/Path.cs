@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Linq;
 using UnityEngine;
 
 namespace DGJ24.Navigation
@@ -10,9 +9,10 @@ namespace DGJ24.Navigation
 
         public static readonly Path Empty = new Path(ImmutableList<Vector2Int>.Empty);
 
-        public Path Step()
+        public Path SkipTo(Vector2Int tile)
         {
-            return this with { Targets = Targets.RemoveAt(0) };
+            var index = Targets.IndexOf(tile, 0, Targets.Count);
+            return this with { Targets = Targets.RemoveRange(0, index + 1) };
         }
     };
 }
