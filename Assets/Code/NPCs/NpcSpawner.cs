@@ -13,35 +13,37 @@ namespace DGJ24.NPCs
         public event Action<INpcSpawner.NpcSpawnedEvent>? NpcSpawned;
 
         [SerializeField]
-        private int enemyCount;
-
-        [SerializeField]
-        private GameObject prefab = null!;
+        private GameObject[] prefabs = Array.Empty<GameObject>();
 
         private ITileSpaceEntitySpawner entitySpawner = null!;
 
-        private void SpawnEnemy(Vector2Int tile)
+        private void SpawnNpcAt(Vector2Int tile, GameObject prefab)
         {
             var npc = entitySpawner.Spawn(prefab, tile, CardinalDirection.Forward);
             NpcSpawned?.Invoke(new INpcSpawner.NpcSpawnedEvent(npc));
         }
 
-        private void SpawnLoot(IImmutableSet<Vector2Int> possibleTiles, int remainingCount)
+        private void SpawnNpc(
+            IImmutableSet<Vector2Int> possibleTiles,
+            IImmutableList<GameObject> remaining
+        )
         {
-            if (remainingCount == 0)
+            if (remaining.Count == 0)
                 return;
+
+            var prefab = remaining[0];
             var tile = possibleTiles.ElementAt(Random.Range(0, possibleTiles.Count));
 
-            SpawnEnemy(tile);
+            SpawnNpcAt(tile, prefab);
 
-            SpawnLoot(possibleTiles.Remove(tile), remainingCount - 1);
+            SpawnNpc(possibleTiles.Remove(tile), remaining.RemoveAt(0));
         }
 
         private void Awake()
         {
             entitySpawner = Singletons.Get<ITileSpaceEntitySpawner>();
             Singletons.Get<IMapBuilder>().MapBuilt += @event =>
-                SpawnLoot(@event.FloorTiles, enemyCount);
+                SpawnNpc(@event.FloorTiles, prefabs.ToImmutableList());
         }
     }
 }
