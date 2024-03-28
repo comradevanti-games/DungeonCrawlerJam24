@@ -12,6 +12,7 @@ namespace DGJ24.AI
 {
     internal class PatrollerBrain : MonoBehaviour, IAIBrain
     {
+        private IWalkableProvider walkableProvider = null!;
         private IPathfinder pathfinder = null!;
         private IFloorPlan floorPlan = null!;
         private ITileTransform tileTransform = null!;
@@ -38,6 +39,12 @@ namespace DGJ24.AI
         private ActionRequest Follow(GameObject actor, Path path)
         {
             var nextTile = path.Targets.First();
+            if (!walkableProvider.IsWalkable(nextTile))
+            {
+                prevPath = null;
+                return new NoOpActionRequest(actor);
+            }
+
             var diff = nextTile - tileTransform.Position;
             var dirToNextTile = TileSpaceMath.TryDirectionForVector(diff);
             if (dirToNextTile == null)
@@ -69,6 +76,7 @@ namespace DGJ24.AI
         {
             floorPlan = Singletons.Get<IFloorPlan>();
             pathfinder = Singletons.Get<IPathfinder>();
+            walkableProvider = Singletons.Get<IWalkableProvider>();
             tileTransform = gameObject.RequireComponent<ITileTransform>();
         }
     }
