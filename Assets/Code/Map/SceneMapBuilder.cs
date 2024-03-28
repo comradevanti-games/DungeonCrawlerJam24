@@ -34,6 +34,7 @@ namespace DGJ24.Map
                         : (fallbackPrefab, CardinalDirection.Forward);
 
                 var tileGameObject = Instantiate(prefab, position, Quaternion.identity);
+                tileGameObject.isStatic = true;
                 var tileTransform = tileGameObject.transform;
                 tileTransform.forward = TileSpaceMath.DirectionToWorldSpace(forward);
             }
