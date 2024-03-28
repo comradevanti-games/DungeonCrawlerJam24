@@ -6,11 +6,11 @@ namespace DGJ24.Interactables {
 
 		public GameObject InteractableObject { get; set; }
 
-		public InteractionLayer InteractionLayer { get; set; }
+		public InteractionLayers InteractionLayers { get; set; }
 
-		public InteractionLayer[] InteractableLayers { get; }
+		public InteractionLayers[] InteractableLayers { get; }
 
-		public bool CanInteract(InteractionLayer interactedLayer);
+		public bool CanInteract(InteractionLayers interactedLayers);
 
 	}
 

@@ -6,21 +6,21 @@ namespace DGJ24.Interactables {
 
 	internal class Interactable : MonoBehaviour, IInteractable {
 
-		[SerializeField] private InteractionLayer interactionLayer;
-		[SerializeField] private InteractionLayer[] interactableLayers = Array.Empty<InteractionLayer>();
+		[SerializeField] private InteractionLayers interactionLayers;
+		[SerializeField] private InteractionLayers[] interactableLayers = Array.Empty<InteractionLayers>();
 
 		public GameObject InteractableObject { get; set; } = null!;
-		public InteractionLayer InteractionLayer { get; set; } = InteractionLayer.None;
-		public InteractionLayer[] InteractableLayers { get; private set; } = Array.Empty<InteractionLayer>();
+		public InteractionLayers InteractionLayers { get; set; } = InteractionLayers.None;
+		public InteractionLayers[] InteractableLayers { get; private set; } = Array.Empty<InteractionLayers>();
 
 		private void Awake() {
 			InteractableObject = gameObject;
 			InteractableLayers = interactableLayers;
-			InteractionLayer = interactionLayer;
+			InteractionLayers = interactionLayers;
 		}
 
-		public bool CanInteract(InteractionLayer interactedLayer) {
-			return InteractableLayers.Contains(interactedLayer);
+		public bool CanInteract(InteractionLayers interactedLayers) {
+			return InteractableLayers.Contains(interactedLayers);
 		}
 
 	}

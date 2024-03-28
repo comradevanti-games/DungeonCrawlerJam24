@@ -3,7 +3,7 @@ using System;
 namespace DGJ24.Interactables
 {
     [Flags]
-    public enum InteractionLayer
+    public enum InteractionLayers
     {
         None = 0,
         Player = 1,

@@ -116,7 +116,7 @@ namespace DGJ24.Actors {
 
 				IInteractable? entityInteractable = entity.GetComponent<IInteractable>();
 
-				if (!actorInteractable.CanInteract(entityInteractable.InteractionLayer))
+				if (!actorInteractable.CanInteract(entityInteractable.InteractionLayers))
 					continue;
 
 				ExecuteInteraction(actorInteractable, entityInteractable);
@@ -129,27 +129,27 @@ namespace DGJ24.Actors {
 
 		private void ExecuteInteraction(IInteractable actor, IInteractable interactable) {
 
-			switch (actor.InteractionLayer) {
+			switch (actor.InteractionLayers) {
 
-				case InteractionLayer.None:
+				case InteractionLayers.None:
 					break;
-				case InteractionLayer.Player:
+				case InteractionLayers.Player:
 
-					if (interactable.InteractionLayer == InteractionLayer.Loot)
+					if (interactable.InteractionLayers == InteractionLayers.Loot)
 					{
 						interactable.InteractableObject.RequireComponent<ICollectible>().Collect();
-						interactable.InteractionLayer = InteractionLayer.None;
+						interactable.InteractionLayers = InteractionLayers.None;
 					}
 
 					break;
-				case InteractionLayer.Enemy:
+				case InteractionLayers.Enemy:
 
-					if (interactable.InteractionLayer == InteractionLayer.Player) {
+					if (interactable.InteractionLayers == InteractionLayers.Player) {
 						HitPlayer(interactable.InteractableObject);
 					}
 
 					break;
-				case InteractionLayer.Loot:
+				case InteractionLayers.Loot:
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
