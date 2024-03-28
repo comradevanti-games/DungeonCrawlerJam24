@@ -20,14 +20,12 @@ namespace DGJ24.Map
         [SerializeField]
         private GameObject enemyPrefab = null!;
 
-        [SerializeField]
-        private GameObject lootPrefab = null!;
 
         private ITileSpaceEntityRepo tileSpaceEntityRepo;
 
         private void BuildMap()
         {
-            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5, 3, 10));
+            var blueprint = MapGen.Generate(new MapGen.Config(40, 20, 3, 5, 3));
             var prefabsByMask = tileSet.Compute();
 
             foreach (var tile in blueprint.FloorTiles)
@@ -56,14 +54,6 @@ namespace DGJ24.Map
                 })
                 .ToImmutableHashSet();
             enemies.ForEach(tileSpaceEntityRepo.Add);
-
-            blueprint
-                .LootTiles.Select(TileSpaceMath.PositionToWorldSpace)
-                .ForEach(position =>
-                {
-                    var loot = Instantiate(lootPrefab, position, Quaternion.identity);
-                    tileSpaceEntityRepo.Add(loot);
-                });
 
             MapBuilt?.Invoke(new IMapBuilder.MapBuiltEvent(blueprint.FloorTiles, enemies));
         }

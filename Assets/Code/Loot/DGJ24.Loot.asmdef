@@ -1,0 +1,19 @@
+{
+    "name": "DGJ24.Loot",
+    "rootNamespace": "DGJ24.Loot",
+    "references": [
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:18b6ff678bb7a4ef0ac2ac140cc5dabd",
+        "GUID:b98ed773b805afb08bfbe7ff96444b09",
+        "GUID:2bff13cdd07896c0ea1712cef7afead7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

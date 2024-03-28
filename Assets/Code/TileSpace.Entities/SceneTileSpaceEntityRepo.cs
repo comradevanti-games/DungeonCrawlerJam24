@@ -5,7 +5,10 @@ using UnityEngine;
 
 namespace DGJ24.TileSpace
 {
-    internal class SceneTileSpaceEntityRepo : MonoBehaviour, ITileSpaceEntityRepo
+    internal class SceneTileSpaceEntityRepo
+        : MonoBehaviour,
+            ITileSpaceEntityRepo,
+            ITileSpaceEntitySpawner
     {
         private record Entity(GameObject GameObject, ITileTransform Transform);
 
@@ -25,6 +28,21 @@ namespace DGJ24.TileSpace
         public bool HasEntityAt(Vector2Int tile)
         {
             return entities.Any(it => it.Transform.Position == tile);
+        }
+
+        public GameObject Spawn(GameObject prefab, Vector2Int tile, CardinalDirection forward)
+        {
+            var position = TileSpaceMath.PositionToWorldSpace(tile);
+            var rotation = Quaternion.LookRotation(TileSpaceMath.DirectionToWorldSpace(forward));
+
+            var entity = Instantiate(prefab, position, rotation);
+            var tileTransform = entity.RequireComponent<ITileTransform>();
+            tileTransform.Position = tile;
+            tileTransform.Forward = forward;
+
+            Add(entity);
+
+            return entity;
         }
 
         private void Awake()

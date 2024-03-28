@@ -15,8 +15,7 @@ namespace DGJ24.Map
             int Height,
             int MinRoomSize,
             int MaxRoomSize,
-            int EnemyCount,
-            int LootCount
+            int EnemyCount
         );
 
         private record FloorPlan(IImmutableSet<Vector2Int> Tiles)
@@ -49,18 +48,6 @@ namespace DGJ24.Map
             );
 
             public EnemyPlan AddEnemyAt(Vector2Int tile) => this with { Tiles = Tiles.Add(tile) };
-        }
-
-        private record LootPlan(IImmutableSet<Vector2Int> Tiles)
-        {
-            public static readonly LootPlan Empty = new LootPlan(
-                ImmutableHashSet<Vector2Int>.Empty
-            );
-
-            public LootPlan AddLootAt(Vector2Int tile)
-            {
-                return this with { Tiles = Tiles.Add(tile) };
-            }
         }
 
         private static int RoomCountFor(RectInt bounds, int minRoomSize, int maxRoomSize)
@@ -189,28 +176,6 @@ namespace DGJ24.Map
             return enemyPlan.AddEnemyAt(tile);
         }
 
-        private static LootPlan PlaceLoot(FloorPlan floorPlan, LootPlan lootPlan)
-        {
-            float DistanceToNextLoot(Vector2Int tile)
-            {
-                if (lootPlan.Tiles.Count == 0)
-                    return float.PositiveInfinity;
-                return lootPlan.Tiles.Select(lootTile => Vector2Int.Distance(lootTile, tile)).Min();
-            }
-
-            var potentialTiles = floorPlan
-                .Tiles.Where(tile => DistanceToNextLoot(tile) >= 5f)
-                .ToImmutableArray();
-
-            if (potentialTiles.Length == 0)
-                throw new Exception("Map to small to spawn loot");
-
-            var index = Random.Range(0, potentialTiles.Length);
-            var tile = potentialTiles[index];
-
-            return lootPlan.AddLootAt(tile);
-        }
-
         public static MapBlueprint Generate(Config config)
         {
             var bounds = MakeCenteredBounds(Vector2Int.zero, config.Width, config.Height);
@@ -228,15 +193,11 @@ namespace DGJ24.Map
             floorPlan = GeneratePaths(floorPlan, bounds);
             floorPlan = RemoveDeadEnds(floorPlan);
 
-            var lootPlan = LootPlan.Empty;
-            for (var i = 0; i < config.LootCount; i++)
-                lootPlan = PlaceLoot(floorPlan, lootPlan);
-
             var enemyPlan = EnemyPlan.Empty;
             for (var i = 0; i < config.EnemyCount; i++)
                 enemyPlan = PlaceEnemy(floorPlan, enemyPlan);
 
-            return new MapBlueprint(floorPlan.Tiles, enemyPlan.Tiles, lootPlan.Tiles);
+            return new MapBlueprint(floorPlan.Tiles, enemyPlan.Tiles);
         }
     }
 }

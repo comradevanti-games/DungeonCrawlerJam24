@@ -1099,6 +1099,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1296441736}
+    - targetCorrespondingSourceObject: {fileID: 6163977027764365302, guid: c3bd5b75509d46f729370159a4931611,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1296441737}
   m_SourcePrefab: {fileID: 100100000, guid: c3bd5b75509d46f729370159a4931611, type: 3}
 --- !u!1 &1296441721 stripped
 GameObject:
@@ -1171,8 +1175,6 @@ MonoBehaviour:
   fallbackPrefab: {fileID: 919132149155446097, guid: e04c3df83d7008b4594a59f2957c878d,
     type: 3}
   enemyPrefab: {fileID: 8515917592445619662, guid: c8e3eb1ba67f9c92ea535c11d1f9de17,
-    type: 3}
-  lootPrefab: {fileID: 2226792917931865743, guid: 19d60389bec0719a5b1488058a2d78ce,
     type: 3}
 --- !u!114 &1296441724
 MonoBehaviour:
@@ -1274,6 +1276,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e58868eb3c3446cbcd9e49dbb037563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1296441737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296441721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bdce132a7cc494eb3d65ca68283aef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootCount: 20
+  lootPrefab: {fileID: 2226792917931865743, guid: 19d60389bec0719a5b1488058a2d78ce,
+    type: 3}
 --- !u!1 &1334140806
 GameObject:
   m_ObjectHideFlags: 0
