@@ -70,7 +70,7 @@ namespace DGJ24.Actors
         {
             actorRepo = Singletons.Get<IActorRepo>();
             validator = Singletons.Get<IActionValidator>();
-            Singletons.Get<IActorDirector>().AllActionsExecuted += () => MonitorActions();
+            Singletons.Get<IActionDirector>().AllActionsExecuted += () => MonitorActions();
         }
 
         private void Start()

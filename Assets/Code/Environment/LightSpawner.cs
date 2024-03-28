@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 using DGJ24.Map;
@@ -6,51 +5,50 @@ using DGJ24.TileSpace;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace DGJ24.Environment
-{
-    internal class LightSpawner : MonoBehaviour
-    {
-        [SerializeField]
-        private GameObject lightPrefab = null!;
+namespace DGJ24.Environment {
 
-        [SerializeField]
-        private int lightCount;
+	internal class LightSpawner : MonoBehaviour {
 
-        [SerializeField]
-        private float minLightDistance;
+		[SerializeField]
+		private GameObject lightPrefab = null!;
 
-        private void SpawnLightOn(Vector2Int tile)
-        {
-            var position = TileSpaceMath.PositionToWorldSpace(tile);
-            position.y = lightPrefab.transform.position.y;
+		[SerializeField]
+		private int lightCount;
 
-            Instantiate(lightPrefab, position, lightPrefab.transform.rotation);
-        }
+		[SerializeField]
+		private float minLightDistance;
 
-        private void SpawnLights(IImmutableSet<Vector2Int> possibleTiles, int remaining)
-        {
-            if (remaining == 0 || possibleTiles.Count == 0)
-                return;
+		private void SpawnLightOn(Vector2Int tile) {
+			var position = TileSpaceMath.PositionToWorldSpace(tile);
+			position.y = lightPrefab.transform.position.y;
 
-            var tile =
-                remaining == lightCount
-                    ? Vector2Int.zero
-                    : possibleTiles.ElementAt(Random.Range(0, possibleTiles.Count));
+			Instantiate(lightPrefab, position, lightPrefab.transform.rotation);
+		}
 
-            SpawnLightOn(tile);
+		private void SpawnLights(IImmutableSet<Vector2Int> possibleTiles, int remaining) {
+			if (remaining == 0 || possibleTiles.Count == 0)
+				return;
 
-            SpawnLights(
-                possibleTiles
-                    .Where(it => Vector2Int.Distance(it, tile) >= minLightDistance)
-                    .ToImmutableHashSet(),
-                remaining - 1
-            );
-        }
+			var tile =
+				remaining == lightCount
+					? Vector2Int.zero
+					: possibleTiles.ElementAt(Random.Range(0, possibleTiles.Count));
 
-        private void Awake()
-        {
-            Singletons.Get<IMapBuilder>().MapBuilt += @event =>
-                SpawnLights(@event.FloorTiles, lightCount);
-        }
-    }
+			SpawnLightOn(tile);
+
+			SpawnLights(
+				possibleTiles
+					.Where(it => Vector2Int.Distance(it, tile) >= minLightDistance)
+					.ToImmutableHashSet(),
+				remaining - 1
+			);
+		}
+
+		private void Awake() {
+			Singletons.Get<IMapBuilder>().MapBuilt += @event =>
+				SpawnLights(@event.FloorTiles, lightCount);
+		}
+
+	}
+
 }

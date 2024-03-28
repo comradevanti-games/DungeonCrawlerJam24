@@ -6,6 +6,7 @@ namespace DGJ24.Actors {
 	internal class ActorHealth : MonoBehaviour, IDamageable {
 
 		public UnityEvent<int>? healthPointsChanged;
+		public UnityEvent? actorDied;
 
 		[SerializeField] private int baseHealth;
 
@@ -25,6 +26,15 @@ namespace DGJ24.Actors {
 
 		public void Damage(int amount) {
 			HealthPoints -= amount;
+
+			if (HealthPoints <= 0) {
+				Die();
+			}
+
+		}
+
+		private void Die() {
+			actorDied?.Invoke();
 		}
 
 	}

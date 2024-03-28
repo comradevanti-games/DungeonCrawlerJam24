@@ -5,18 +5,21 @@ using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace DGJ24.Actors {
 
-	internal class ActionDirector : MonoBehaviour, IActorDirector {
-
-		public UnityEvent<int> collectedLoot;
+	internal class ActionDirector : MonoBehaviour, IActionDirector {
 
 		public event Action? AllActionsExecuted;
+		public event Action<int>? LootCollected;
+		public event Action? PlayerDied;
 
 		private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
+
 		private HashSet<GameObject> ActivityPool { get; } = new();
+
+		private int TotalRoundCount { get; set; }
 
 		private void Awake() {
 			tileSpaceEntityRepo = Singletons.Get<ITileSpaceEntityRepo>();
@@ -127,8 +130,6 @@ namespace DGJ24.Actors {
 
 		private void ExecuteInteraction(IInteractable actor, IInteractable interactable) {
 
-			Debug.Log(actor.InteractionLayer + " tried to interact with " + interactable.InteractionLayer);
-
 			switch (actor.InteractionLayer) {
 
 				case InteractionLayer.None:
@@ -158,7 +159,7 @@ namespace DGJ24.Actors {
 
 		private void CollectLoot(GameObject loot) {
 			loot.SetActive(false);
-			collectedLoot.Invoke(1);
+			LootCollected?.Invoke(1);
 		}
 
 		private void HitPlayer(GameObject hitObject) {
@@ -175,8 +176,16 @@ namespace DGJ24.Actors {
 
 				if (ActivityPool.Count == 0) {
 					AllActionsExecuted?.Invoke();
+					TotalRoundCount++;
 				}
 			}
+		}
+
+		public void OnPlayerDeath() {
+
+			PlayerDied?.Invoke();
+			SceneManager.LoadScene("Menu");
+
 		}
 
 	}

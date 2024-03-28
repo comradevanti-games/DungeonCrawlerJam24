@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DGJ24.Environment {
 
@@ -9,6 +11,8 @@ namespace DGJ24.Environment {
 		[SerializeField] private float baseIntensity = 25f;
 		[SerializeField] private float minIntensity = 0.5f;
 		[SerializeField] private float maxIntensity = 1f;
+
+		[SerializeField] private float[] flickerIntervals = Array.Empty<float>();
 
 		public float minFlickerInterval = 0.5f;
 		public float maxFlickerInterval = 10f;
@@ -21,7 +25,7 @@ namespace DGJ24.Environment {
 			StartCoroutine(Flicker());
 		}
 
-		IEnumerator Flicker() {
+		private IEnumerator Flicker() {
 
 			isRunning = true;
 
@@ -31,14 +35,10 @@ namespace DGJ24.Environment {
 
 				if (timeUntilNextFlicker <= 0) {
 
-					light.intensity = Random.Range(minIntensity, maxIntensity);
-					yield return new WaitForSeconds(0.2f);
-					light.intensity = Random.Range(minIntensity, maxIntensity);
-					yield return new WaitForSeconds(0.07f);
-					light.intensity = Random.Range(minIntensity, maxIntensity);
-					yield return new WaitForSeconds(0.145f);
-					light.intensity = Random.Range(minIntensity, maxIntensity);
-					yield return new WaitForSeconds(2f);
+					foreach (float f in flickerIntervals) {
+						light.intensity = Random.Range(minIntensity, maxIntensity);
+						yield return new WaitForSeconds(f);
+					}
 
 					light.intensity = baseIntensity;
 					timeUntilNextFlicker = Random.Range(minFlickerInterval, maxFlickerInterval);

@@ -10,11 +10,13 @@ namespace DGJ24.Tools {
 		[SerializeField] private float maxIntensity;
 		[SerializeField] private float maxRange;
 		[SerializeField] private float flashDuration;
+		[SerializeField] private int cooldown;
 
 		private AudioSource torchAudio = null!;
 
 		private float baseIntensity;
 		private float baseRange;
+		private int roundsPassedSinceLastFlash;
 
 		private bool isFlashing;
 
@@ -27,6 +29,7 @@ namespace DGJ24.Tools {
 		public void Use() {
 
 			if (isFlashing) return;
+
 			StartCoroutine(Flashing(torchLight!, torchLight!.intensity, maxIntensity, torchLight.range, maxRange, flashDuration, flashCurve!));
 			torchAudio.PlayOneShot(torchAudio.clip);
 
