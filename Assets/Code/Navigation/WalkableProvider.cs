@@ -12,7 +12,7 @@ namespace DGJ24.Navigation
 
         public bool IsWalkable(Vector2Int tile)
         {
-            return floorPlan.Contains(tile) && !tileSpaceEntityRepo.HasEntityAt(tile);
+            return floorPlan.Contains(tile) && !tileSpaceEntityRepo.EntityIsBlocking(tile);
         }
 
         private void Awake()

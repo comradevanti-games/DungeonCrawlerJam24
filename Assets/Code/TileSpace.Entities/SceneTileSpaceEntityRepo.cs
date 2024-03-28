@@ -10,7 +10,7 @@ namespace DGJ24.TileSpace
             ITileSpaceEntityRepo,
             ITileSpaceEntitySpawner
     {
-        private record Entity(GameObject GameObject, ITileTransform Transform);
+        private record Entity(GameObject GameObject, ITileTransform Transform, bool HasCollision);
 
         [SerializeField]
         private GameObject[] initial = Array.Empty<GameObject>();
@@ -22,12 +22,22 @@ namespace DGJ24.TileSpace
         public void Add(GameObject entity)
         {
             var tileTransform = entity.RequireComponent<ITileTransform>();
-            entities.Add(new Entity(entity, tileTransform));
+            var hasCollision = (bool)entity.GetComponent<TileCollider>();
+            entities.Add(new Entity(entity, tileTransform, hasCollision));
         }
 
-        public bool HasEntityAt(Vector2Int tile)
+        private Entity? EntityAt(Vector2Int tile)
         {
-            return entities.Any(it => it.Transform.Position == tile);
+            return entities.FirstOrDefault(it => it.Transform.Position == tile);
+        }
+
+        public bool EntityIsBlocking(Vector2Int tile)
+        {
+            var entity = EntityAt(tile);
+            if (entity == null)
+                return false;
+
+            return entity.HasCollision;
         }
 
         public GameObject Spawn(GameObject prefab, Vector2Int tile, CardinalDirection forward)
