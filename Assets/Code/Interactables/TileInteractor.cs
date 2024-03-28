@@ -3,19 +3,17 @@ using UnityEngine;
 
 namespace DGJ24.Interactables
 {
-    internal class FrontInteractor : MonoBehaviour, IInteractor
+    internal class TileInteractor : MonoBehaviour, IInteractor
     {
         [SerializeField]
         private InteractionLayers targetLayers;
 
-        private ITileTransform tileTransform = null!;
+        private IInteractionTileSelector tileSelector = null!;
         private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
 
-        public void TryInteract()
+        private void TryInteractAt(Vector2Int tile)
         {
-            var interactionTile =
-                tileTransform.Position + TileSpaceMath.VectorForDirection(tileTransform.Forward);
-            var entity = tileSpaceEntityRepo.TryGetEntityOn(interactionTile);
+            var entity = tileSpaceEntityRepo.TryGetEntityOn(tile);
             if (entity == null)
                 return;
 
@@ -30,9 +28,15 @@ namespace DGJ24.Interactables
             interactable.HandleInteraction();
         }
 
+        public void TryInteract()
+        {
+            var interactionTiles = tileSelector.Tiles;
+            interactionTiles.ForEach(TryInteractAt);
+        }
+
         private void Awake()
         {
-            tileTransform = gameObject.RequireComponent<ITileTransform>();
+            tileSelector = gameObject.RequireComponent<IInteractionTileSelector>();
             tileSpaceEntityRepo = Singletons.Get<ITileSpaceEntityRepo>();
         }
     }

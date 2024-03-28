@@ -120,5 +120,10 @@ namespace DGJ24.TileSpace
 
             return diff > 0 ? RotationDirection.Right : RotationDirection.Left;
         }
+
+        public static IEnumerable<Vector2Int> AllNeighborsOf(Vector2Int tile)
+        {
+            return DirectionVectors.Select(it => tile + it);
+        }
     }
 }

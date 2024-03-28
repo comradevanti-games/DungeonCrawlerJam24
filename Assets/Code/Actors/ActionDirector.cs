@@ -6,118 +6,124 @@ using DGJ24.TileSpace;
 using DGJ24.Tools;
 using UnityEngine;
 
-namespace DGJ24.Actors {
+namespace DGJ24.Actors
+{
+    internal class ActionDirector : MonoBehaviour, IActionDirector
+    {
+        public event Action? AllActionsExecuted;
 
-	internal class ActionDirector : MonoBehaviour, IActionDirector {
+        private HashSet<GameObject> ActivityPool { get; } = new();
 
-		public event Action? AllActionsExecuted;
+        private int TotalRoundCount { get; set; }
 
-		private HashSet<GameObject> ActivityPool { get; } = new();
+        private void Awake()
+        {
+            Singletons.Get<IActionMonitor>().ActionBatchReady += TryExecute;
+        }
 
-		private int TotalRoundCount { get; set; }
+        private void TryExecute(IActionMonitor.ActionBatchReadyEvent batch)
+        {
+            ActivityPool.UnionWith(batch.Batch.Select(it => it.Actor));
 
-		private void Awake() {
-			Singletons.Get<IActionMonitor>().ActionBatchReady += TryExecute;
-		}
+            foreach (ActionRequest? action in batch.Batch)
+            {
+                switch (action)
+                {
+                    case MovementActionRequest request:
+                        MoveActor(request.Actor, request.Direction, request.MoveDuration);
+                        break;
+                    case RotationActionRequest request:
+                        RotateActor(request.Actor, request.Rotation, request.RotateDuration);
+                        break;
+                    case ToolActionRequest request:
+                        UseTool(request.Actor, OnActionRequestExecuted);
+                        break;
+                    case InteractionActionRequest request:
+                        TryInteract(request.Actor);
+                        OnActionRequestExecuted(request.Actor);
+                        break;
+                    case NoOpActionRequest:
+                        OnActionRequestExecuted(action.Actor);
+                        break;
+                    default:
+                        throw new ArgumentException(
+                            $"Unhandled action-request type: {action.GetType().Name}"
+                        );
+                }
+            }
+        }
 
-		private void TryExecute(IActionMonitor.ActionBatchReadyEvent batch) {
-			ActivityPool.UnionWith(batch.Batch.Select(it => it.Actor));
+        private void MoveActor(GameObject actor, CardinalDirection direction, float duration)
+        {
+            var actorTransform = actor.RequireComponent<ITileTransform>();
 
-			foreach (ActionRequest? action in batch.Batch) {
-				switch (action) {
-					case MovementActionRequest request:
-						MoveActor(request.Actor, request.Direction, request.MoveDuration);
-						break;
-					case RotationActionRequest request:
-						RotateActor(request.Actor, request.Rotation, request.RotateDuration);
-						break;
-					case ToolActionRequest request:
-						UseTool(request.Actor, OnActionRequestExecuted);
-						break;
-					case InteractionActionRequest request:
-						TryInteract(request.Actor);
-						OnActionRequestExecuted(request.Actor);
-						break;
-					case NoOpActionRequest:
-						OnActionRequestExecuted(action.Actor);
-						break;
-					default:
-						throw new ArgumentException(
-							$"Unhandled action-request type: {action.GetType().Name}"
-						);
-				}
-			}
-		}
+            var actorTile = actorTransform.Position;
+            var nextTile = TileSpaceMath.MoveByDirection(actorTile, direction);
+            actorTransform.Position = nextTile;
 
-		private void MoveActor(GameObject actor, CardinalDirection direction, float duration) {
-			var actorTransform = actor.RequireComponent<ITileTransform>();
+            Vector3 actorPosition = TileSpaceMath.PositionToWorldSpace(actorTile);
+            Vector3 targetPosition = TileSpaceMath.PositionToWorldSpace(nextTile);
 
-			var actorTile = actorTransform.Position;
-			var nextTile = TileSpaceMath.MoveByDirection(actorTile, direction);
-			actorTransform.Position = nextTile;
+            StartCoroutine(
+                LerpOverTime.Position(
+                    actor.transform,
+                    actorPosition,
+                    targetPosition,
+                    duration,
+                    () => OnActionRequestExecuted(actor)
+                )
+            );
+        }
 
-			Vector3 actorPosition = TileSpaceMath.PositionToWorldSpace(actorTile);
-			Vector3 targetPosition = TileSpaceMath.PositionToWorldSpace(nextTile);
+        private void RotateActor(GameObject actor, RotationDirection rotation, float duration)
+        {
+            var actorTransform = actor.RequireComponent<ITileTransform>();
+            var actorForward = actorTransform.Forward;
+            actorTransform.Rotate(rotation);
+            var nextForward = actorTransform.Forward;
 
-			StartCoroutine(
-				LerpOverTime.Position(
-					actor.transform,
-					actorPosition,
-					targetPosition,
-					duration,
-					() => OnActionRequestExecuted(actor)
-				)
-			);
-		}
+            Quaternion origin = Quaternion.LookRotation(
+                TileSpaceMath.DirectionToWorldSpace(actorForward)
+            );
+            Quaternion targetRotation = Quaternion.LookRotation(
+                TileSpaceMath.DirectionToWorldSpace(nextForward)
+            );
 
-		private void RotateActor(GameObject actor, RotationDirection rotation, float duration) {
-			var actorTransform = actor.RequireComponent<ITileTransform>();
-			var actorForward = actorTransform.Forward;
-			actorTransform.Rotate(rotation);
-			var nextForward = actorTransform.Forward;
+            StartCoroutine(
+                LerpOverTime.Rotation(
+                    actor.transform,
+                    origin,
+                    targetRotation,
+                    duration,
+                    () => OnActionRequestExecuted(actor)
+                )
+            );
+        }
 
-			Quaternion origin = Quaternion.LookRotation(
-				TileSpaceMath.DirectionToWorldSpace(actorForward)
-			);
-			Quaternion targetRotation = Quaternion.LookRotation(
-				TileSpaceMath.DirectionToWorldSpace(nextForward)
-			);
+        private void UseTool(GameObject actor, Action<GameObject> callback)
+        {
+            actor.GetComponentInChildren<ITool>().Use();
+            callback.Invoke(actor);
+        }
 
-			StartCoroutine(
-				LerpOverTime.Rotation(
-					actor.transform,
-					origin,
-					targetRotation,
-					duration,
-					() => OnActionRequestExecuted(actor)
-				)
-			);
-		}
+        private void TryInteract(GameObject actor)
+        {
+            var interactor = actor.GetComponent<IInteractor>();
+            interactor?.TryInteract();
+        }
 
-		private void UseTool(GameObject actor, Action<GameObject> callback) {
-			actor.GetComponentInChildren<ITool>().Use();
-			callback.Invoke(actor);
-		}
+        private void OnActionRequestExecuted(GameObject actor)
+        {
+            if (ActivityPool.Contains(actor))
+            {
+                ActivityPool.Remove(actor);
 
-		private void TryInteract(GameObject actor)
-		{
-			var interactor = actor.GetComponent<IInteractor>();
-			if(interactor == null) return;
-			
-			interactor.TryInteract();
-		}
-
-		private void OnActionRequestExecuted(GameObject actor) {
-			if (ActivityPool.Contains(actor)) {
-				ActivityPool.Remove(actor);
-
-				if (ActivityPool.Count == 0) {
-					AllActionsExecuted?.Invoke();
-					TotalRoundCount++;
-				}
-			}
-		}
-
-	}
-
+                if (ActivityPool.Count == 0)
+                {
+                    AllActionsExecuted?.Invoke();
+                    TotalRoundCount++;
+                }
+            }
+        }
+    }
 }
