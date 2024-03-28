@@ -2,7 +2,8 @@
     "name": "DGJ24.Collectibles",
     "rootNamespace": "DGJ24.Collectibles",
     "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74"
+        "GUID:c1fc4c24009364b45baaaefff0048f74",
+        "GUID:cced0f5b32b1f5a46be4d07fd7729f09"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -13,7 +13,6 @@ namespace DGJ24.Actors {
 	internal class ActionDirector : MonoBehaviour, IActionDirector {
 
 		public event Action? AllActionsExecuted;
-		public event Action<int>? LootCollected;
 
 		private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
 
@@ -136,8 +135,9 @@ namespace DGJ24.Actors {
 					break;
 				case InteractionLayer.Player:
 
-					if (interactable.InteractionLayer == InteractionLayer.Loot) {
-						CollectLoot(interactable.InteractableObject);
+					if (interactable.InteractionLayer == InteractionLayer.Loot)
+					{
+						interactable.InteractableObject.RequireComponent<ICollectible>().Collect();
 						interactable.InteractionLayer = InteractionLayer.None;
 					}
 
@@ -155,11 +155,6 @@ namespace DGJ24.Actors {
 					throw new ArgumentOutOfRangeException();
 			}
 
-		}
-
-		private void CollectLoot(GameObject loot) {
-			loot.RequireComponent<ICollectible>().Collect();
-			LootCollected?.Invoke(1);
 		}
 
 		private void HitPlayer(GameObject hitObject) {
