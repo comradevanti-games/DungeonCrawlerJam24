@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DGJ24.Collectibles;
+using DGJ24.Health;
 using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
@@ -157,12 +158,10 @@ namespace DGJ24.Actors {
 
 		}
 
-		private void HitPlayer(GameObject hitObject) {
-
-			if (hitObject.TryGetComponent(out IDamageable hit)) {
-				hit.Damage(1);
-			}
-
+		private void HitPlayer(GameObject hitObject)
+		{
+			if (hitObject.TryGetComponent(out IHealth health))
+				health.Value--;
 		}
 
 		private void OnActionRequestExecuted(GameObject actor) {
