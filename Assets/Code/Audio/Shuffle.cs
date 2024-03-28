@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
-public class Shuffle : MonoBehaviour {
+internal class Shuffle : MonoBehaviour {
 
 	[SerializeField] private AudioClip[] shuffleClips = Array.Empty<AudioClip>();
 	[SerializeField] private float minInterval;

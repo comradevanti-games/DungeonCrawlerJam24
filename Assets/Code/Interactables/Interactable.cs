@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DGJ24.Interactables {
 
-	public class Interactable : MonoBehaviour, IInteractable {
+	internal class Interactable : MonoBehaviour, IInteractable {
 
 		[SerializeField] private InteractionLayer interactionLayer;
 		[SerializeField] private InteractionLayer[] interactableLayers = Array.Empty<InteractionLayer>();

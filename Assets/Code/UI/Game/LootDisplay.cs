@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DGJ24.UI {
 
-	public class LootDisplay : MonoBehaviour {
+	internal class LootDisplay : MonoBehaviour {
 
 		[SerializeField] private TextMeshProUGUI lootTextMesh = null!;
 

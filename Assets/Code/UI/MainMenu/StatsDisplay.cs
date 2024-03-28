@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DGJ24.UI {
 
-	public class StatsDisplay : MonoBehaviour {
+	internal class StatsDisplay : MonoBehaviour {
 
 		[SerializeField] private TextMeshProUGUI scoreTextMesh = null!;
 
