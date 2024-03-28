@@ -31,6 +31,11 @@ namespace DGJ24.TileSpace
             return entities.FirstOrDefault(it => it.Transform.Position == tile);
         }
 
+        public GameObject? TryGetEntityOn(Vector2Int tile)
+        {
+            return EntityAt(tile)?.GameObject;
+        }
+
         public bool EntityIsBlocking(Vector2Int tile)
         {
             var entity = EntityAt(tile);

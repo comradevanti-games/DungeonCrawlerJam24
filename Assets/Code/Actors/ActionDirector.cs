@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DGJ24.Collectibles;
-using DGJ24.Health;
 using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace DGJ24.Actors {
 
@@ -15,14 +12,11 @@ namespace DGJ24.Actors {
 
 		public event Action? AllActionsExecuted;
 
-		private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
-
 		private HashSet<GameObject> ActivityPool { get; } = new();
 
 		private int TotalRoundCount { get; set; }
 
 		private void Awake() {
-			tileSpaceEntityRepo = Singletons.Get<ITileSpaceEntityRepo>();
 			Singletons.Get<IActionMonitor>().ActionBatchReady += TryExecute;
 		}
 
@@ -41,7 +35,8 @@ namespace DGJ24.Actors {
 						UseTool(request.Actor, OnActionRequestExecuted);
 						break;
 					case InteractionActionRequest request:
-						Interact(request.Actor);
+						TryInteract(request.Actor);
+						OnActionRequestExecuted(request.Actor);
 						break;
 					case NoOpActionRequest:
 						OnActionRequestExecuted(action.Actor);
@@ -104,64 +99,12 @@ namespace DGJ24.Actors {
 			callback.Invoke(actor);
 		}
 
-		private void Interact(GameObject actor) {
-
-			ITileTransform? actorTile = actor.GetComponent<ITileTransform>();
-			Vector2Int interactionTile = TileSpaceMath.MoveByDirection(actorTile.Position, actorTile.Forward);
-			IInteractable actorInteractable = actor.GetComponent<IInteractable>();
-
-			IEnumerable<GameObject> entities = tileSpaceEntityRepo.All.Where(entity =>
-				entity.GetComponent<ITileTransform>().Position == interactionTile);
-
-			foreach (GameObject? entity in entities) {
-
-				IInteractable? entityInteractable = entity.GetComponent<IInteractable>();
-
-				if (!actorInteractable.CanInteract(entityInteractable.InteractionLayers))
-					continue;
-
-				ExecuteInteraction(actorInteractable, entityInteractable);
-
-			}
-
-			OnActionRequestExecuted(actor);
-
-		}
-
-		private void ExecuteInteraction(IInteractable actor, IInteractable interactable) {
-
-			switch (actor.InteractionLayers) {
-
-				case InteractionLayers.None:
-					break;
-				case InteractionLayers.Player:
-
-					if (interactable.InteractionLayers == InteractionLayers.Loot)
-					{
-						interactable.InteractableObject.RequireComponent<ICollectible>().Collect();
-						interactable.InteractionLayers = InteractionLayers.None;
-					}
-
-					break;
-				case InteractionLayers.Enemy:
-
-					if (interactable.InteractionLayers == InteractionLayers.Player) {
-						HitPlayer(interactable.InteractableObject);
-					}
-
-					break;
-				case InteractionLayers.Loot:
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-
-		}
-
-		private void HitPlayer(GameObject hitObject)
+		private void TryInteract(GameObject actor)
 		{
-			if (hitObject.TryGetComponent(out IHealth health))
-				health.Value--;
+			var interactor = actor.GetComponent<IInteractor>();
+			if(interactor == null) return;
+			
+			interactor.TryInteract();
 		}
 
 		private void OnActionRequestExecuted(GameObject actor) {

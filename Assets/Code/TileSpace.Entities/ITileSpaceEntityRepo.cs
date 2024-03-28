@@ -20,9 +20,8 @@ namespace DGJ24.TileSpace
         /// <param name="entity">The game-object to add.</param>
         public void Add(GameObject entity);
 
-
+        public GameObject? TryGetEntityOn(Vector2Int tile);
 
         public bool EntityIsBlocking(Vector2Int tile);
-
     }
 }

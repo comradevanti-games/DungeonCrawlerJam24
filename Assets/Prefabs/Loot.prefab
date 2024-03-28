@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7665807757181955844}
   - component: {fileID: -5326360783237579404}
-  - component: {fileID: 3082933264664759725}
   - component: {fileID: 2072154973465908129}
   - component: {fileID: 4735975978506137011}
   - component: {fileID: -8474605362792077836}
+  - component: {fileID: 7231258899801333476}
   m_Layer: 0
   m_Name: Loot
   m_TagString: Untagged
@@ -48,20 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02276dc33f8250e479083362ab4a31dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3082933264664759725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2226792917931865743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bf05c7f7e48b6242adaf4789bbc434f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionLayer: 3
-  interactableLayers: 
 --- !u!33 &2072154973465908129
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -127,3 +113,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 1
+--- !u!114 &7231258899801333476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226792917931865743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920094b0c8d044fd83b25cea9ccd9128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: 4

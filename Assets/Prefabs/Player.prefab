@@ -324,6 +324,7 @@ MonoBehaviour:
   maxIntensity: 20
   maxRange: 40
   flashDuration: 0.925
+  cooldown: 0
 --- !u!82 &227185339845927057
 AudioSource:
   m_ObjectHideFlags: 0
@@ -627,10 +628,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8913376879287994552}
-    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: -1777642094980388592}
     - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
@@ -644,6 +641,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2130331427811377964}
+    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4538792650214144698}
+    - targetCorrespondingSourceObject: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8366645038925485919}
   m_SourcePrefab: {fileID: 100100000, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911, type: 3}
 --- !u!4 &5122251507312903856 stripped
 Transform:
@@ -657,20 +662,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3833232981390846073}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8913376879287994552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7355760158475961633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bf05c7f7e48b6242adaf4789bbc434f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionLayer: 1
-  interactableLayers: 0300000002000000
 --- !u!114 &-1777642094980388592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,4 +835,33 @@ MonoBehaviour:
   healthPointsChanged:
     m_PersistentCalls:
       m_Calls: []
+  actorDied:
+    m_PersistentCalls:
+      m_Calls: []
   baseHealth: 3
+--- !u!114 &4538792650214144698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355760158475961633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98ebbe6304a4346b04ab9ec6b94f02f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers: 1
+--- !u!114 &-8366645038925485919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7355760158475961633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4a40f453434c1188b3d351ffa3f5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayers: 4
