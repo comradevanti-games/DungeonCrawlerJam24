@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3082933264664759725}
   - component: {fileID: 2072154973465908129}
   - component: {fileID: 4735975978506137011}
+  - component: {fileID: -8474605362792077836}
   m_Layer: 0
   m_Name: Loot
   m_TagString: Untagged
@@ -113,3 +114,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-8474605362792077836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2226792917931865743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48eb9121ecd549969d12ca9acaebbe82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,9 +1,8 @@
 {
-    "name": "DGJ24.Interactables",
-    "rootNamespace": "DGJ24.Interactables",
+    "name": "DGJ24.Collectibles",
+    "rootNamespace": "DGJ24.Collectibles",
     "references": [
-        "GUID:c1fc4c24009364b45baaaefff0048f74",
-        "GUID:8466260ce7f43251880cd6d62a3c7985"
+        "GUID:c1fc4c24009364b45baaaefff0048f74"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

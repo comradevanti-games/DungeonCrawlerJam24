@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DGJ24.Collectibles;
 using DGJ24.Interactables;
 using DGJ24.TileSpace;
 using DGJ24.Tools;
@@ -158,7 +159,7 @@ namespace DGJ24.Actors {
 		}
 
 		private void CollectLoot(GameObject loot) {
-			loot.SetActive(false);
+			loot.RequireComponent<ICollectible>().Collect();
 			LootCollected?.Invoke(1);
 		}
 
