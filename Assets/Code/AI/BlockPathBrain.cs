@@ -1,5 +1,6 @@
 using DGJ24.Actors;
 using DGJ24.Map;
+using DGJ24.Navigation;
 using DGJ24.TileSpace;
 using UnityEngine;
 
@@ -11,11 +12,12 @@ namespace DGJ24.AI
         private float stopDistance;
 
         [SerializeField]
-        private AIBrainBase followPlayerBrain = null!;
+        private AIBrainBase navigateBrain = null!;
 
         [SerializeField]
         private AIBrainBase attackBrain = null!;
 
+        private IPathNavigator navigator = null!;
         private ITileTransform tileTransform = null!;
         private IFloorPlan floorPlan = null!;
         private Transform playerTransform = null!;
@@ -43,11 +45,13 @@ namespace DGJ24.AI
             if (ShouldStop())
                 return new NoOpActionRequest(ctx.Actor);
 
-            return followPlayerBrain.DetermineNextAction(ctx);
+            navigator.Target = TileSpaceMath.PositionFromWorldSpace(playerTransform.position);
+            return navigateBrain.DetermineNextAction(ctx);
         }
 
         private void Awake()
         {
+            navigator = gameObject.RequireComponent<IPathNavigator>();
             playerTransform = GameObject.FindWithTag("Player").transform;
             tileTransform = gameObject.RequireComponent<ITileTransform>();
             floorPlan = Singletons.Get<IFloorPlan>();

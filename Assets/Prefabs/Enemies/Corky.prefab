@@ -94,7 +94,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
         type: 3}
       insertIndex: 5
-      addedObject: {fileID: 5835608392645627464}
+      addedObject: {fileID: 870103701057385030}
     - targetCorrespondingSourceObject: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
         type: 3}
       insertIndex: 6
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b833b78c6c6646ff9b2d70da5adb9faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5835608392645627464
+--- !u!114 &870103701057385030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,10 +131,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8515917592445619662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c0678212dd14f5eab31f96e5f16980a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d942214646f4d9bba3f9bb877f563f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTag: Player
 --- !u!114 &8978437830668471415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d638d8364a94e01a1f01a53c4c087a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialTargetProvider: {fileID: 5835608392645627464}
 --- !u!114 &3958665921843533490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,5 +159,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stopDistance: 10
-  followPlayerBrain: {fileID: 8978437830668471415}
+  navigateBrain: {fileID: 8978437830668471415}
   attackBrain: {fileID: -3246656169977050352}

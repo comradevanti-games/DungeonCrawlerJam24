@@ -8,53 +8,15 @@ namespace DGJ24.AI
 {
     internal class NavigateToTargetBrain : AIBrainBase
     {
-        [SerializeField] private TargetProviderBase? initialTargetProvider;
-        
+        private IPathNavigator pathNavigator = null!;
         private IWalkableProvider walkableProvider = null!;
-        private IPathfinder pathfinder = null!;
         private ITileTransform tileTransform = null!;
-        private Path? prevPath;
-
-        public ITargetProvider? TargetProvider { get; set; }
-
-        private Path? TryFindPathToTarget()
-        {
-            var tile = TargetProvider?.CurrentTarget;
-            if (tile == null)
-                return null;
-
-            return pathfinder.TryFindPath(tileTransform.Position, tile.Value);
-        }
-
-        private Path? ValidatePath(Path path)
-        {
-            path = path.SkipTo(tileTransform.Position);
-
-            if (path.IsEmpty)
-                return null;
-
-            if (path.Targets.Last() != TargetProvider?.CurrentTarget)
-                return null;
-
-            return path;
-        }
-
-        private Path? TryUpdatePath(Path? currentPath)
-        {
-            var newPath = currentPath ?? TryFindPathToTarget();
-
-            if (newPath == null)
-                return null;
-
-            return ValidatePath(newPath) ?? TryUpdatePath(null);
-        }
 
         private ActionRequest Follow(GameObject actor, Path path)
         {
             var nextTile = path.Targets.First();
             if (!walkableProvider.IsWalkable(nextTile))
             {
-                prevPath = null;
                 return new NoOpActionRequest(actor);
             }
 
@@ -62,7 +24,7 @@ namespace DGJ24.AI
             var dirToNextTile = TileSpaceMath.TryDirectionForVector(diff);
             if (dirToNextTile == null)
             {
-                prevPath = null;
+                pathNavigator.UpdatePath();
                 return new NoOpActionRequest(actor);
             }
 
@@ -77,9 +39,7 @@ namespace DGJ24.AI
 
         public override ActionRequest? DetermineNextAction(IAIBrain.ThinkContext ctx)
         {
-            var currentPath = TryUpdatePath(prevPath);
-            prevPath = currentPath;
-
+            var currentPath = pathNavigator.Path;
             return currentPath != null
                 ? Follow(ctx.Actor, currentPath)
                 : new NoOpActionRequest(ctx.Actor);
@@ -87,10 +47,9 @@ namespace DGJ24.AI
 
         private void Awake()
         {
-            pathfinder = Singletons.Get<IPathfinder>();
             walkableProvider = Singletons.Get<IWalkableProvider>();
+            pathNavigator = gameObject.RequireComponent<IPathNavigator>();
             tileTransform = gameObject.RequireComponent<ITileTransform>();
-            TargetProvider = initialTargetProvider;
         }
     }
 }
