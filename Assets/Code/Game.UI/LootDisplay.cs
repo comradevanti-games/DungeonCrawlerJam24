@@ -2,7 +2,7 @@ using DGJ24.Score;
 using TMPro;
 using UnityEngine;
 
-namespace DGJ24.UI {
+namespace DGJ24.Game.UI {
 
 	internal class LootDisplay : MonoBehaviour {
 

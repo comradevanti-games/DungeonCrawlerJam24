@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DGJ24.UI {
+namespace DGJ24.Game.UI {
 
 	internal class QuitPrompt : MonoBehaviour {
 
