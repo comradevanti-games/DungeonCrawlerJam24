@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DGJ24.UI {
+namespace DGJ24.Game.UI {
 
 	internal class HealthDisplay : MonoBehaviour {
 
