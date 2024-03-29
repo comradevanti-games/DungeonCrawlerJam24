@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace DGJ24.AI
 {
-    internal class TaggedObjectTargetProvider : MonoBehaviour, ITargetProvider
+    internal class TaggedObjectTargetProvider : TargetProviderBase
     {
         [SerializeField]
         private string targetTag = "";
 
         private Transform targetTransform = null!;
 
-        public Vector2Int? CurrentTarget =>
+        public override Vector2Int? CurrentTarget =>
             TileSpaceMath.PositionFromWorldSpace(targetTransform.position);
 
         private void Awake()

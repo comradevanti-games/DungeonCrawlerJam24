@@ -8,15 +8,18 @@ namespace DGJ24.AI
 {
     internal class NavigateToTargetBrain : AIBrainBase
     {
+        [SerializeField] private TargetProviderBase? initialTargetProvider;
+        
         private IWalkableProvider walkableProvider = null!;
         private IPathfinder pathfinder = null!;
         private ITileTransform tileTransform = null!;
-        private ITargetProvider targetProvider = null!;
         private Path? prevPath;
+
+        public ITargetProvider? TargetProvider { get; set; }
 
         private Path? TryFindPathToTarget()
         {
-            var tile = targetProvider.CurrentTarget;
+            var tile = TargetProvider?.CurrentTarget;
             if (tile == null)
                 return null;
 
@@ -30,7 +33,7 @@ namespace DGJ24.AI
             if (path.IsEmpty)
                 return null;
 
-            if (path.Targets.Last() != targetProvider.CurrentTarget)
+            if (path.Targets.Last() != TargetProvider?.CurrentTarget)
                 return null;
 
             return path;
@@ -87,7 +90,7 @@ namespace DGJ24.AI
             pathfinder = Singletons.Get<IPathfinder>();
             walkableProvider = Singletons.Get<IWalkableProvider>();
             tileTransform = gameObject.RequireComponent<ITileTransform>();
-            targetProvider = gameObject.RequireComponent<ITargetProvider>();
+            TargetProvider = initialTargetProvider;
         }
     }
 }
