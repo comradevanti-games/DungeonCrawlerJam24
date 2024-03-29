@@ -12,6 +12,6 @@ namespace DGJ24.AI
     {
         public Vector2Int Tile => Target.Position;
     }
-
+    
     public record ConstantTarget(Vector2Int Tile) : INavigationTarget;
 }
