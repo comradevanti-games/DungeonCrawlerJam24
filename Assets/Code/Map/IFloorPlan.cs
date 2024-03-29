@@ -18,5 +18,15 @@ namespace DGJ24.Map
         /// Checks if a specific tile is part of the floor-plan.
         /// </summary>
         public bool Contains(Vector2Int tile) => Tiles.Contains(tile);
+
+        public bool IsCorridor(Vector2Int tile)
+        {
+            var zPlus = Contains(tile + Vector2Int.up);
+            var xPlus = Contains(tile + Vector2Int.right);
+            var zMinus = Contains(tile + Vector2Int.down);
+            var xMinus = Contains(tile + Vector2Int.left);
+
+            return (zPlus && zMinus) || (xPlus && xMinus);
+        }
     }
 }

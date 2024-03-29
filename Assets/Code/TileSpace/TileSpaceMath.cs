@@ -89,6 +89,9 @@ namespace DGJ24.TileSpace
         public static Vector3 PositionToWorldSpace(Vector2Int tile) =>
             new Vector3(tile.x * 2, 0, tile.y * 2);
 
+        public static Vector2Int PositionFromWorldSpace(Vector3 pos) =>
+            new Vector2Int(Mathf.FloorToInt(pos.x / 2), Mathf.FloorToInt(pos.z / 2));
+
         public static CardinalDirection RotateDirection(
             CardinalDirection direction,
             RotationDirection rotation

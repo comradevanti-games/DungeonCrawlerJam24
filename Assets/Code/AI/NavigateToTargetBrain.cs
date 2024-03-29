@@ -1,39 +1,49 @@
-using System;
 using System.Linq;
 using DGJ24.Actors;
-using DGJ24.Map;
 using DGJ24.Navigation;
 using DGJ24.TileSpace;
 using UnityEngine;
-using UnityEngine.Assertions.Comparers;
-using Random = UnityEngine.Random;
 
 namespace DGJ24.AI
 {
-    internal class PatrollerBrain : MonoBehaviour, IAIBrain
+    internal class NavigateToTargetBrain : AIBrainBase
     {
         private IWalkableProvider walkableProvider = null!;
         private IPathfinder pathfinder = null!;
-        private IFloorPlan floorPlan = null!;
         private ITileTransform tileTransform = null!;
-        private Path? prevPath = null;
+        private ITargetProvider targetProvider = null!;
+        private Path? prevPath;
 
-        private Path? TryFindRandomPath()
+        private Path? TryFindPathToTarget()
         {
-            var potentialTiles = floorPlan.Tiles;
-            var index = Random.Range(0, potentialTiles.Count);
-            var tile = potentialTiles.ElementAt(index);
+            var tile = targetProvider.CurrentTarget;
+            if (tile == null)
+                return null;
 
-            return pathfinder.TryFindPath(tileTransform.Position, tile);
+            return pathfinder.TryFindPath(tileTransform.Position, tile.Value);
+        }
+
+        private Path? ValidatePath(Path path)
+        {
+            path = path.SkipTo(tileTransform.Position);
+
+            if (path.IsEmpty)
+                return null;
+
+            if (path.Targets.Last() != targetProvider.CurrentTarget)
+                return null;
+
+            return path;
         }
 
         private Path? TryUpdatePath(Path? currentPath)
         {
-            var newPath =
-                currentPath != null
-                    ? currentPath.SkipTo(tileTransform.Position)
-                    : TryFindRandomPath();
-            return newPath == null || newPath.IsEmpty ? null : newPath;
+            var newPath = currentPath ?? TryFindPathToTarget();
+
+            if (newPath == null)
+                return null;
+
+            return ValidatePath(newPath) ?? TryUpdatePath(null);
         }
 
         private ActionRequest Follow(GameObject actor, Path path)
@@ -62,7 +72,7 @@ namespace DGJ24.AI
             return new RotationActionRequest(actor, turnDir.Value, 0.5f);
         }
 
-        public ActionRequest DetermineNextAction(IAIBrain.ThinkContext ctx)
+        public override ActionRequest? DetermineNextAction(IAIBrain.ThinkContext ctx)
         {
             var currentPath = TryUpdatePath(prevPath);
             prevPath = currentPath;
@@ -74,10 +84,10 @@ namespace DGJ24.AI
 
         private void Awake()
         {
-            floorPlan = Singletons.Get<IFloorPlan>();
             pathfinder = Singletons.Get<IPathfinder>();
             walkableProvider = Singletons.Get<IWalkableProvider>();
             tileTransform = gameObject.RequireComponent<ITileTransform>();
+            targetProvider = gameObject.RequireComponent<ITargetProvider>();
         }
     }
 }
