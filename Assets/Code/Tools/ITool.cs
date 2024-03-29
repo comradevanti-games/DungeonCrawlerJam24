@@ -1,7 +1,11 @@
-namespace DGJ24.Tools
-{
-    public interface ITool
-    {
-        public void Use();
-    }
+namespace DGJ24.Tools {
+
+	public interface ITool {
+
+		public int Cooldown { get; }
+
+		public void Use();
+
+	}
+
 }

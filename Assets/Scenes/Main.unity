@@ -464,6 +464,11 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 125041124411689801, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: targetLayers
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.size
@@ -693,6 +698,11 @@ PrefabInstance:
         type: 3}
       propertyPath: playerRotationPerformed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428807336599285580, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: cooldown
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7355760158475961633, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
