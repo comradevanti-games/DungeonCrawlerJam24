@@ -472,11 +472,16 @@ PrefabInstance:
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
@@ -491,13 +496,28 @@ PrefabInstance:
       objectReference: {fileID: 1296441743}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
+      propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 653005214}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnPlayerDied
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ReleaseCursor
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
@@ -521,12 +541,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
+      propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: DGJ24.Inputs.InputHandler, DGJ24.Inputs
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
       propertyPath: healthPointsChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DGJ24.UI.HealthDisplay, DGJ24.UI
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
+        type: 3}
+      propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
