@@ -1,4 +1,5 @@
 using DGJ24.Actors;
+using DGJ24.Audio;
 using DGJ24.TileSpace;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,133 +7,124 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 using UnityEngine.SceneManagement;
 
-namespace DGJ24.Inputs
-{
-    internal class InputHandler : MonoBehaviour
-    {
-        public UnityEvent? playerRotationPerformed;
-        public UnityEvent<double>? quitInputInitialized;
-        public UnityEvent? quitInputCanceled;
+namespace DGJ24.Inputs {
 
-        [SerializeField]
-        private float playerMoveDuration = 5f;
+	internal class InputHandler : MonoBehaviour {
 
-        [SerializeField]
-        private float playerRotateDuration = 0.1f;
+		public UnityEvent? playerRotationPerformed;
+		public UnityEvent<double>? quitInputInitialized;
+		public UnityEvent? quitInputCanceled;
 
-        private IActionRequestQueue ActionQueue { get; set; } = null!;
-        private ITileTransform TileTransform { get; set; } = null!;
+		[SerializeField]
+		private float playerMoveDuration = 5f;
 
-        private void Awake()
-        {
-            ActionQueue = gameObject.RequireComponent<IActionRequestQueue>();
-            TileTransform = gameObject.RequireComponent<ITileTransform>();
-            TileTransform.Position = Vector2Int.zero;
-            TileTransform.Forward = CardinalDirection.Forward;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+		[SerializeField]
+		private float playerRotateDuration = 0.1f;
 
-        public void OnMovementInput(InputAction.CallbackContext ctx)
-        {
-            if (ctx.performed)
-            {
-                Vector2 input = ctx.ReadValue<Vector2>();
+		private IActionRequestQueue ActionQueue { get; set; } = null!;
+		private ITileTransform TileTransform { get; set; } = null!;
+		private IAudioPlayer AudioPlayer { get; set; } = null!;
 
-                if (IsDiagonalInput(input))
-                    return;
+		private void Awake() {
+			ActionQueue = gameObject.RequireComponent<IActionRequestQueue>();
+			TileTransform = gameObject.RequireComponent<ITileTransform>();
+			AudioPlayer = gameObject.GetComponent<IAudioPlayer>();
+			TileTransform.Position = Vector2Int.zero;
+			TileTransform.Forward = CardinalDirection.Forward;
+			Cursor.visible = false;
+			Cursor.lockState = CursorLockMode.Locked;
+		}
 
-                CardinalDirection localDir = GetInputDirection(input);
-                var globalDir = TileTransform.LocalToGlobal(localDir);
+		public void OnMovementInput(InputAction.CallbackContext ctx) {
+			if (ctx.performed) {
+				Vector2 input = ctx.ReadValue<Vector2>();
 
-                _ = ActionQueue.TryEnqueue(
-                    new MovementActionRequest(gameObject, globalDir, playerMoveDuration)
-                );
-            }
-        }
+				if (IsDiagonalInput(input))
+					return;
 
-        public void OnRotationInput(InputAction.CallbackContext ctx)
-        {
-            if (ctx.performed)
-            {
-                var input = ctx.ReadValue<float>();
-                if (input == 0)
-                    return;
-                var turnDir = input > 0 ? RotationDirection.Right : RotationDirection.Left;
+				CardinalDirection localDir = GetInputDirection(input);
+				var globalDir = TileTransform.LocalToGlobal(localDir);
 
-                if (
-                    ActionQueue.TryEnqueue(
-                        new RotationActionRequest(gameObject, turnDir, playerRotateDuration)
-                    )
-                )
-                {
-                    playerRotationPerformed?.Invoke();
-                }
-            }
-        }
+				_ = ActionQueue.TryEnqueue(
+					new MovementActionRequest(gameObject, globalDir, playerMoveDuration)
+				);
+			}
+		}
 
-        private CardinalDirection GetInputDirection(Vector2 input)
-        {
-            switch (input.x)
-            {
-                case > 0.9f:
-                    return CardinalDirection.Right;
-                case < -0.9f:
-                    return CardinalDirection.Left;
-            }
+		public void OnRotationInput(InputAction.CallbackContext ctx) {
+			if (ctx.performed) {
+				var input = ctx.ReadValue<float>();
+				if (input == 0)
+					return;
+				var turnDir = input > 0 ? RotationDirection.Right : RotationDirection.Left;
 
-            switch (input.y)
-            {
-                case > 0.9f:
-                    return CardinalDirection.Forward;
-                case < -0.9f:
-                    return CardinalDirection.Backward;
-            }
+				if (
+					ActionQueue.TryEnqueue(
+						new RotationActionRequest(gameObject, turnDir, playerRotateDuration)
+					)
+				) {
+					playerRotationPerformed?.Invoke();
+				}
+			}
+		}
 
-            return CardinalDirection.Forward;
-        }
+		private CardinalDirection GetInputDirection(Vector2 input) {
+			switch (input.x) {
+				case > 0.9f:
+					return CardinalDirection.Right;
+				case < -0.9f:
+					return CardinalDirection.Left;
+			}
 
-        public void OnInteractionInput(InputAction.CallbackContext ctx)
-        {
-            if (ctx.canceled)
-            {
-                ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject));
-            }
-        }
+			switch (input.y) {
+				case > 0.9f:
+					return CardinalDirection.Forward;
+				case < -0.9f:
+					return CardinalDirection.Backward;
+			}
 
-        public void OnTorchInput(InputAction.CallbackContext ctx)
-        {
-            if (ctx.canceled)
-            {
-                ActionQueue.TryEnqueue(new ToolActionRequest(gameObject));
-            }
-        }
+			return CardinalDirection.Forward;
+		}
 
-        public void OnQuitInput(InputAction.CallbackContext ctx)
-        {
-            HoldInteraction holdInteraction = (ctx.interaction as HoldInteraction)!;
+		public void OnInteractionInput(InputAction.CallbackContext ctx) {
+			if (ctx.canceled) {
+				ActionQueue.TryEnqueue(new InteractionActionRequest(gameObject));
+			}
+		}
 
-            if (ctx.started)
-            {
-                quitInputInitialized?.Invoke(holdInteraction.duration);
-            }
+		public void OnTorchInput(InputAction.CallbackContext ctx) {
+			if (ctx.canceled) {
+				ActionQueue.TryEnqueue(new ToolActionRequest(gameObject));
+			}
+		}
 
-            if (ctx.performed)
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                SceneManager.LoadScene("Menu");
-            }
+		public void OnQuitInput(InputAction.CallbackContext ctx) {
+			HoldInteraction holdInteraction = (ctx.interaction as HoldInteraction)!;
 
-            if (ctx.canceled)
-            {
-                quitInputCanceled?.Invoke();
-            }
-        }
+			if (ctx.started) {
+				quitInputInitialized?.Invoke(holdInteraction.duration);
+			}
 
-        private bool IsDiagonalInput(Vector2 input)
-        {
-            return input.x != 0 && input.y != 0;
-        }
-    }
+			if (ctx.performed) {
+				Cursor.visible = true;
+				Cursor.lockState = CursorLockMode.None;
+				SceneManager.LoadScene("Menu");
+			}
+
+			if (ctx.canceled) {
+				quitInputCanceled?.Invoke();
+			}
+		}
+
+		public void ReleaseCursor() {
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+		}
+
+		private bool IsDiagonalInput(Vector2 input) {
+			return input.x != 0 && input.y != 0;
+		}
+
+	}
+
 }

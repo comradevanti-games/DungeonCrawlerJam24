@@ -2,36 +2,36 @@ using DGJ24.Health;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DGJ24.Actors
-{
-    internal class RegularHealth : MonoBehaviour, IHealth
-    {
-        public UnityEvent<int>? healthPointsChanged;
-        public UnityEvent? actorDied;
+namespace DGJ24.Actors {
 
-        [SerializeField]
-        private int baseHealth;
+	internal class RegularHealth : MonoBehaviour, IHealth {
 
-        private int value;
+		public UnityEvent<int>? healthPointsChanged;
+		public UnityEvent? actorDied;
 
-        public int Value
-        {
-            get => value;
-            set
-            {
-                this.value = Mathf.Max(value, 0);
-                healthPointsChanged?.Invoke(Value);
-            }
-        }
+		[SerializeField]
+		private int baseHealth;
 
-        private void Awake()
-        {
-            Value = baseHealth;
-        }
+		private int value;
 
-        private void Die()
-        {
-            actorDied?.Invoke();
-        }
-    }
+		public int Value {
+			get => value;
+			set {
+				this.value = Mathf.Max(value, 0);
+				healthPointsChanged?.Invoke(Value);
+
+				if (Value == 0) Die();
+			}
+		}
+
+		private void Awake() {
+			Value = baseHealth;
+		}
+
+		private void Die() {
+			actorDied?.Invoke();
+		}
+
+	}
+
 }

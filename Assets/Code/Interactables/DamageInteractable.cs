@@ -1,26 +1,30 @@
 using DGJ24.Health;
 using UnityEngine;
+using UnityEngine.Events;
 
-namespace DGJ24.Interactables
-{
-    [RequireComponent(typeof(IHealth))]
-    internal class DamageInteractable : MonoBehaviour, IInteractable
-    {
-        [SerializeField]
-        private InteractionLayers layers;
+namespace DGJ24.Interactables {
 
-        private IHealth health = null!;
+	[RequireComponent(typeof(IHealth))]
+	internal class DamageInteractable : MonoBehaviour, IInteractable {
 
-        public InteractionLayers Layers => layers;
+		[SerializeField]
+		private InteractionLayers layers;
 
-        public void HandleInteraction()
-        {
-            health.Value--;
-        }
+		[SerializeField] private UnityEvent? damageTaken;
 
-        private void Awake()
-        {
-            health = gameObject.RequireComponent<IHealth>();
-        }
-    }
+		private IHealth health = null!;
+
+		public InteractionLayers Layers => layers;
+
+		public void HandleInteraction() {
+			health.Value--;
+			damageTaken?.Invoke();
+		}
+
+		private void Awake() {
+			health = gameObject.RequireComponent<IHealth>();
+		}
+
+	}
+
 }
