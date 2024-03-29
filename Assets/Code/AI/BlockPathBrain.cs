@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DGJ24.AI
 {
-    internal class CorkyBrain : AIBrainBase
+    internal class BlockPathBrain : AIBrainBase
     {
         [SerializeField]
         private float stopDistance;
