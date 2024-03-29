@@ -2,7 +2,6 @@ using System.Linq;
 using DGJ24.Actors;
 using DGJ24.Navigation;
 using DGJ24.TileSpace;
-using UnityEngine;
 
 namespace DGJ24.AI
 {
@@ -12,12 +11,16 @@ namespace DGJ24.AI
         private IWalkableProvider walkableProvider = null!;
         private ITileTransform tileTransform = null!;
 
-        private ActionRequest Follow(GameObject actor, Path path)
+        public override ActionRequest? DetermineNextAction(IAIBrain.ThinkContext ctx)
         {
+            var path = pathNavigator.Path;
+            if (path == null)
+                return new NoOpActionRequest(ctx.Actor);
+
             var nextTile = path.Targets.First();
             if (!walkableProvider.IsWalkable(nextTile))
             {
-                return new NoOpActionRequest(actor);
+                return new NoOpActionRequest(ctx.Actor);
             }
 
             var diff = nextTile - tileTransform.Position;
@@ -25,7 +28,7 @@ namespace DGJ24.AI
             if (dirToNextTile == null)
             {
                 pathNavigator.UpdatePath();
-                return new NoOpActionRequest(actor);
+                return new NoOpActionRequest(ctx.Actor);
             }
 
             var turnDir = TileSpaceMath.TryRotationTowards(
@@ -33,16 +36,8 @@ namespace DGJ24.AI
                 dirToNextTile.Value
             );
             if (turnDir == null)
-                return new MovementActionRequest(actor, dirToNextTile.Value, 0.5f);
-            return new RotationActionRequest(actor, turnDir.Value, 0.5f);
-        }
-
-        public override ActionRequest? DetermineNextAction(IAIBrain.ThinkContext ctx)
-        {
-            var currentPath = pathNavigator.Path;
-            return currentPath != null
-                ? Follow(ctx.Actor, currentPath)
-                : new NoOpActionRequest(ctx.Actor);
+                return new MovementActionRequest(ctx.Actor, dirToNextTile.Value, 0.5f);
+            return new RotationActionRequest(ctx.Actor, turnDir.Value, 0.5f);
         }
 
         private void Awake()
