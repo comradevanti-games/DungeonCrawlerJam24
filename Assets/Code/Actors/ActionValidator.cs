@@ -32,7 +32,7 @@ namespace DGJ24.Actors {
 				// TODO: Check if interactable is in front of actor
 				InteractionActionRequest => true,
 				// TODO: Check charge
-				ToolActionRequest => true,
+				ToolActionRequest toolUse => CanUseTool(toolUse),
 				_ => throw new ArgumentOutOfRangeException(nameof(request), request, null)
 			};
 		}
