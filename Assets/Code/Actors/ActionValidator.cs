@@ -18,7 +18,7 @@ namespace DGJ24.Actors {
 
 		private bool CanUseTool(ToolActionRequest request) {
 
-			var usedTool = request.Actor.GetComponent<IActorTool>();
+			var usedTool = request.Actor.GetComponentInChildren<IActorTool>();
 			return usedTool.Cooldown > 0;
 
 		}
