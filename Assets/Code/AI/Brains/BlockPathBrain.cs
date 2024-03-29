@@ -13,16 +13,11 @@ namespace DGJ24.AI
         [SerializeField]
         private float stopDistance;
 
-        private IAIBrain attackBrain = null!;
-        private IAIBrain navigationBrain = null!;
+        private IAIBrain internalBrain = null!;
 
         public override ActionRequest? DetermineNextAction(IAIBrain.ThinkContext ctx)
         {
-            var interactAction = attackBrain.DetermineNextAction(ctx);
-            if (interactAction is not NoOpActionRequest)
-                return interactAction;
-
-            return navigationBrain.DetermineNextAction(ctx);
+            return internalBrain.DetermineNextAction(ctx);
         }
 
         private void Awake()
@@ -42,9 +37,8 @@ namespace DGJ24.AI
                 walkableProvider,
                 tileTransform
             );
-
-            attackBrain = new InteractBrain(interactor);
-            navigationBrain = new DistanceSwitchBrain(
+            var attackBrain = new InteractBrain(interactor);
+            var navigationBrain = new DistanceSwitchBrain(
                 playerTransformTarget,
                 tileTransform,
                 (ctx, distance) =>
@@ -57,6 +51,7 @@ namespace DGJ24.AI
                 },
                 (_) => throw new Exception("Should always have target")
             );
+            internalBrain = new FallbackBrain(attackBrain, navigationBrain);
         }
     }
 }
