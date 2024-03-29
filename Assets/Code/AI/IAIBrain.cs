@@ -10,6 +10,6 @@ namespace DGJ24.AI
     {
         public record ThinkContext(GameObject Actor);
 
-        public ActionRequest DetermineNextAction(ThinkContext ctx);
+        public ActionRequest? DetermineNextAction(ThinkContext ctx);
     }
 }

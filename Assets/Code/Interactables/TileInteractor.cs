@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using DGJ24.TileSpace;
 using UnityEngine;
 
@@ -11,27 +13,34 @@ namespace DGJ24.Interactables
         private IInteractionTileSelector tileSelector = null!;
         private ITileSpaceEntityRepo tileSpaceEntityRepo = null!;
 
-        private void TryInteractAt(Vector2Int tile)
+        public bool CanInteractWith(IInteractable interactable) =>
+            (targetLayers & interactable.Layers) != 0;
+
+        private IInteractable? TryGetValidInteractableAt(Vector2Int tile)
         {
             var entity = tileSpaceEntityRepo.TryGetEntityOn(tile);
             if (entity == null)
-                return;
+                return null;
 
             var interactable = entity.GetComponent<IInteractable>();
             if (interactable == null)
-                return;
+                return null;
 
-            var canInteract = (targetLayers & interactable.Layers) != 0;
-            if (!canInteract)
-                return;
+            if (!CanInteractWith(interactable))
+                return null;
 
-            interactable.HandleInteraction();
+            return interactable;
         }
+
+        public IEnumerable<IInteractable> PotentialInteractables =>
+            tileSelector.Tiles.Select(TryGetValidInteractableAt).FilterNull();
 
         public void TryInteract()
         {
-            var interactionTiles = tileSelector.Tiles;
-            interactionTiles.ForEach(TryInteractAt);
+            PotentialInteractables.ForEach(interactable =>
+            {
+                interactable.HandleInteraction();
+            });
         }
 
         private void Awake()
