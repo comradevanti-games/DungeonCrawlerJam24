@@ -41,9 +41,12 @@ namespace DGJ24.Navigation
         public void UpdatePath()
         {
             Path ??= TryFindPathToTarget();
+            if (Path == null)
+                return;
 
-            if (Path != null)
-                Path = ValidatePath(Path);
+            Path = ValidatePath(Path);
+            if (Path == null)
+                UpdatePath();
         }
 
         private void Awake()
