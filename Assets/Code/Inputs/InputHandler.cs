@@ -110,7 +110,7 @@ namespace DGJ24.Inputs
 
         public void OnQuitInput(InputAction.CallbackContext ctx)
         {
-            HoldInteraction? holdInteraction = ctx.interaction as HoldInteraction;
+            HoldInteraction holdInteraction = (ctx.interaction as HoldInteraction)!;
 
             if (ctx.started)
             {
