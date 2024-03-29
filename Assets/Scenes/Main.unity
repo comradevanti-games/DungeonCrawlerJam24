@@ -592,12 +592,12 @@ PrefabInstance:
     - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: playerMoveDuration
-      value: 0.45
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: playerRotateDuration
-      value: 0.45
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 6043540521554889337, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
