@@ -4,7 +4,7 @@ using DGJ24.Map;
 using DGJ24.TileSpace;
 using UnityEngine;
 
-namespace DGJ24.Loot
+namespace DGJ24.Game
 {
     internal class LootSpawner : MonoBehaviour
     {
