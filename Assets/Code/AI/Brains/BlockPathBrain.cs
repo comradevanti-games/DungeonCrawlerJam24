@@ -46,28 +46,16 @@ namespace DGJ24.AI
             if (path == null)
                 return new NoOpActionRequest(ctx.Actor);
 
-            var nextTile = path.Targets.First();
-            if (!walkableProvider.IsWalkable(nextTile))
-            {
-                navigator.UpdatePath();
-                return new NoOpActionRequest(ctx.Actor);
-            }
-
-            var diff = nextTile - tileTransform.Position;
-            var dirToNextTile = TileSpaceMath.TryDirectionForVector(diff);
-            if (dirToNextTile == null)
-            {
-                navigator.UpdatePath();
-                return new NoOpActionRequest(ctx.Actor);
-            }
-
-            var turnDir = TileSpaceMath.TryRotationTowards(
-                tileTransform.Forward,
-                dirToNextTile.Value
+            var navigationRequest = NavigationUtils.TryDetermineNavigationActionFor(
+                path,
+                ctx.Actor,
+                tileTransform,
+                walkableProvider
             );
-            if (turnDir == null)
-                return new MovementActionRequest(ctx.Actor, dirToNextTile.Value, 0.5f);
-            return new RotationActionRequest(ctx.Actor, turnDir.Value, 0.5f);
+            if (navigationRequest is NoOpActionRequest)
+                navigator.UpdatePath();
+
+            return navigationRequest;
         }
 
         private void Awake()
