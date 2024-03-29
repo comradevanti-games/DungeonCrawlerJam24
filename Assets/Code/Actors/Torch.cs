@@ -21,11 +21,16 @@ namespace DGJ24.Actors {
 		private bool isFlashing;
 
 		public int Cooldown => cooldown;
+		public int RemainingCooldown { get; private set; }
+
+		private IActionDirector ActionDirector { get; set; }
 
 		private void Awake() {
 			baseIntensity = torchLight!.intensity;
 			baseRange = torchLight.range;
 			torchAudio = gameObject.RequireComponent<AudioSource>();
+			ActionDirector = Singletons.Get<IActionDirector>();
+			ActionDirector.AllActionsExecuted += OnRoundPassed;
 		}
 
 		public void Use() {
@@ -35,6 +40,12 @@ namespace DGJ24.Actors {
 			StartCoroutine(Flashing(torchLight!, torchLight!.intensity, maxIntensity, torchLight.range, maxRange, flashDuration, flashCurve!));
 			torchAudio.PlayOneShot(torchAudio.clip);
 
+			RemainingCooldown = Cooldown + 1;
+
+		}
+
+		private void OnRoundPassed() {
+			RemainingCooldown--;
 		}
 
 		private IEnumerator Flashing(Light l, float intensity, float intensityTarget, float range, float rangeTarget, float duration,

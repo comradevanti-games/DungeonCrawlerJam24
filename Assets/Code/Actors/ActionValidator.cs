@@ -11,19 +11,22 @@ namespace DGJ24.Actors {
 		private IWalkableProvider walkableProvider = null!;
 
 		private bool CanDoMove(MovementActionRequest request) {
-			var actorTransform = request.Actor.RequireComponent<ITileTransform>();
-			var destinationTile = MoveByDirection(actorTransform.Position, request.Direction);
+
+			ITileTransform actorTransform = request.Actor.RequireComponent<ITileTransform>();
+			Vector2Int destinationTile = MoveByDirection(actorTransform.Position, request.Direction);
 			return walkableProvider.IsWalkable(destinationTile);
+
 		}
 
 		private bool CanUseTool(ToolActionRequest request) {
 
-			var usedTool = request.Actor.GetComponentInChildren<IActorTool>();
-			return usedTool.Cooldown > 0;
+			IActorTool? usedTool = request.Actor.GetComponentInChildren<IActorTool>();
+			return usedTool.RemainingCooldown <= 0;
 
 		}
 
 		public bool IsActionValid(ActionRequest request) {
+
 			return request switch {
 				NoOpActionRequest => true,
 				RotationActionRequest => true,
@@ -34,6 +37,7 @@ namespace DGJ24.Actors {
 				ToolActionRequest toolUse => CanUseTool(toolUse),
 				_ => throw new ArgumentOutOfRangeException(nameof(request), request, null)
 			};
+
 		}
 
 		private void Awake() {
