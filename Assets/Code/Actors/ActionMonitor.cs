@@ -11,7 +11,7 @@ namespace DGJ24.Actors
     {
         public event Action<IActionMonitor.ActionBatchReadyArgs>? ActionBatchReady;
 
-        public event Action? BeginMonitoringActions;
+        public event Action<IActionMonitor.BeginMonitoringArgs>? BeginMonitoringActions;
 
         private IActionValidator validator = null!;
         private IActorRepo actorRepo = null!;
@@ -52,7 +52,7 @@ namespace DGJ24.Actors
 
         private async void MonitorActions()
         {
-            BeginMonitoringActions?.Invoke();
+            BeginMonitoringActions?.Invoke(new IActionMonitor.BeginMonitoringArgs());
 
             IImmutableSet<ActionRequest>? nextActionBatch = null;
             while (nextActionBatch == null)
