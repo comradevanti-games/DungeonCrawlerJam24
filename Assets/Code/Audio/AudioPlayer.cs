@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 namespace DGJ24.Audio {
 
 	[RequireComponent(typeof(AudioSource))]
-	public class AudioPlayer : MonoBehaviour {
+	public class AudioPlayer : MonoBehaviour, IAudioPlayer {
 
 		[SerializeField] private AudioSource source = null!;
 		[SerializeField] private AudioClip[] availableAudioClips = Array.Empty<AudioClip>();
