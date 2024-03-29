@@ -11,7 +11,9 @@ namespace DGJ24.Actors
     {
         public record ActionBatchReadyArgs(IImmutableSet<ActionRequest> Batch);
 
-        public event Action BeginMonitoringActions;
+        public record BeginMonitoringArgs;
+        
+        public event Action<BeginMonitoringArgs> BeginMonitoringActions;
 
         /// <summary>
         /// Event for when all actors have chosen an action-request.
