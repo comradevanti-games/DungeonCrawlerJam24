@@ -90,18 +90,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
         type: 3}
       insertIndex: 4
-      addedObject: {fileID: -3246656169977050352}
-    - targetCorrespondingSourceObject: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
-        type: 3}
-      insertIndex: 5
       addedObject: {fileID: 870103701057385030}
     - targetCorrespondingSourceObject: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
         type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 8978437830668471415}
-    - targetCorrespondingSourceObject: {fileID: 5982804795442013342, guid: b9c3a5d5827ed30bdbadb130de0105cc,
-        type: 3}
-      insertIndex: 7
+      insertIndex: 5
       addedObject: {fileID: 3958665921843533490}
   m_SourcePrefab: {fileID: 100100000, guid: b9c3a5d5827ed30bdbadb130de0105cc, type: 3}
 --- !u!1 &8515917592445619662 stripped
@@ -110,18 +102,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2677861313466313040}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-3246656169977050352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8515917592445619662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b833b78c6c6646ff9b2d70da5adb9faf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &870103701057385030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,18 +112,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d942214646f4d9bba3f9bb877f563f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8978437830668471415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8515917592445619662}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d638d8364a94e01a1f01a53c4c087a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3958665921843533490
@@ -158,6 +126,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cde4f76cc524d60b111e8ad93ee28ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopDistance: 10
-  navigateBrain: {fileID: 8978437830668471415}
-  attackBrain: {fileID: -3246656169977050352}
+  stopDistance: 3
