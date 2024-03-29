@@ -1,4 +1,5 @@
 using DGJ24.Actors;
+using DGJ24.Audio;
 using DGJ24.TileSpace;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,10 +23,12 @@ namespace DGJ24.Inputs {
 
 		private IActionRequestQueue ActionQueue { get; set; } = null!;
 		private ITileTransform TileTransform { get; set; } = null!;
+		private IAudioPlayer AudioPlayer { get; set; } = null!;
 
 		private void Awake() {
 			ActionQueue = gameObject.RequireComponent<IActionRequestQueue>();
 			TileTransform = gameObject.RequireComponent<ITileTransform>();
+			AudioPlayer = gameObject.GetComponent<IAudioPlayer>();
 			TileTransform.Position = Vector2Int.zero;
 			TileTransform.Forward = CardinalDirection.Forward;
 			Cursor.visible = false;
