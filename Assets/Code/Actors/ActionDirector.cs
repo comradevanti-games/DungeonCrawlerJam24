@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DGJ24.Interactables;
 using DGJ24.TileSpace;
-using DGJ24.Tools;
 using UnityEngine;
 
 namespace DGJ24.Actors {
@@ -93,7 +92,7 @@ namespace DGJ24.Actors {
 		}
 
 		private void UseTool(GameObject actor, Action<GameObject> callback) {
-			actor.GetComponentInChildren<ITool>().Use();
+			actor.GetComponentInChildren<IActorTool>().Use();
 			callback.Invoke(actor);
 		}
 

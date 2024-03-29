@@ -1,6 +1,6 @@
-namespace DGJ24.Tools {
+namespace DGJ24.Actors {
 
-	public interface ITool {
+	public interface IActorTool {
 
 		public int Cooldown { get; }
 

@@ -1,7 +1,6 @@
 using System;
 using DGJ24.Navigation;
 using DGJ24.TileSpace;
-using DGJ24.Tools;
 using UnityEngine;
 using static DGJ24.TileSpace.TileSpaceMath;
 
@@ -19,7 +18,7 @@ namespace DGJ24.Actors {
 
 		private bool CanUseTool(ToolActionRequest request) {
 
-			var usedTool = request.Actor.GetComponent<ITool>();
+			var usedTool = request.Actor.GetComponent<IActorTool>();
 			return usedTool.Cooldown > 0;
 
 		}
