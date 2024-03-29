@@ -21,7 +21,7 @@ namespace DGJ24.Actors
             Singletons.Get<IActionMonitor>().ActionBatchReady += TryExecute;
         }
 
-        private void TryExecute(IActionMonitor.ActionBatchReadyEvent batch)
+        private void TryExecute(IActionMonitor.ActionBatchReadyArgs batch)
         {
             ActivityPool.UnionWith(batch.Batch.Select(it => it.Actor));
 

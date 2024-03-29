@@ -9,13 +9,13 @@ namespace DGJ24.Actors
     /// </summary>
     public interface IActionMonitor
     {
-        public record ActionBatchReadyEvent(IImmutableSet<ActionRequest> Batch);
+        public record ActionBatchReadyArgs(IImmutableSet<ActionRequest> Batch);
 
         public event Action BeginMonitoringActions;
 
         /// <summary>
         /// Event for when all actors have chosen an action-request.
         /// </summary>
-        public event Action<ActionBatchReadyEvent> ActionBatchReady;
+        public event Action<ActionBatchReadyArgs> ActionBatchReady;
     }
 }

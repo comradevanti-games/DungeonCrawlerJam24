@@ -9,7 +9,7 @@ namespace DGJ24.Actors
 {
     internal class ActionMonitor : MonoBehaviour, IActionMonitor
     {
-        public event Action<IActionMonitor.ActionBatchReadyEvent>? ActionBatchReady;
+        public event Action<IActionMonitor.ActionBatchReadyArgs>? ActionBatchReady;
 
         public event Action? BeginMonitoringActions;
 
@@ -63,7 +63,7 @@ namespace DGJ24.Actors
                 nextActionBatch = TryGetNextActionBatch(actorRepo.Actors.ToImmutableHashSet());
             }
 
-            ActionBatchReady?.Invoke(new IActionMonitor.ActionBatchReadyEvent(nextActionBatch));
+            ActionBatchReady?.Invoke(new IActionMonitor.ActionBatchReadyArgs(nextActionBatch));
         }
 
         private void Awake()
