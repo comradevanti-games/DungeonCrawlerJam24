@@ -1,8 +1,6 @@
 using System.Linq;
 using DGJ24.Actors;
 using DGJ24.Interactables;
-using DGJ24.TileSpace;
-using UnityEngine;
 
 namespace DGJ24.AI
 {

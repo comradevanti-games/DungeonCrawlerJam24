@@ -1,4 +1,3 @@
-using System;
 using DGJ24.Collectibles;
 using UnityEngine;
 
