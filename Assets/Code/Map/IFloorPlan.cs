@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DGJ24.TileSpace;
 using UnityEngine;
 
 namespace DGJ24.Map
@@ -21,12 +22,8 @@ namespace DGJ24.Map
 
         public bool IsCorridor(Vector2Int tile)
         {
-            var zPlus = !Contains(tile + Vector2Int.up);
-            var xPlus = !Contains(tile + Vector2Int.right);
-            var zMinus = !Contains(tile + Vector2Int.down);
-            var xMinus = !Contains(tile + Vector2Int.left);
-
-            return (zPlus && zMinus) || (xPlus && xMinus);
+            var diagonalFloorCount = TileSpaceMath.DiagonalNeighborsOf(tile).Count(Contains);
+            return diagonalFloorCount <= 2;
         }
     }
 }

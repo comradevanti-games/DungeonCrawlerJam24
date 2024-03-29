@@ -17,6 +17,14 @@ namespace DGJ24.TileSpace
             Vector2Int.left,
         };
 
+        public static readonly Vector2Int[] DiagonalVectors =
+        {
+            new Vector2Int(1, 1),
+            new Vector2Int(1, -1),
+            new Vector2Int(-1, -1),
+            new Vector2Int(-1, 1)
+        };
+
         public static readonly Vector2Int[] DirectionVectors =
         {
             new Vector2Int(0, 1),
@@ -127,5 +135,8 @@ namespace DGJ24.TileSpace
         {
             return DirectionVectors.Select(it => tile + it);
         }
+
+        public static IEnumerable<Vector2Int> DiagonalNeighborsOf(Vector2Int tile) =>
+            DiagonalVectors.Select(it => tile + it);
     }
 }
