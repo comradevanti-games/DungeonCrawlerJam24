@@ -822,8 +822,6 @@ MonoBehaviour:
   quitInputCanceled:
     m_PersistentCalls:
       m_Calls: []
-  playerMoveDuration: 0.2
-  playerRotateDuration: 0.1
 --- !u!81 &3664607139454339902
 AudioListener:
   m_ObjectHideFlags: 0
@@ -864,6 +862,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layers: 1
+  damageTaken:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-8366645038925485919
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,8 +29,8 @@ namespace DGJ24.AI
                 dirToNextTile.Value
             );
             if (turnDir == null)
-                return new MovementActionRequest(actor, dirToNextTile.Value, 0.5f);
-            return new RotationActionRequest(actor, turnDir.Value, 0.5f);
+                return new MovementActionRequest(actor, dirToNextTile.Value);
+            return new RotationActionRequest(actor, turnDir.Value);
         }
     }
 }

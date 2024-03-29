@@ -10,6 +10,10 @@ namespace DGJ24.Actors {
 	internal class ActionDirector : MonoBehaviour, IActionDirector {
 
 		public event Action? AllActionsExecuted;
+
+		[SerializeField] private float moveTime;
+		[SerializeField] private float rotateTime;
+		
 		private HashSet<GameObject> ActivityPool { get; } = new();
 		private int TotalRoundCount { get; set; }
 
@@ -23,10 +27,10 @@ namespace DGJ24.Actors {
 			foreach (ActionRequest? action in batch.Batch) {
 				switch (action) {
 					case MovementActionRequest request:
-						MoveActor(request.Actor, request.Direction, request.MoveDuration);
+						MoveActor(request.Actor, request.Direction, moveTime);
 						break;
 					case RotationActionRequest request:
-						RotateActor(request.Actor, request.Rotation, request.RotateDuration);
+						RotateActor(request.Actor, request.Rotation, rotateTime);
 						break;
 					case ToolActionRequest request:
 						UseTool(request.Actor, OnActionRequestExecuted);

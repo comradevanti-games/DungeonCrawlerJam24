@@ -28,7 +28,7 @@ namespace DGJ24.AI
 
             var rotation = TileSpaceMath.TryRotationTowards(tileTransform.Forward, targetDirection);
             if (rotation != null)
-                return new RotationActionRequest(ctx.Actor, rotation.Value, 0.5f);
+                return new RotationActionRequest(ctx.Actor, rotation.Value);
 
             // Walk forward if possible
 
@@ -36,7 +36,7 @@ namespace DGJ24.AI
                 tileTransform.Position + TileSpaceMath.VectorForDirection(targetDirection);
             var canWalkForward = walkableProvider.IsWalkable(frontTile);
             if (canWalkForward)
-                return new MovementActionRequest(ctx.Actor, tileTransform.Forward, 0.5f);
+                return new MovementActionRequest(ctx.Actor, tileTransform.Forward);
 
             // Calc next direction
 

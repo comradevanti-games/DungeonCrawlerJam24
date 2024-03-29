@@ -10,19 +10,12 @@ namespace DGJ24.Actors
     /// </summary>
     public record NoOpActionRequest(GameObject Actor) : ActionRequest(Actor);
 
-
     /// <param name="Direction">The direction to move in GLOBAL space.</param>
-    public record MovementActionRequest(
-        GameObject Actor,
-        CardinalDirection Direction,
-        float MoveDuration
-    ) : ActionRequest(Actor);
+    public record MovementActionRequest(GameObject Actor, CardinalDirection Direction)
+        : ActionRequest(Actor);
 
-    public record RotationActionRequest(
-        GameObject Actor,
-        RotationDirection Rotation,
-        float RotateDuration
-    ) : ActionRequest(Actor);
+    public record RotationActionRequest(GameObject Actor, RotationDirection Rotation)
+        : ActionRequest(Actor);
 
     public record InteractionActionRequest(GameObject Actor) : ActionRequest(Actor);
 
