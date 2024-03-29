@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-namespace DGJ24.Tools {
+namespace DGJ24.Actors {
 
-	internal class Torch : MonoBehaviour, ITool {
+	internal class Torch : MonoBehaviour, IActorTool {
 
 		[SerializeField] private Light? torchLight;
 		[SerializeField] private AnimationCurve? flashCurve;
@@ -16,9 +16,11 @@ namespace DGJ24.Tools {
 
 		private float baseIntensity;
 		private float baseRange;
-		private int roundsPassedSinceLastFlash;
+		private int lastRoundUsed;
 
 		private bool isFlashing;
+
+		public int Cooldown => cooldown;
 
 		private void Awake() {
 			baseIntensity = torchLight!.intensity;
