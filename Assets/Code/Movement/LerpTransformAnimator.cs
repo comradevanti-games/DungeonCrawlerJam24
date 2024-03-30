@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DGJ24.TileSpace;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DGJ24.Movement
 {
@@ -9,6 +10,9 @@ namespace DGJ24.Movement
     {
         [SerializeField]
         private float syncSeconds;
+
+        [SerializeField]
+        private UnityEvent animationStarted = new UnityEvent();
 
         private ITileTransform tileTransform = null!;
 
@@ -39,6 +43,8 @@ namespace DGJ24.Movement
 
         public async Task SyncPosition()
         {
+            animationStarted.Invoke();
+
             var start = Position;
             var target = TileSpaceMath.PositionToWorldSpace(tileTransform.Position);
             await foreach (var t in LerpT())
@@ -51,6 +57,8 @@ namespace DGJ24.Movement
 
         public async Task SyncRotation()
         {
+            animationStarted.Invoke();
+
             var start = Rotation;
             var target = Quaternion.LookRotation(
                 TileSpaceMath.DirectionToWorldSpace(tileTransform.Forward)
