@@ -130,6 +130,46 @@ PrefabInstance:
       propertyPath: maxRequestCount
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2702888344557925799}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayAudioClip
+      objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DGJ24.Audio.AudioPlayer, DGJ24.Audio
+      objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: robot_walk_001
+      objectReference: {fileID: 0}
+    - target: {fileID: -2481510332185216880, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
+        type: 3}
+      propertyPath: animationStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5991628027139894616, guid: 28a6ddfaa42967bbd8ff4c1c4f70d911,
         type: 3}
       propertyPath: m_Name
@@ -309,6 +349,7 @@ MonoBehaviour:
   source: {fileID: -5581606478378674378}
   availableAudioClips:
   - {fileID: 8300000, guid: dd220cfa3cf7d3c42b32ffe952460f8a, type: 3}
+  - {fileID: 8300000, guid: b40e78ba90e45404dad3ac482a2c7681, type: 3}
 --- !u!82 &-5581606478378674378
 AudioSource:
   m_ObjectHideFlags: 0
