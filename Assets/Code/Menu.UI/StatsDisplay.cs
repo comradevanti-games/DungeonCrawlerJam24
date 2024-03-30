@@ -13,7 +13,7 @@ namespace DGJ24.Menu.UI
             if (PlayerPrefs.HasKey("Score"))
             {
                 scoreTextMesh.gameObject.SetActive(true);
-                scoreTextMesh.SetText("HighScore: " + PlayerPrefs.GetInt("Score"));
+                scoreTextMesh.SetText("Highest Score: " + PlayerPrefs.GetInt("Score"));
             }
         }
     }
