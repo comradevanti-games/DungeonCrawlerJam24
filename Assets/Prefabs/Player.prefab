@@ -889,7 +889,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe63f17b56442a68313c43d3ff72240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLayers: 4
+  interacted:
+    m_PersistentCalls:
+      m_Calls: []
+  targetLayers: 12
 --- !u!82 &4917598380347565040
 AudioSource:
   m_ObjectHideFlags: 0

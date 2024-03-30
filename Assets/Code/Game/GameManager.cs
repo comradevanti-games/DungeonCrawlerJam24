@@ -1,25 +1,37 @@
+using System;
 using System.Collections;
+using DGJ24.Interactables;
 using DGJ24.Score;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DGJ24.Game {
+namespace DGJ24.Game
+{
+    internal class GameManager : MonoBehaviour
+    {
+        public void OnPlayerDied()
+        {
+            StartCoroutine(HandleGameOver());
+        }
 
-	internal class GameManager : MonoBehaviour {
+        public void OnExitSpawned(ExitSpawner.ExitSpawnedArgs args)
+        {
+            var exitInteractable = args.Exit.RequireComponent<IInteractable>();
+            exitInteractable.Interacted += (_) => OnExited();
+        }
 
-		public void OnPlayerDied() {
-			var score = Singletons.Get<IScoreTracker>().Score;
-			PlayerPrefs.SetInt("Score", score);
-			StartCoroutine(HandleGameOver());
-		}
+        private void OnExited()
+        {
+            Debug.Log("Yay exit!");
+            StartCoroutine(HandleGameOver());
+        }
 
-		IEnumerator HandleGameOver() {
-
-			yield return new WaitForSeconds(0.15f);
-			SceneManager.LoadScene("Menu");
-
-		}
-
-	}
-
+        private IEnumerator HandleGameOver()
+        {
+            var score = Singletons.Get<IScoreTracker>().Score;
+            PlayerPrefs.SetInt("Score", score);
+            yield return new WaitForSeconds(0.15f);
+            SceneManager.LoadScene("Menu");
+        }
+    }
 }

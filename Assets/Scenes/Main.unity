@@ -464,11 +464,6 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 125041124411689801, guid: e0cc3af160a74341eb2989feb0269d63,
-        type: 3}
-      propertyPath: targetLayers
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.size
@@ -1851,6 +1846,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4106e4e12caf4a159a8b0762f4ef0893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  exitSpawned:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1296441743}
+        m_TargetAssemblyTypeName: DGJ24.Game.GameManager, DGJ24.Game
+        m_MethodName: OnExitSpawned
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   exitPrefab: {fileID: 2226792917931865743, guid: b59949cd81e3fc4c196aebc0d6957fc4,
     type: 3}
 --- !u!1 &1334140806

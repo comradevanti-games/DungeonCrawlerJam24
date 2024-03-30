@@ -3,11 +3,17 @@ using System.Linq;
 using DGJ24.Map;
 using DGJ24.TileSpace;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DGJ24.Game
 {
     internal class ExitSpawner : MonoBehaviour
     {
+        public record ExitSpawnedArgs(GameObject Exit);
+
+        [SerializeField]
+        private UnityEvent<ExitSpawnedArgs> exitSpawned = new UnityEvent<ExitSpawnedArgs>();
+
         [SerializeField]
         private GameObject exitPrefab = null!;
 
@@ -15,7 +21,8 @@ namespace DGJ24.Game
 
         private void SpawnExitAt(Vector2Int tile)
         {
-            _ = entitySpawner.Spawn(exitPrefab, tile, CardinalDirection.Forward);
+            var exit = entitySpawner.Spawn(exitPrefab, tile, CardinalDirection.Forward);
+            exitSpawned.Invoke(new ExitSpawnedArgs(exit));
         }
 
         private void SpawnExit(IImmutableSet<Vector2Int> possibleTiles)

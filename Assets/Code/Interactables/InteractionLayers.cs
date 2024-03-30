@@ -8,6 +8,7 @@ namespace DGJ24.Interactables
         None = 0,
         Player = 1,
         Enemy = 2,
-        Loot = 4
+        Loot = 4,
+        Exit = 8
     }
 }
