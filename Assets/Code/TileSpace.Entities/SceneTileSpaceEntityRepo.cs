@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using UnityEngine;
 
@@ -63,6 +64,12 @@ namespace DGJ24.TileSpace
         private void Awake()
         {
             initial.ForEach(Add);
+        }
+
+        private void Update()
+        {
+            // Remove destroyed entities
+            entities.ExceptWith(entities.Where(it => !it.GameObject).ToImmutableArray());
         }
     }
 }
