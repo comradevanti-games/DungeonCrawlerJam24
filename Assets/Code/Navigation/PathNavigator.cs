@@ -55,5 +55,16 @@ namespace DGJ24.Navigation
             pathfinder = Singletons.Get<IPathfinder>();
             tileTransform = gameObject.RequireComponent<ITileTransform>();
         }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (Target == null)
+                return;
+            var targetPos = TileSpaceMath.PositionToWorldSpace(Target.Value);
+
+            Gizmos.color = new Color(1f, 0.43f, 0.95f);
+
+            Gizmos.DrawSphere(targetPos, 0.5f);
+        }
     }
 }

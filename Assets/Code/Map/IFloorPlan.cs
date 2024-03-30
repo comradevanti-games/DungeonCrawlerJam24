@@ -28,5 +28,26 @@ namespace DGJ24.Map
                 TileSpaceMath.CardinalNeighborsOf(neighbor).Any(neighbors.Contains)
             );
         }
+
+        public Vector2Int? TryFindClosestFloorTileTo(Vector2Int tile, int maxSearchDistance)
+        {
+            Vector2Int? TryFindIn(int distance)
+            {
+                if (distance > maxSearchDistance)
+                    return null;
+
+                for (var dx = -distance; dx <= distance; dx++)
+                for (var dy = -distance; dy <= distance; dy++)
+                {
+                    var searchTile = tile + new Vector2Int(dx, dy);
+                    if (Contains(searchTile))
+                        return searchTile;
+                }
+
+                return TryFindIn(distance + 1);
+            }
+
+            return TryFindIn(0);
+        }
     }
 }

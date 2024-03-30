@@ -48,7 +48,7 @@ namespace DGJ24.AI
                 _ = targetQueue.Dequeue();
 
             inner.Update();
-            
+
             var next = inner.Tile;
             targetQueue.Enqueue(next);
         }
@@ -57,24 +57,17 @@ namespace DGJ24.AI
     internal record PredictiveTarget(
         ITileTransform Target,
         IFloorPlan FloorPlan,
-        int MaxPredictionDistance
+        int PredictionDistance
     ) : INavigationTarget
     {
-        private Vector2Int? TryPredict(Vector2Int current, int remainingDistance)
-        {
-            if (!FloorPlan.Contains(current) || remainingDistance == 0)
-                return null;
-
-            var next = current + TileSpaceMath.VectorForDirection(Target.Forward);
-            return TryPredict(next, remainingDistance - 1) ?? current;
-        }
-
         public Vector2Int? Tile { get; private set; }
 
         public void Update()
         {
             var currentTile = Target.Position;
-            Tile = TryPredict(currentTile, MaxPredictionDistance) ?? currentTile;
+            var predicted =
+                currentTile + TileSpaceMath.VectorForDirection(Target.Forward) * PredictionDistance;
+            Tile = FloorPlan.TryFindClosestFloorTileTo(predicted, PredictionDistance + 2);
         }
     }
 }
