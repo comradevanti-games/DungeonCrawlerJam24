@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,11 +18,19 @@ namespace DGJ24.Actors {
 		private float baseIntensity;
 		private float baseRange;
 		private int lastRoundUsed;
-
+		private int remainingCooldown;
 		private bool isFlashing;
 
+		public event Action<int>? RemainingCooldownChanged;
 		public int Cooldown => cooldown;
-		public int RemainingCooldown { get; private set; }
+
+		public int RemainingCooldown {
+			get => remainingCooldown;
+			private set {
+				remainingCooldown = value;
+				RemainingCooldownChanged?.Invoke(RemainingCooldown);
+			}
+		}
 
 		private IActionDirector ActionDirector { get; set; } = null!;
 
@@ -45,7 +54,11 @@ namespace DGJ24.Actors {
 		}
 
 		private void OnRoundPassed() {
-			RemainingCooldown--;
+
+			if (RemainingCooldown > 0) {
+				RemainingCooldown--;
+			}
+
 		}
 
 		private IEnumerator Flashing(Light l, float intensity, float intensityTarget, float range, float rangeTarget, float duration,
