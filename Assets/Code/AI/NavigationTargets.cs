@@ -60,14 +60,19 @@ namespace DGJ24.AI
         int PredictionDistance
     ) : INavigationTarget
     {
+        private Vector2Int? lastKnownTile;
+
         public Vector2Int? Tile { get; private set; }
 
         public void Update()
         {
             var currentTile = Target.Position;
-            var predicted =
-                currentTile + TileSpaceMath.VectorForDirection(Target.Forward) * PredictionDistance;
+            var prevTile = lastKnownTile ?? currentTile;
+            var delta = currentTile - prevTile;
+
+            var predicted = currentTile + delta * PredictionDistance;
             Tile = FloorPlan.TryFindClosestFloorTileTo(predicted, PredictionDistance + 2);
+            lastKnownTile = currentTile;
         }
     }
 }
