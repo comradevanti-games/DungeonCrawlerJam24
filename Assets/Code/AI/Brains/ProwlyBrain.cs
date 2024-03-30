@@ -21,7 +21,8 @@ namespace DGJ24.AI
         {
             // Attack player
 
-            if (interactor.PotentialInteractables.Any())
+            var canAttack = interactor.PotentialInteractables.Any();
+            if (canAttack)
                 return new InteractionActionRequest(ctx.Actor);
 
             // Rotate towards target
@@ -53,7 +54,7 @@ namespace DGJ24.AI
                 throw new Exception("Non-cardinal delta!");
             targetDirection = nextDirection.Value;
 
-            return DetermineNextAction(ctx);
+            return new NoOpActionRequest(ctx.Actor);
         }
 
         private void Awake()
