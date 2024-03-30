@@ -2,11 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using DGJ24.TileSpace;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace DGJ24.Interactables
 {
-    internal class TileInteractor : MonoBehaviour, IInteractor
-    {
+    internal class TileInteractor : MonoBehaviour, IInteractor {
+
+        [SerializeField] private UnityEvent interacted;
+        
         [SerializeField]
         private InteractionLayers targetLayers;
 
@@ -40,6 +43,7 @@ namespace DGJ24.Interactables
             PotentialInteractables.ForEach(interactable =>
             {
                 interactable.HandleInteraction();
+                interacted.Invoke();
             });
         }
 
