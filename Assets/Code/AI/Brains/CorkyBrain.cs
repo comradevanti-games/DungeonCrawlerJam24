@@ -34,7 +34,7 @@ namespace DGJ24.AI
             var distance = Vector2Int.Distance(tile, targetTile);
 
             var isCloseToPlayer = distance < stopDistance;
-            var isInCorridor = floorPlan.IsCorridor(tile);
+            var isInCorridor = floorPlan.IsBlocking(tile);
             var isBlockingPlayer = isCloseToPlayer && isInCorridor;
             if (isBlockingPlayer)
                 return new NoOpActionRequest(ctx.Actor);
