@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace DGJ24.Interactables
 {
-    internal class CircleTileSelector : MonoBehaviour, IInteractionTileSelector
+    internal class CardinalTileSelector : MonoBehaviour, IInteractionTileSelector
     {
         private ITileTransform tileTransform = null!;
 
-        public IEnumerable<Vector2Int> Tiles => TileSpaceMath.AllNeighborsOf(tileTransform.Position);
+        public IEnumerable<Vector2Int> Tiles =>
+            TileSpaceMath.CardinalNeighborsOf(tileTransform.Position);
 
         private void Awake()
         {
