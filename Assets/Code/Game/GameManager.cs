@@ -5,33 +5,34 @@ using DGJ24.Score;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DGJ24.Game
-{
-    internal class GameManager : MonoBehaviour
-    {
-        public void OnPlayerDied()
-        {
-            StartCoroutine(HandleGameOver());
-        }
+namespace DGJ24.Game {
 
-        public void OnExitSpawned(ExitSpawner.ExitSpawnedArgs args)
-        {
-            var exitInteractable = args.Exit.RequireComponent<IInteractable>();
-            exitInteractable.Interacted += (_) => OnExited();
-        }
+	internal class GameManager : MonoBehaviour {
 
-        private void OnExited()
-        {
-            Debug.Log("Yay exit!");
-            StartCoroutine(HandleGameOver());
-        }
+		public void OnPlayerDied() {
+			StartCoroutine(HandleGameOver(false));
+		}
 
-        private IEnumerator HandleGameOver()
-        {
-            var score = Singletons.Get<IScoreTracker>().Score;
-            PlayerPrefs.SetInt("Score", score);
-            yield return new WaitForSeconds(0.15f);
-            SceneManager.LoadScene("Menu");
-        }
-    }
+		public void OnExitSpawned(ExitSpawner.ExitSpawnedArgs args) {
+			var exitInteractable = args.Exit.RequireComponent<IInteractable>();
+			exitInteractable.Interacted += (_) => OnExited();
+		}
+
+		private void OnExited() {
+			StartCoroutine(HandleGameOver(true));
+		}
+
+		private IEnumerator HandleGameOver(bool hasExited) {
+			var score = Singletons.Get<IScoreTracker>().Score;
+
+			if (score > 0) {
+				PlayerPrefs.SetInt(hasExited ? "ExitScore" : "Score", score);
+			}
+			
+			yield return new WaitForSeconds(0.25f);
+			SceneManager.LoadScene("Menu");
+		}
+
+	}
+
 }
