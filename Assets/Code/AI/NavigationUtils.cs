@@ -15,6 +15,8 @@ namespace DGJ24.AI
             IWalkableProvider walkableProvider
         )
         {
+            if (path.IsEmpty) return new NoOpActionRequest(actor);
+            
             var nextTile = path.Targets.First();
             if (!walkableProvider.IsWalkable(nextTile))
                 return new NoOpActionRequest(actor);
