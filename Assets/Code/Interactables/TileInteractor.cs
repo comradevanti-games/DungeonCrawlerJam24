@@ -8,7 +8,7 @@ namespace DGJ24.Interactables
 {
     internal class TileInteractor : MonoBehaviour, IInteractor {
 
-        [SerializeField] private UnityEvent interacted;
+        [SerializeField] private UnityEvent interacted = new UnityEvent();
         
         [SerializeField]
         private InteractionLayers targetLayers;
