@@ -59,7 +59,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bbd14dcb7b3464e822b9a5fb8739248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncSeconds: 0.4
+  syncSeconds: 0.45
+  animationStarted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-6911555915817880035
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -349,7 +349,7 @@ MonoBehaviour:
   source: {fileID: -5581606478378674378}
   availableAudioClips:
   - {fileID: 8300000, guid: dd220cfa3cf7d3c42b32ffe952460f8a, type: 3}
-  - {fileID: 8300000, guid: b40e78ba90e45404dad3ac482a2c7681, type: 3}
+  - {fileID: 8300000, guid: ee99e50d71b90f342b859f8d1c82ac25, type: 3}
 --- !u!82 &-5581606478378674378
 AudioSource:
   m_ObjectHideFlags: 0
