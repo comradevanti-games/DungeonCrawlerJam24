@@ -43,7 +43,10 @@ namespace DGJ24.NPCs
         {
             entitySpawner = Singletons.Get<ITileSpaceEntitySpawner>();
             Singletons.Get<IMapBuilder>().MapBuilt += @event =>
-                SpawnNpc(@event.FloorTiles, prefabs.ToImmutableList());
+                SpawnNpc(
+                    @event.FloorTiles.Where(it => it.magnitude >= 10).ToImmutableHashSet(),
+                    prefabs.ToImmutableList()
+                );
         }
     }
 }
