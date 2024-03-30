@@ -30,8 +30,11 @@ namespace DGJ24.AI
             // Block path
 
             var tile = tileTransform.Position;
+            navigationTarget.Update();
             var targetTile = navigationTarget.Tile;
-            var distance = Vector2Int.Distance(tile, targetTile);
+            if (targetTile == null)
+                return new NoOpActionRequest(ctx.Actor);
+            var distance = Vector2Int.Distance(tile, targetTile.Value);
 
             var isCloseToPlayer = distance < stopDistance;
             var isInCorridor = floorPlan.IsBlocking(tile);
@@ -65,9 +68,11 @@ namespace DGJ24.AI
             navigator = gameObject.RequireComponent<IPathNavigator>();
             floorPlan = Singletons.Get<IFloorPlan>();
             walkableProvider = Singletons.Get<IWalkableProvider>();
-            
-           var playerTransform = GameObject.FindWithTag("Player").RequireComponent<ITileTransform>();
-           navigationTarget = new TransformTarget(playerTransform);
+
+            var playerTransform = GameObject
+                .FindWithTag("Player")
+                .RequireComponent<ITileTransform>();
+            navigationTarget = new DelayedTarget(new TransformTarget(playerTransform), 5);
         }
     }
 }

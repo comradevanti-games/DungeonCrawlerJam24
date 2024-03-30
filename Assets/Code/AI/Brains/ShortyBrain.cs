@@ -41,8 +41,11 @@ namespace DGJ24.AI
 
             // Move towards target
 
+            navigationTarget.Update();
             var targetTile = navigationTarget.Tile;
-            navigator.Target = targetTile;
+            if (targetTile == null)
+                return new NoOpActionRequest(ctx.Actor);
+            navigator.Target = targetTile.Value;
             var path = navigator.Path;
             if (path == null)
                 return new NoOpActionRequest(ctx.Actor);
