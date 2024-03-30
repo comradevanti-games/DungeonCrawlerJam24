@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DGJ24.Interactables;
+using DGJ24.Movement;
 using DGJ24.TileSpace;
 using UnityEngine;
 
@@ -10,9 +11,6 @@ namespace DGJ24.Actors {
 	internal class ActionDirector : MonoBehaviour, IActionDirector {
 
 		public event Action? AllActionsExecuted;
-
-		[SerializeField] private float moveTime;
-		[SerializeField] private float rotateTime;
 		
 		private HashSet<GameObject> ActivityPool { get; } = new();
 		private int TotalRoundCount { get; set; }
@@ -27,10 +25,10 @@ namespace DGJ24.Actors {
 			foreach (ActionRequest? action in batch.Batch) {
 				switch (action) {
 					case MovementActionRequest request:
-						MoveActor(request.Actor, request.Direction, moveTime);
+						MoveActor(request.Actor, request.Direction);
 						break;
 					case RotationActionRequest request:
-						RotateActor(request.Actor, request.Rotation, rotateTime);
+						RotateActor(request.Actor, request.Rotation);
 						break;
 					case ToolActionRequest request:
 						UseTool(request.Actor, OnActionRequestExecuted);
@@ -50,49 +48,26 @@ namespace DGJ24.Actors {
 			}
 		}
 
-		private void MoveActor(GameObject actor, CardinalDirection direction, float duration) {
+		private async void MoveActor(GameObject actor, CardinalDirection direction) {
 			var actorTransform = actor.RequireComponent<ITileTransform>();
+			actorTransform.MoveIn(direction);
 
-			var actorTile = actorTransform.Position;
-			var nextTile = TileSpaceMath.MoveByDirection(actorTile, direction);
-			actorTransform.Position = nextTile;
-
-			Vector3 actorPosition = TileSpaceMath.PositionToWorldSpace(actorTile);
-			Vector3 targetPosition = TileSpaceMath.PositionToWorldSpace(nextTile);
-
-			StartCoroutine(
-				LerpOverTime.Position(
-					actor.transform,
-					actorPosition,
-					targetPosition,
-					duration,
-					() => OnActionRequestExecuted(actor)
-				)
-			);
+			var transformAnimator = actor.RequireComponent<ITransformAnimator>();
+			await transformAnimator.SyncPosition();
+			
+			if(destroyCancellationToken.IsCancellationRequested) return;
+			OnActionRequestExecuted(actor);
 		}
 
-		private void RotateActor(GameObject actor, RotationDirection rotation, float duration) {
+		private async void RotateActor(GameObject actor, RotationDirection rotation) {
 			var actorTransform = actor.RequireComponent<ITileTransform>();
-			var actorForward = actorTransform.Forward;
 			actorTransform.Rotate(rotation);
-			var nextForward = actorTransform.Forward;
 
-			Quaternion origin = Quaternion.LookRotation(
-				TileSpaceMath.DirectionToWorldSpace(actorForward)
-			);
-			Quaternion targetRotation = Quaternion.LookRotation(
-				TileSpaceMath.DirectionToWorldSpace(nextForward)
-			);
-
-			StartCoroutine(
-				LerpOverTime.Rotation(
-					actor.transform,
-					origin,
-					targetRotation,
-					duration,
-					() => OnActionRequestExecuted(actor)
-				)
-			);
+			var transformAnimator = actor.RequireComponent<ITransformAnimator>();
+			await transformAnimator.SyncRotation();
+			
+			if(destroyCancellationToken.IsCancellationRequested) return;
+			OnActionRequestExecuted(actor);
 		}
 
 		private void UseTool(GameObject actor, Action<GameObject> callback) {

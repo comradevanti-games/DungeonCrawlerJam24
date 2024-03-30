@@ -66,5 +66,11 @@ namespace DGJ24.TileSpace
         {
             Forward = TileSpaceMath.RotateDirection(Forward, direction);
         }
+
+        public void MoveIn(CardinalDirection direction)
+        {
+            var nextTile = TileSpaceMath.MoveByDirection(Position, direction);
+            Position = nextTile;
+        }
     }
 }
