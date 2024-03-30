@@ -23,7 +23,7 @@ namespace DGJ24.Actors {
 		public int Cooldown => cooldown;
 		public int RemainingCooldown { get; private set; }
 
-		private IActionDirector ActionDirector { get; set; }
+		private IActionDirector ActionDirector { get; set; } = null!;
 
 		private void Awake() {
 			baseIntensity = torchLight!.intensity;
