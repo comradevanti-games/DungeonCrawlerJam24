@@ -121,12 +121,6 @@ namespace DGJ24.Inputs
             }
         }
 
-        public void ReleaseCursor()
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-
         private bool IsDiagonalInput(Vector2 input)
         {
             return input.x != 0 && input.y != 0;

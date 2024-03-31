@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using DGJ24.Interactables;
 using DGJ24.Score;
@@ -14,7 +13,7 @@ namespace DGJ24.Game {
 		}
 
 		public void OnExitSpawned(ExitSpawner.ExitSpawnedArgs args) {
-			var exitInteractable = args.Exit.RequireComponent<IInteractable>();
+			IInteractable exitInteractable = args.Exit.RequireComponent<IInteractable>();
 			exitInteractable.Interacted += (_) => OnExited();
 		}
 
@@ -23,14 +22,23 @@ namespace DGJ24.Game {
 		}
 
 		private IEnumerator HandleGameOver(bool hasExited) {
-			var score = Singletons.Get<IScoreTracker>().Score;
+
+			int score = Singletons.Get<IScoreTracker>().Score;
 
 			if (score > 0) {
 				PlayerPrefs.SetInt(hasExited ? "ExitScore" : "Score", score);
 			}
-			
-			yield return new WaitForSeconds(0.25f);
+
+			yield return new WaitForSeconds(0.30f);
+
+			ReleaseCursor();
 			SceneManager.LoadScene("Menu");
+
+		}
+
+		public void ReleaseCursor() {
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
 		}
 
 	}

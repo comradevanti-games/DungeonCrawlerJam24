@@ -472,7 +472,7 @@ PrefabInstance:
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
       propertyPath: actorDied.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2130331427811377964, guid: e0cc3af160a74341eb2989feb0269d63,
         type: 3}
